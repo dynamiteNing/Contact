@@ -4,6 +4,7 @@ const Member = require('../models/member_model')
 
 const checkEmail = async (req, res) => {
     const { email } = req.body;
+
     if (!email) {
         res.status(400).send({ error: 'Request Error: email is required.' });
         return;
@@ -20,22 +21,33 @@ const checkEmail = async (req, res) => {
         return;
     }
 
-    if (!result.id) {
-        res.status(500).send({ error: 'Database Query Error' });
+    if (!result._id) {
+        res.status(404).send({ message: 'The email was not signed up' });
         return;
     }
 
     res.status(200).send({
         data: {
             member: {
-                id: result.id,
-                email: result.email,
+                id: result._id,
                 role: result.role,
             },
         },
     });
 }
 
+const signIn = async (req, res) => {
+    const { id, password } = req.body;
+    if (!id || !password) {
+        res.status(400).send({ error: 'Request Error: password is required.' });
+        return;
+    }
+
+    const result = await Member.signIn(id, password);
+    
+}
+
 module.exports = {
     checkEmail,
+    signIn
 };

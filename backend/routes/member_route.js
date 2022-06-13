@@ -5,8 +5,10 @@ const {
 
 const {
     checkEmail,
+    signIn,
 } = require('../controllers/member_controller');
 
 router.route('/member/checkemail').post(wrapAsync(checkEmail));
+router.route('/member/signin').post(wrapAsync(signIn));
 
 module.exports = router;
