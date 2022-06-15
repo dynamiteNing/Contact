@@ -9,10 +9,11 @@ async function db(method, collect, arg) {
         let result;
         if (method === 'find') {
             result = await collection.find(arg);
+            return await result.toArray();
         } else if (method === 'insert') {
-            result = await collection.insert(arg);
+            result = await collection.insertOne(arg);
+            return result;
         }
-        return await result.toArray();
     }
     catch(err){ console.error(err); } 
     finally{ client.close(); }

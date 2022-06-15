@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const env = require('dotenv').config().parsed;
 
-const memberRoute = require('./routes/member_route');
+const memberRoute = require('./routes/main_route');
 
 const app = express();
 
