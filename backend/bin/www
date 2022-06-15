@@ -22,6 +22,38 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+  SOCKET.IO */
+const io = require('socket.io')(server);
+io.on('connection', (socket) => {
+  console.log(`a user connected [id=${socket.id}]`);
+
+  socket.on('selfMessage', (message) => {
+    socket.emit('getMessage', message)
+  })
+  
+  socket.on('addRoom', (room) => {
+    const setIterator = (socket.rooms).values();
+    for (let i = 0; i < socket.rooms.size; i++){
+      let currentRoom = setIterator.next().value;
+      if (currentRoom !== socket.id && currentRoom !== room) {
+        socket.leave(currentRoom);
+      }
+    }
+    socket.join(room)
+    io.sockets.in(room).emit('addRoom', `已加入聊天室 ${room}!`);
+  })
+
+  socket.on('chat', (room, message) => {
+    socket.to(room).emit('chat', message);
+    socket.emit('selfMessage', message);
+  })
+  
+  socket.on('disconnect', () => {
+    console.log(`a user go out [id=${socket.id}]`);
+  });
+})
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 
