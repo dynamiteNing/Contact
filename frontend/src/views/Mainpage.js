@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Main, Contact, Input, Wrap, Button } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 function Signup(props) {
   const setType = props.setType;
@@ -11,25 +12,31 @@ function Signup(props) {
   const [password, setPassword] = useState('');
   const [password_check, setPwdcheck] = useState('');
 
-  const signUp = (e) => {
+  const signup = (e) => {
     e.preventDefault();
     api.signup({
       'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString(),
     }).then((response) => {
-      console.log(response.status);
       if (response.status === 200) {
         return response.json();
+      } else if (response.status === 400) {
+        window.alert('password not match');
+        return new Error();
       } else if (response.status === 404) {
         window.alert('password wrong');
         return new Error();
       } else {
         return new Error();
       }
-    }).then((json) => json.data)
-    .then((data) => {
-      console.log(data);
-      setId(data.member.id);
-      setType('signin');
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        setId(data.member.id);
+        setType('signin');
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -38,7 +45,7 @@ function Signup(props) {
 
   return (
     <>
-    <form onSubmit={signUp}>
+    <form onSubmit={signup}>
         <Input type='text' className='name' value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required/>
         <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
         <Input type='text' className='password_check' value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required/>
@@ -50,12 +57,12 @@ function Signup(props) {
 
 function Signin(props) {
   const id = props.id;
+  const navigate = props.navigate;
   const [password, setPassword] = useState('');
 
-  const signIn = (e) => {
+  const signin = (e) => {
     e.preventDefault();
     api.signin(id, password).then((response) => {
-      console.log(response.status);
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
@@ -64,10 +71,18 @@ function Signin(props) {
       } else {
         return new Error();
       }
-    }).then((json) => json.data)
+    }).then((json) => {
+      if (json.hasOwnProperty('message') && json.message === 'jwtToken') {
+        window.alert('TODO: navigate to directory page');
+      }
+      return json.data
+    })
     .then((data) => {
-      console.log(data);
-      window.alert('TODO: navigate to directory page');
+      if (data.hasOwnProperty('member')) {
+        if (data.member.hasOwnProperty('role')){
+          navigate(`./chat/${data.member.role}/${data.member.name}`);
+        }
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -76,7 +91,7 @@ function Signin(props) {
 
   return (
     <>
-      <form onSubmit={signIn}>
+      <form onSubmit={signin}>
         <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
         <Button type='submit' />
       </form>
@@ -99,6 +114,7 @@ function Emailform(props) {
 
 
 export default function Mainpage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [type, setType] = useState('');
   const [id, setId] = useState('');
@@ -126,6 +142,9 @@ export default function Mainpage() {
     .then((data) => {
       if (data) {
         setId(data.member.id);
+        if (data.member.hasOwnProperty('role')){
+          navigate(`./chat/${data.member.role}/${data.member.name}`);
+        }
       }
     }).catch((error) => {
       console.error(error);
@@ -141,7 +160,7 @@ export default function Mainpage() {
           <Button type='submit' />
         </form>
       </Wrap>
-      <Emailform type={type} setType={setType} id={id} setId={setId} email={email} />
+      <Emailform type={type} setType={setType} id={id} setId={setId} email={email} navigate={navigate} />
     </Main>
   )
 }

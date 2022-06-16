@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useParams } from 'react-router-dom';
-import { Wrap } from '../styles/Chat.style';
+import { Wrap, Board, Group, Name, Message, Time } from '../styles/Chat.style';
 
 function Chatmessage(props) {
   const history = props.history;
-  console.log('hist', history);
   return (
-    <div>
-    <div>Chatmessage</div>
-    {
-      history.map((item, index) => (
-        <div key={index}>
-          <div>name: {item.name}</div>
-          <div>message: {item.message}</div>
-        </div>
-      ))
-    }
-    </div>
+    <Board>
+      {
+        history.map((item, index) => (
+          <Group key={index}>
+            <Name>{item.name}: </Name>
+            <Message>{item.message}</Message>
+            <Time>time</Time>
+          </Group>
+        ))
+      }
+    </Board>
   )
 }
 
@@ -28,7 +27,7 @@ function Rooms(props) {
     if(rooms[0]){
       changeRoom(rooms[0]);
     }
-  }, []);
+  }, [rooms]);
 
   /* TODO: real changeRoom */
   
@@ -81,9 +80,9 @@ export default function Chat() {
     // TODO: load the history from db
     // TODO: get the friend room from db
     if(role === '1') {
-      setRooms(['A1']);
+      setRooms(['A1_see']);
     } else {
-      setRooms(['A1_fans']);
+      setRooms(['A1_fans_see']);
     }
   }, []);
 
@@ -91,18 +90,15 @@ export default function Chat() {
     if (ws) {
       console.log('success connect!');
       initWebSocket();
-      if (role === '1'){
-        changeRoom(rooms[0]);
-      }
     }
   }, [ws]);
 
-  const change = (event) => {
-    let room = event.target.value
-    if(room !== ''){
-      ws.emit('changeRoom', room)
-    }
-  }
+  // const change = (event) => {
+  //   let room = event.target.value
+  //   if(room !== ''){
+  //     ws.emit('changeRoom', room)
+  //   }
+  // }
   const changeRoom = (room) => {
     if(room !== ''){
       ws.emit('changeRoom', room);
@@ -115,13 +111,13 @@ export default function Chat() {
 
   return (
     <main>
-      <select onChange={change}>
+      {/* <select onChange={change}>
         <option value=''>請選擇房間</option>
-        <option value='A1'>FANS to ARTIST1</option>
-        <option value='A1_fans'>ARTIST1 to FANS</option>
-      </select>
-      <input type='button' value='chat' onClick={() => chat('A1', { name: 'test', message: 'test'})} />
-      <input type='button' value='chat_fans' onClick={() => chat('A1_fans', { name: 'test_fans', message: 'test_fans'})} />
+        <option value='A1_see'>FANS to ARTIST1</option>
+        <option value='A1_fans_see'>ARTIST1 to FANS</option>
+      </select> */}
+      <input type='button' value='chat_A1_see' onClick={() => chat('A1_see', { name: 'A1_fans', message: 'chat_A1_see'})} />
+      <input type='button' value='chat_fans_see' onClick={() => chat('A1_fans_see', { name: 'A1', message: 'chat_fans_see'})} />
 
       <Wrap>
         <Rooms rooms={rooms} changeRoom={changeRoom} />

@@ -24,7 +24,7 @@ const checkEmail = async (req, res) => {
                 res.status(400).send({ message: 'fake token' });
                 return;
             }
-            const token = await generateAccessToken({ id: payload.id, role: payload.role, email: payload.email });
+            const token = await generateAccessToken({ id: payload.id, role: payload.role, email: payload.email, name: payload.name });
             res.cookie('jwtToken', token, { maxAge: EXPIRES_IN, httpOnly: true });
             res.status(200).send({
                 message: 'jwtToken',
@@ -32,7 +32,8 @@ const checkEmail = async (req, res) => {
                     member: {
                         id: payload.id,
                         role: payload.role,
-                        email: email
+                        email: email,
+                        name: payload.name,
                     },
                 },
             });
@@ -81,7 +82,7 @@ const signIn = async (req, res) => {
         return;
     }
 
-    const token = await generateAccessToken({ id: id, role: result.role, email: result.email });
+    const token = await generateAccessToken({ id: id, role: result.role, email: result.email, name: result.name });
     res.cookie('jwtToken', token, { maxAge: EXPIRES_IN, httpOnly: true });
     res.status(200).send({
         message: 'jwtToken',
@@ -89,7 +90,8 @@ const signIn = async (req, res) => {
             member: {
                 id: id,
                 role: result.role,
-                email: result.email
+                email: result.email,
+                name: result.name,
             },
         },
     });
