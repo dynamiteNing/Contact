@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useParams } from 'react-router-dom';
-import { Wrap, Board, Group, Name, Message, Time } from '../styles/Chat.style';
+import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button } from '../styles/Chat.style';
 
 function Chatmessage(props) {
   const history = props.history;
@@ -10,13 +10,33 @@ function Chatmessage(props) {
       {
         history.map((item, index) => (
           <Group key={index}>
-            <Name>{item.name}: </Name>
+            <Name>{`${item.name}: `}</Name>
             <Message>{item.message}</Message>
             <Time>time</Time>
           </Group>
         ))
       }
     </Board>
+  )
+}
+
+function Chatinput(props) {
+  const role = props.role;
+  const name = props.name;
+  const chat = props.chat;
+  const [message, setMessage] = useState('');
+  let room;
+  if (role === '1') {
+    room = 'A1_fans_see';
+  } else {
+    room = 'A1_see';
+  }
+  
+  return (
+    <>
+      <Input value={message} onChange={e => setMessage(e.target.value)} />
+      <Button onClick={() => { chat(room, { name: name, message: message }) }}>Send</Button>
+    </>
   )
 }
 
@@ -49,7 +69,7 @@ function Rooms(props) {
 
 export default function Chat() {
   // TODO: get from jwtToken
-  const { role } = useParams(); //name
+  const { role, name } = useParams();
   const [ws, setWs] = useState(null);
   const [history, setHistory] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -110,20 +130,20 @@ export default function Chat() {
   };
 
   return (
-    <main>
+    <Main>
       {/* <select onChange={change}>
         <option value=''>請選擇房間</option>
         <option value='A1_see'>FANS to ARTIST1</option>
         <option value='A1_fans_see'>ARTIST1 to FANS</option>
       </select> */}
-      <input type='button' value='chat_A1_see' onClick={() => chat('A1_see', { name: 'A1_fans', message: 'chat_A1_see'})} />
-      <input type='button' value='chat_fans_see' onClick={() => chat('A1_fans_see', { name: 'A1', message: 'chat_fans_see'})} />
-
       <Wrap>
         <Rooms rooms={rooms} changeRoom={changeRoom} />
-        <Chatmessage history={history} />
+        <div>
+          <Chatmessage history={history} />
+          <Chatinput role={role} name={name} chat={chat} />
+        </div>
       </Wrap>
 
-    </main>
+    </Main>
   )
 }

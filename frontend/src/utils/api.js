@@ -1,8 +1,12 @@
 export const api = {
   hostname: '/api/v1',
-  checkemail(email, id) {
-    return fetch(`${this.hostname}/main?email=${email}&id=${id}`, {
+  checkemail(email, jwtToken) {
+    return fetch(`${this.hostname}/main?email=${email}`, {
       method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`,
+      }),
     });
   },
   signin(id, password) {
@@ -17,6 +21,6 @@ export const api = {
         'Content-Type': 'application/json',
       }),
       method: 'POST',
-    });//.then((response) => response.json());
+    });
   },
 };

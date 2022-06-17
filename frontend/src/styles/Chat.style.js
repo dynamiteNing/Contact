@@ -5,12 +5,9 @@ export const Contact = styled.div`
 `;
 
 export const Main = styled.main`
+  margin-top: 50px;
   justify-content: center;
   text-align: center;
-`;
-
-export const Input = styled.input`
-  padding: 3px;
 `;
 
 export const Wrap = styled.div`
@@ -21,7 +18,7 @@ export const Wrap = styled.div`
 `;
 
 export const Board = styled.div`
-  height: 80vh;
+  height: 70vh;
   width: 60vw;
   overflow-y: scroll;
   padding: 3%;
@@ -47,4 +44,27 @@ export const Time = styled.div`
   font-size: 8px;
   color: grey;
   align-self: flex-end;
+`;
+
+export const Input = styled.input`
+  padding: 5px;
+  font: inherit;
+  font-size: large;
+  border-radius: 10px;
+  height: 30px;
+  width: 80%;
+`;
+
+export const Button = styled.button`
+  width: 15%;
+  font: inherit;
+  font-size: large;
+  height: 40px;
+  padding: 5px;
+  border-radius: 10px;
+  align-self: center;
+  margin-left: 1%;
+  &:hover {
+    opacity: 70%;
+  }
 `;

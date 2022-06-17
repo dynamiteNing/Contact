@@ -79,7 +79,8 @@ function Signin(props) {
     })
     .then((data) => {
       if (data.hasOwnProperty('member')) {
-        if (data.member.hasOwnProperty('role')){
+        if (data.member.hasOwnProperty('role')) {
+          window.localStorage.setItem('jwtToken', data.jwtToken);
           navigate(`./chat/${data.member.role}/${data.member.name}`);
         }
       }
@@ -105,9 +106,11 @@ function Emailform(props) {
   const id = props.id;
   const setId = props.setId;
   const email = props.email;
+  const navigate = props.navigate;
+
   return (
     <> 
-      {type === 'signin' ? <Signin id={id} /> : type === 'signup' ? <Signup email={email} setType={setType} setId={setId} /> : null}
+      {type === 'signin' ? <Signin id={id} navigate={navigate} /> : type === 'signup' ? <Signup email={email} setType={setType} setId={setId} /> : null}
     </>
   )
 }
@@ -121,9 +124,12 @@ export default function Mainpage() {
 
   const emailCheck = (e) => {
     e.preventDefault();
-    api.checkemail(email).then((response) => {
+    const jwtToken = window.localStorage.getItem('jwtToken');
+    api.checkemail(email, jwtToken).then((response) => {
       if (response.status === 200) {
         setType('signin');
+        return response.json();
+      } else if (response.status === 201) {
         return response.json();
       } else if (response.status === 404) {
         setType('signup');
@@ -142,7 +148,8 @@ export default function Mainpage() {
     .then((data) => {
       if (data) {
         setId(data.member.id);
-        if (data.member.hasOwnProperty('role')){
+        if (data.member.hasOwnProperty('role')) {
+          window.localStorage.setItem('jwtToken', data.jwtToken);
           navigate(`./chat/${data.member.role}/${data.member.name}`);
         }
       }

@@ -1,10 +1,9 @@
-const env = require('dotenv').config().parsed;
 const validator = require('validator');
 const Member = require('../models/main_model')
-const { authenticateToken, generateAccessToken, hmac, EXPIRES_IN } = require('../utils/token')
+const { authenticateToken, generateAccessToken, hmac } = require('../utils/token')
 
 const checkEmail = async (req, res) => {
-    const { email, id } = req.query;
+    const { email } = req.query;
 
     if (!email) {
         res.status(400).send({ message: 'email required' });
@@ -16,33 +15,41 @@ const checkEmail = async (req, res) => {
         return;
     }
 
+    const bearerHeader = req.headers['authorization'];
+
     /* CHECK THE JWTTOKEN */
-    if (JSON.stringify(req.cookies.jwtToken) !== undefined) {
+    if (bearerHeader) {
+        let jwtToken;
         try {
-            const payload = await authenticateToken(req.cookies.jwtToken);
-            if (email !== payload.email){
-                res.status(400).send({ message: 'fake token' });
-                return;
-            }
-            const token = await generateAccessToken({ id: payload.id, role: payload.role, email: payload.email, name: payload.name });
-            res.cookie('jwtToken', token, { maxAge: EXPIRES_IN, httpOnly: true });
-            res.status(200).send({
-                message: 'jwtToken',
-                data: {
-                    member: {
-                        id: payload.id,
-                        role: payload.role,
-                        email: email,
-                        name: payload.name,
+            jwtToken = bearerHeader.split(' ')[1];
+        } catch (error) {}
+        if (jwtToken !== 'null') {
+            try {
+                const payload = await authenticateToken(jwtToken);
+                if (email !== payload.email){
+                    res.status(400).send({ message: 'fake token' });
+                    return;
+                }
+                const token = await generateAccessToken({ id: payload.id, role: payload.role, email: payload.email, name: payload.name });
+                res.status(201).send({
+                    message: 'jwtToken',
+                    data: {
+                        jwtToken: token,
+                        member: {
+                            id: payload.id,
+                            role: payload.role,
+                            email: email,
+                            name: payload.name,
+                        },
                     },
-                },
-            });
+                });
+                return;
+            } catch (error) { res.status(500).send({ error: result.error }); }
             return;
-        } catch (error) { res.status(500).send({ error: result.error }); }
-        return;
+        }
     }
 
-    const result = await Member.checkEmail(email, id);
+    const result = await Member.checkEmail(email);
     if (result.error) {
         res.status(403).send({ error: result.error });
         return;
@@ -83,10 +90,10 @@ const signIn = async (req, res) => {
     }
 
     const token = await generateAccessToken({ id: id, role: result.role, email: result.email, name: result.name });
-    res.cookie('jwtToken', token, { maxAge: EXPIRES_IN, httpOnly: true });
     res.status(200).send({
         message: 'jwtToken',
         data: {
+            jwtToken: token,
             member: {
                 id: id,
                 role: result.role,
