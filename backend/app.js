@@ -8,6 +8,7 @@ const cors = require('cors');
 const env = require('dotenv').config().parsed;
 
 const memberRoute = require('./routes/main_route');
+const chatRoute = require('./routes/chat_route');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/api/' + env.API_VERSION, [memberRoute]); // , rateLimiterRoute
+app.use('/api/' + env.API_VERSION, [memberRoute, chatRoute]); // , rateLimiterRoute
 
 const buildPath = '../frontend/build';
 app.use(express.static(buildPath));

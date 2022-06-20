@@ -22,4 +22,9 @@ const authenticateToken = async (token) => {
     }
 }
 
-module.exports = { hmac, generateAccessToken, authenticateToken, EXPIRES_IN }
+const expireToken = async (timestamp) => {
+    const now = new Date().getTime().toString();
+    return (now - timestamp) > EXPIRES_IN ? true : false;
+}
+
+module.exports = { hmac, generateAccessToken, authenticateToken, expireToken }

@@ -1,6 +1,13 @@
 const validator = require('validator');
-const Member = require('../models/main_model')
-const { authenticateToken, generateAccessToken, hmac } = require('../utils/token')
+const Member = require('../models/main_model');
+const { authenticateToken, generateAccessToken, hmac, expireToken } = require('../utils/token');
+
+const checkJwtExpire = async (req, res) => {
+    const { timestamp } = req.query;
+    const expired = await expireToken(timestamp);
+    res.status(200).send({ message: expired });
+    return;
+};
 
 const checkEmail = async (req, res) => {
     const { email } = req.query;
@@ -67,10 +74,10 @@ const checkEmail = async (req, res) => {
             },
         },
     });
-}
+};
 
 const signIn = async (req, res) => {
-    const { id, password } = req.query;
+    const { id, password } = req.body;
     if (!id || !password ) {
         res.status(400).send({ message: 'password required' });
         return;
@@ -102,7 +109,7 @@ const signIn = async (req, res) => {
             },
         },
     });
-}
+};
 
 const signUp = async (req, res) => {
     const { email, name, password, password_check, join_date } = req.body;
@@ -138,10 +145,11 @@ const signUp = async (req, res) => {
             },
         },
     });
-}
+};
 
 module.exports = {
     checkEmail,
+    checkJwtExpire,
     signIn, 
     signUp,
 };

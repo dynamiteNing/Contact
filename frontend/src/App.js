@@ -6,7 +6,7 @@ function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Mainpage />} />
-      <Route exact path='/chat/:role/:name' element={<Chat />} />
+      <Route exact path='/chat' element={<Chat />} /> 
     </Routes>
   );
 }

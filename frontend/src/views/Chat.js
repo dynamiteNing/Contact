@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
-import { useParams } from 'react-router-dom';
-import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button } from '../styles/Chat.style';
+import { useLocation } from 'react-router-dom';
+import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button, WrapInput, ChatButton, Friends } from '../styles/Chat.style';
+import { api } from '../utils/api';
 
 function Chatmessage(props) {
-  const history = props.history;
+  const { history, name } = props;
+
   return (
     <Board>
       {
         history.map((item, index) => (
-          <Group key={index}>
-            <Name>{`${item.name}: `}</Name>
+          <Group key={index} self={name === item.name}>
+            <Name self={name === item.name}>{item.name}</Name>
             <Message>{item.message}</Message>
-            <Time>time</Time>
+            <Time self={name === item.name}>{item.time}</Time>
           </Group>
         ))
       }
@@ -21,58 +23,73 @@ function Chatmessage(props) {
 }
 
 function Chatinput(props) {
-  const role = props.role;
-  const name = props.name;
-  const chat = props.chat;
+  const { role, name, chat, rooms, fanrooms } = props;
   const [message, setMessage] = useState('');
-  let room;
-  if (role === '1') {
-    room = 'A1_fans_see';
-  } else {
-    room = 'A1_see';
-  }
+  const [sendroom, setSendroom] = useState('');
+
+  useEffect(() => {
+    if (role === 1) {
+      setSendroom(fanrooms[0]);
+    } else {
+      setSendroom(rooms[0]);
+    }
+  }, [fanrooms]);
+
+  const send = (room, name, message, time) => {
+    if (message !== ''){
+      chat(room, { name: name, message: message, time: time }); 
+      setMessage('');
+    }
+  };
   
   return (
-    <>
-      <Input value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { chat(room, { name: name, message: message }) }}>Send</Button>
-    </>
+    <WrapInput>
+      <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
+      <Button onClick={() => { send(sendroom, name, message, new Date().toLocaleString()); }}>Send</Button>
+    </WrapInput>
   )
 }
 
 function Rooms(props) {
-  const rooms = props.rooms;
-  const changeRoom = props.changeRoom;
+  const { role, rooms, changeRoom, fanrooms } = props;
+
   useEffect(() => {
     if(rooms[0]){
-      changeRoom(rooms[0]);
+      if (role === 1) {
+        changeRoom(rooms[0]);
+      } else {
+        changeRoom(fanrooms[0]);
+      }
     }
   }, [rooms]);
 
   /* TODO: real changeRoom */
-  
+  // const change = (event) => {
+  //   let room = event.target.value
+  //   if(room !== ''){
+  //     ws.emit('changeRoom', room)
+  //   }
+  // }
+
   return (
-    <div>
-      <div>Rooms</div>
+      <Friends>
       {
         rooms.map((item, index) => (
-          <>
-          <div key={index}>
+          <ChatButton key={index}>
             {item}
-          </div>
-          </>
+          </ChatButton>
         ))
       }
-    </div>
+      </Friends>
   )
 }
 
 export default function Chat() {
-  // TODO: get from jwtToken
-  const { role, name } = useParams();
+  const { role, name, email } = useLocation().state;
   const [ws, setWs] = useState(null);
   const [history, setHistory] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [fanrooms, setFanrooms] = useState([]);
 
   const updateHistory = (message) => {
     setHistory(history => [...history, message]);
@@ -99,11 +116,25 @@ export default function Chat() {
 
     // TODO: load the history from db
     // TODO: get the friend room from db
-    if(role === '1') {
-      setRooms(['A1_see']);
-    } else {
-      setRooms(['A1_fans_see']);
-    }
+
+    api.getRooms(email).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        data.rooms.map((item, index) => {
+          setRooms(rooms => [...rooms, item.artist]);
+          setFanrooms(fanrooms => [...fanrooms, item.fanclub]);
+        });
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
   }, []);
 
   useEffect(() => {
@@ -137,10 +168,10 @@ export default function Chat() {
         <option value='A1_fans_see'>ARTIST1 to FANS</option>
       </select> */}
       <Wrap>
-        <Rooms rooms={rooms} changeRoom={changeRoom} />
+        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms}  email={email} />
         <div>
-          <Chatmessage history={history} />
-          <Chatinput role={role} name={name} chat={chat} />
+          <Chatmessage history={history} name={name}/>
+          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} />
         </div>
       </Wrap>
 

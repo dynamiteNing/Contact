@@ -1,13 +1,10 @@
-import * as React from 'react';
 import { useState } from 'react';
 import { Main, Contact, Input, Wrap, Button } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 function Signup(props) {
-  const setType = props.setType;
-  const setId = props.setId;
-  const email = props.email;
+  const { setType, setId, email } = props;
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [password_check, setPwdcheck] = useState('');
@@ -46,7 +43,7 @@ function Signup(props) {
   return (
     <>
     <form onSubmit={signup}>
-        <Input type='text' className='name' value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required/>
+        <Input autoFocus type='text' className='name' value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required/>
         <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
         <Input type='text' className='password_check' value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required/>
         <Button type='submit' />
@@ -56,8 +53,7 @@ function Signup(props) {
 }
 
 function Signin(props) {
-  const id = props.id;
-  const navigate = props.navigate;
+  const { id, navigate } = props;
   const [password, setPassword] = useState('');
 
   const signin = (e) => {
@@ -81,7 +77,8 @@ function Signin(props) {
       if (data.hasOwnProperty('member')) {
         if (data.member.hasOwnProperty('role')) {
           window.localStorage.setItem('jwtToken', data.jwtToken);
-          navigate(`./chat/${data.member.role}/${data.member.name}`);
+          window.localStorage.setItem('timestamp', new Date().getTime());
+          navigate(`../chat`, {state: {role: data.member.role, name: data.member.name, email: data.member.email}});
         }
       }
     })
@@ -93,7 +90,7 @@ function Signin(props) {
   return (
     <>
       <form onSubmit={signin}>
-        <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
+        <Input autoFocus type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
         <Button type='submit' />
       </form>
     </>
@@ -101,12 +98,7 @@ function Signin(props) {
 }
 
 function Emailform(props) {
-  const type = props.type;
-  const setType = props.setType;
-  const id = props.id;
-  const setId = props.setId;
-  const email = props.email;
-  const navigate = props.navigate;
+  const { type, setType, id, setId, email, navigate} = props;
 
   return (
     <> 
@@ -124,7 +116,18 @@ export default function Mainpage() {
 
   const emailCheck = (e) => {
     e.preventDefault();
-    const jwtToken = window.localStorage.getItem('jwtToken');
+    const timestamp = window.localStorage.getItem('timestamp');
+    api.checkjwtexpire(timestamp).then((response) => {
+      return response.json();
+    }).then((json) => {
+      if (json.hasOwnProperty('message') && json.message) {
+        window.localStorage.removeItem('jwtToken');
+        window.localStorage.removeItem('timestamp');
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+    let jwtToken = window.localStorage.getItem('jwtToken');
     api.checkemail(email, jwtToken).then((response) => {
       if (response.status === 200) {
         setType('signin');
@@ -150,7 +153,8 @@ export default function Mainpage() {
         setId(data.member.id);
         if (data.member.hasOwnProperty('role')) {
           window.localStorage.setItem('jwtToken', data.jwtToken);
-          navigate(`./chat/${data.member.role}/${data.member.name}`);
+          window.localStorage.setItem('timestamp', new Date().getTime());
+          navigate(`../chat`, {state: {role: data.member.role, name: data.member.name, email: email}});
         }
       }
     }).catch((error) => {
@@ -163,7 +167,7 @@ export default function Mainpage() {
       <Contact>Contact</Contact>
       <Wrap>
         <form onSubmit={emailCheck}>
-          <Input type='text' className='email' value={email} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
+          <Input autoFocus type='text' className='email' value={email} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
           <Button type='submit' />
         </form>
       </Wrap>
