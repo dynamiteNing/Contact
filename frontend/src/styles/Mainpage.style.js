@@ -23,6 +23,10 @@ export const Input = styled.input`
   font: inherit;
   font-size: large;
   border-radius: 3px;
+  text-align: center;
+  &:focus {
+    border: solid #d3b7d8 3px;
+  }
 `;
 
 export const Wrap = styled.div`

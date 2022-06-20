@@ -23,15 +23,14 @@ function Chatmessage(props) {
 }
 
 function Chatinput(props) {
-  const { role, name, chat, rooms, fanrooms } = props;
+  const { role, name, chat, rooms, fanrooms, roomto, setRoomto } = props;
   const [message, setMessage] = useState('');
-  const [sendroom, setSendroom] = useState('');
 
   useEffect(() => {
     if (role === 1) {
-      setSendroom(fanrooms[0]);
+      setRoomto(fanrooms[0]);
     } else {
-      setSendroom(rooms[0]);
+      setRoomto(rooms[0]);
     }
   }, [fanrooms]);
 
@@ -45,13 +44,13 @@ function Chatinput(props) {
   return (
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { send(sendroom, name, message, new Date().toLocaleString()); }}>Send</Button>
+      <Button onClick={() => { send(roomto, name, message, new Date().toLocaleString()); }}>Send</Button>
     </WrapInput>
   )
 }
 
 function Rooms(props) {
-  const { role, rooms, changeRoom, fanrooms } = props;
+  const { role, rooms, changeRoom, fanrooms, setRoomto } = props;
 
   useEffect(() => {
     if(rooms[0]){
@@ -63,19 +62,23 @@ function Rooms(props) {
     }
   }, [rooms]);
 
-  /* TODO: real changeRoom */
-  // const change = (event) => {
-  //   let room = event.target.value
-  //   if(room !== ''){
-  //     ws.emit('changeRoom', room)
-  //   }
-  // }
+  const changeFriend = (friend) => {
+    if (friend > -1) {
+      if (role === 1) {
+        changeRoom(rooms[friend]);
+        setRoomto(fanrooms[friend]);
+      } else {
+        changeRoom(fanrooms[friend]);
+        setRoomto(rooms[friend]);
+      }
+    }
+  }
 
   return (
       <Friends>
       {
         rooms.map((item, index) => (
-          <ChatButton key={index}>
+          <ChatButton key={index} onClick={() => changeFriend(index)}>
             {item}
           </ChatButton>
         ))
@@ -90,9 +93,16 @@ export default function Chat() {
   const [history, setHistory] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [fanrooms, setFanrooms] = useState([]);
+  const [roomto, setRoomto] = useState('');
+  const [roomin, setRoomin] = useState('');
 
   const updateHistory = (message) => {
     setHistory(history => [...history, message]);
+  }
+
+  const resetHistory = (friend) => {
+    // TODO: history from db
+    setHistory([]);
   }
 
   const connectWS = () => {
@@ -115,7 +125,6 @@ export default function Chat() {
     connectWS();
 
     // TODO: load the history from db
-    // TODO: get the friend room from db
 
     api.getRooms(email).then((response) => {
       if (response.status === 200) {
@@ -144,14 +153,10 @@ export default function Chat() {
     }
   }, [ws]);
 
-  // const change = (event) => {
-  //   let room = event.target.value
-  //   if(room !== ''){
-  //     ws.emit('changeRoom', room)
-  //   }
-  // }
   const changeRoom = (room) => {
-    if(room !== ''){
+    if (room !== '' && room !== roomin) {
+      setRoomin(room);
+      resetHistory(room);
       ws.emit('changeRoom', room);
     }
   }
@@ -162,19 +167,13 @@ export default function Chat() {
 
   return (
     <Main>
-      {/* <select onChange={change}>
-        <option value=''>請選擇房間</option>
-        <option value='A1_see'>FANS to ARTIST1</option>
-        <option value='A1_fans_see'>ARTIST1 to FANS</option>
-      </select> */}
       <Wrap>
-        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms}  email={email} />
+        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} />
         <div>
           <Chatmessage history={history} name={name}/>
-          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} />
+          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} />
         </div>
       </Wrap>
-
     </Main>
   )
 }

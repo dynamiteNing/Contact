@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 
-export const Contact = styled.div`
-  font-size: 30px;
-`;
-
 export const Main = styled.main`
-  margin-top: 50px;
+  margin-top: 10vh;
   justify-content: center;
   text-align: center;
 `;
@@ -19,7 +15,7 @@ export const Wrap = styled.div`
 export const Board = styled.div`
   height: 65vh;
   width: 60vw;
-  overflow-y: scroll;
+  overflow: auto;
   padding: 3vw;
   background-color: #f8f8f8;
   justify-content: center;
@@ -60,6 +56,10 @@ export const Input = styled.input`
   border-radius: 10px;
   height: 30px;
   width: 45vw;
+  &:focus {
+    outline: none;
+    border: solid #d3b7d8 3px;
+  }
 `;
 
 export const Button = styled.button`
@@ -89,10 +89,13 @@ export const ChatButton = styled.div`
   font-size: large;
   height: 40px;
   line-height: 40px;
+  margin-bottom: 20px
 `;
 
 export const Friends = styled.div`
-  width: 25vw;
-  height: 70vh;
-  border: solid black 1px;
+  width: 23vw;
+  height: 65vh;
+  overflow: auto;
+  background-color: #f8f8f8;
+  padding: 3vw;
 `;

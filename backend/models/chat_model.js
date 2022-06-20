@@ -8,8 +8,10 @@ const getRooms = async function (email) {
     }
     const rooms = member[0].rooms;
 
-    const result = db('find', 'fanclub', {'artist': {$in: Object.keys(rooms)}});
+    const result = await db('find', 'register', { 'artist': { $in: Object.keys(rooms) } });
 
+    // const result = db('find', 'fanclub', { 'artist': { $in: Object.keys(rooms) } });
+    
     return result;
 };
 

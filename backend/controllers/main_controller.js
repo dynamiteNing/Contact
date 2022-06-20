@@ -112,7 +112,7 @@ const signIn = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
-    const { email, name, password, password_check, join_date } = req.body;
+    const { email, name, password, password_check, quote, join_date } = req.body;
     
     let result = await Member.checkEmail(email);
     if (result._id) {
@@ -126,7 +126,7 @@ const signUp = async (req, res) => {
     }
 
     const hashed_password = await hmac(password);
-    result = await Member.signUp(email, name, hashed_password, join_date);
+    result = await Member.signUp(email, name, hashed_password, quote, join_date);
 
     if (result.error) {
         res.status(403).send({ error: result.error });

@@ -13,6 +13,9 @@ async function db(method, collect, arg) {
         } else if (method === 'insert') {
             result = await collection.insertOne(arg);
             return result;
+        } else if (method === 'update') {
+            result = await collection.updateOne(arg[0], arg[1]);
+            return result;
         }
     }
     catch(err){ console.error(err); } 

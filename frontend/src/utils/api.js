@@ -35,8 +35,23 @@ export const api = {
       }),
     });
   },
-  getRooms(email){
+  getRooms(email) {
     return fetch(`${this.hostname}/chat?email=${email}`, {
+      method: 'GET',
+    });
+  },
+  getFriends(email) {
+    return fetch(`${this.hostname}/directory/friends?email=${email}`, {
+      method: 'GET',
+    });
+  },
+  getNotfriends(email) {
+    return fetch(`${this.hostname}/directory/notfriends?email=${email}`, {
+      method: 'GET',
+    });
+  },
+  getProfile(email) {
+    return fetch(`${this.hostname}/directory?email=${email}`, {
       method: 'GET',
     });
   },
