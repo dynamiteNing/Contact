@@ -50,7 +50,7 @@ function Signup(props) {
       <Button type='submit' />
     </form>
   )
-}
+};
 
 function Signin(props) {
   const { id, navigate } = props;
@@ -69,16 +69,15 @@ function Signin(props) {
       }
     }).then((json) => {
       if (json.hasOwnProperty('message') && json.message === 'jwtToken') {
-        window.alert('TODO: navigate to directory page');
+        return json.data
       }
-      return json.data
     })
     .then((data) => {
       if (data.hasOwnProperty('member')) {
         if (data.member.hasOwnProperty('role')) {
           window.localStorage.setItem('jwtToken', data.jwtToken);
           window.localStorage.setItem('timestamp', new Date().getTime());
-          navigate(`../chat`, {state: {role: data.member.role, name: data.member.name, email: data.member.email}});
+          navigate(`../directory`, {state: {role: data.member.role, name: data.member.name, email: data.member.email}});
         }
       }
     })
@@ -95,7 +94,7 @@ function Signin(props) {
       </form>
     </>
   )
-}
+};
 
 function Emailform(props) {
   const { type, setType, id, setId, email, navigate} = props;
@@ -105,7 +104,7 @@ function Emailform(props) {
       {type === 'signin' ? <Signin id={id} navigate={navigate} /> : type === 'signup' ? <Signup email={email} setType={setType} setId={setId} /> : null}
     </>
   )
-}
+};
 
 
 export default function Mainpage() {
@@ -143,7 +142,6 @@ export default function Mainpage() {
       }
     }).then((json) => {
       if (json.hasOwnProperty('message') && json.message === 'jwtToken') {
-        window.alert('TODO: navigate to directory page');
         setType('');
       }
       return json.data
@@ -154,7 +152,7 @@ export default function Mainpage() {
         if (data.member.hasOwnProperty('role')) {
           window.localStorage.setItem('jwtToken', data.jwtToken);
           window.localStorage.setItem('timestamp', new Date().getTime());
-          navigate(`../chat`, {state: {role: data.member.role, name: data.member.name, email: email}});
+          navigate(`../directory`, {state: {role: data.member.role, name: data.member.name, email: email}});
         }
       }
     }).catch((error) => {
@@ -172,4 +170,4 @@ export default function Mainpage() {
       <Emailform type={type} setType={setType} id={id} setId={setId} email={email} navigate={navigate} />
     </Main>
   )
-}
+};

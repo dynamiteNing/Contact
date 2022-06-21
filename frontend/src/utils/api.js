@@ -50,8 +50,8 @@ export const api = {
       method: 'GET',
     });
   },
-  getProfile(email) {
-    return fetch(`${this.hostname}/directory?email=${email}`, {
+  getProfile(artist) {
+    return fetch(`${this.hostname}/directory?artist=${artist}`, {
       method: 'GET',
     });
   },

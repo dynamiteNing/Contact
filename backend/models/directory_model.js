@@ -28,8 +28,8 @@ const getNotfriends = async function (email) {
     return result;
 };
 
-const getProfile = async function (email) {
-    const result = await db('find', 'member', { 'email': email });
+const getProfile = async function (artist) {
+    const result = await db('find', 'member', { 'name': artist });
 
     if (result.length <= 0) {
         return result;

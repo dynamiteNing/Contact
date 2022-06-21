@@ -45,9 +45,9 @@ const getNotfriends = async (req, res) => {
 };
 
 const getProfile = async (req, res) => {
-  const { email } = req.query;
+  const { artist } = req.query;
 
-  const result = await Directory.getProfile(email);
+  const result = await Directory.getProfile(artist);
 
   if (result.error) {
     res.status(403).send({ error: result.error });
@@ -55,14 +55,16 @@ const getProfile = async (req, res) => {
   }
     
   if (result.length <= 0) {
-    res.status(404).send({ message: `The email ${email} has no profile.` });
+    res.status(404).send({ message: `The artist ${artist} has no profile.` });
     return;
   }
     
   res.status(200).send({
     data: {
-      name: result.name,
-      quote: result.quote,
+      profile: {
+        name: result.name,
+        quote: result.quote,
+      },
     },
   });
 };

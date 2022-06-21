@@ -20,19 +20,21 @@ function Chatmessage(props) {
       }
     </Board>
   )
-}
+};
 
 function Chatinput(props) {
-  const { role, name, chat, rooms, fanrooms, roomto, setRoomto } = props;
+  const { role, name, chat, rooms, fanrooms, roomto, setRoomto, chatroom } = props;
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (role === 1) {
-      setRoomto(fanrooms[0]);
-    } else {
-      setRoomto(rooms[0]);
+    if(rooms[0]){
+      if (role === 1) {
+        setRoomto(fanrooms[rooms.indexOf(chatroom)]);
+      } else {
+        setRoomto(chatroom);
+      }
     }
-  }, [fanrooms]);
+  }, [rooms]);
 
   const send = (room, name, message, time) => {
     if (message !== ''){
@@ -47,17 +49,17 @@ function Chatinput(props) {
       <Button onClick={() => { send(roomto, name, message, new Date().toLocaleString()); }}>Send</Button>
     </WrapInput>
   )
-}
+};
 
 function Rooms(props) {
-  const { role, rooms, changeRoom, fanrooms, setRoomto } = props;
+  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom } = props;
 
   useEffect(() => {
     if(rooms[0]){
       if (role === 1) {
-        changeRoom(rooms[0]);
+        changeRoom(chatroom);
       } else {
-        changeRoom(fanrooms[0]);
+        changeRoom(fanrooms[rooms.indexOf(chatroom)]);
       }
     }
   }, [rooms]);
@@ -85,10 +87,10 @@ function Rooms(props) {
       }
       </Friends>
   )
-}
+};
 
 export default function Chat() {
-  const { role, name, email } = useLocation().state;
+  const { role, name, email, chatroom } = useLocation().state;
   const [ws, setWs] = useState(null);
   const [history, setHistory] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -123,6 +125,7 @@ export default function Chat() {
 
   useEffect(() => {
     connectWS();
+
 
     // TODO: load the history from db
 
@@ -168,12 +171,12 @@ export default function Chat() {
   return (
     <Main>
       <Wrap>
-        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} />
+        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} />
         <div>
           <Chatmessage history={history} name={name}/>
-          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} />
+          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} />
         </div>
       </Wrap>
     </Main>
   )
-}
+};
