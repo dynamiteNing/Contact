@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button, WrapInput, ChatButton, Friends } from '../styles/Chat.style';
+import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button, WrapInput, ChatButton, Friends, SmallTitle, Tuple, Avatar, Title } from '../styles/Chat.style';
 import { api } from '../utils/api';
 
 function Chatmessage(props) {
-  const { history, name } = props;
+  const { history, name, profile } = props;
 
   return (
     <Board>
       {
         history.map((item, index) => (
-          <Group key={index} self={name === item.name}>
-            <Name self={name === item.name}>{item.name}</Name>
-            <Message>{item.message}</Message>
-            <Time self={name === item.name}>{item.time}</Time>
-          </Group>
+          <Tuple self={name === item.name}>
+            <Avatar src={`../admin/images/${item.avatar}`} alt="img" self={name === item.name} /> 
+            <Group key={index} self={name === item.name}>
+              {/* <Title self={name === item.name}>title</Title> */}
+              <Name self={name === item.name}>{item.name}</Name>
+              <Message>{item.message}</Message>
+              <Time self={name === item.name}>{item.time}</Time>
+            </Group>
+          </Tuple>
         ))
       }
     </Board>
@@ -23,7 +27,7 @@ function Chatmessage(props) {
 };
 
 function Chatinput(props) {
-  const { role, name, chat, rooms, fanrooms, roomto, setRoomto, chatroom } = props;
+  const { role, name, chat, rooms, fanrooms, roomto, setRoomto, chatroom, profile } = props;
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -36,9 +40,9 @@ function Chatinput(props) {
     }
   }, [rooms]);
 
-  const send = (room, name, message, time) => {
+  const send = (room, name, message, profile, time) => {
     if (message !== ''){
-      chat(room, { name: name, message: message, time: time }); 
+      chat(room, { name: name, message: message, time: time, avatar: profile.avatar }); 
       setMessage('');
     }
   };
@@ -46,13 +50,13 @@ function Chatinput(props) {
   return (
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { send(roomto, name, message, new Date().toLocaleString()); }}>Send</Button>
+      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString()); }}>Send</Button>
     </WrapInput>
   )
 };
 
 function Rooms(props) {
-  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom } = props;
+  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom, roomin, roomto } = props;
 
   useEffect(() => {
     if(rooms[0]){
@@ -78,9 +82,10 @@ function Rooms(props) {
 
   return (
       <Friends>
+      <SmallTitle>Chat Rooms</SmallTitle>
       {
         rooms.map((item, index) => (
-          <ChatButton key={index} onClick={() => changeFriend(index)}>
+          <ChatButton key={index} active={roomin === item || roomto === item} onClick={() => changeFriend(index)}>
             {item}
           </ChatButton>
         ))
@@ -97,6 +102,29 @@ export default function Chat() {
   const [fanrooms, setFanrooms] = useState([]);
   const [roomto, setRoomto] = useState('');
   const [roomin, setRoomin] = useState('');
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    getProfile(name);
+  }, []);
+
+  const getProfile = (name) => {
+    api.getProfile(name).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        setProfile(data.profile);
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
+  };
 
   const updateHistory = (message) => {
     setHistory(history => [...history, message]);
@@ -171,10 +199,10 @@ export default function Chat() {
   return (
     <Main>
       <Wrap>
-        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} />
+        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto}/>
         <div>
-          <Chatmessage history={history} name={name}/>
-          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} />
+          <Chatmessage history={history} name={name} profile={profile} />
+          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} profile={profile} />
         </div>
       </Wrap>
     </Main>

@@ -3,17 +3,17 @@ import { Main, Contact, Input, Button } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
+
 function Signup(props) {
   const { setType, setId, email } = props;
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [password_check, setPwdcheck] = useState('');
-  const [quote, setQuote] = useState('');
 
   const signup = (e) => {
     e.preventDefault();
     api.signup({
-      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'quote': quote,  'join_date': new Date().toLocaleString(),
+      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString(),
     }).then((response) => {
       if (response.status === 200) {
         return response.json();
@@ -44,7 +44,6 @@ function Signup(props) {
   return (
     <form onSubmit={signup}>
       <Input autoFocus type='text' className='name' value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required />
-      <Input type='text' className='quote' value={quote} onChange={e => setQuote(e.target.value)} placeholder="QUOTE"/>
       <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
       <Input type='text' className='password_check' value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required />
       <Button type='submit' />
@@ -53,7 +52,7 @@ function Signup(props) {
 };
 
 function Signin(props) {
-  const { id, navigate } = props;
+  const { id, navigate, type } = props;
   const [password, setPassword] = useState('');
 
   const signin = (e) => {
@@ -117,7 +116,9 @@ export default function Mainpage() {
     e.preventDefault();
     const timestamp = window.localStorage.getItem('timestamp');
     api.checkjwtexpire(timestamp).then((response) => {
-      return response.json();
+      if (response.status === 200) {
+        return response.json();
+      }
     }).then((json) => {
       if (json.hasOwnProperty('message') && json.message) {
         window.localStorage.removeItem('jwtToken');
@@ -164,8 +165,8 @@ export default function Mainpage() {
     <Main>
       <Contact>Contact</Contact>
       <form onSubmit={emailCheck}>
-        <Input autoFocus type='text' className='email' value={email} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
-        <Button type='submit' />
+        <Input autoFocus type='text' className='email' value={email} done={type !== ''} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
+        <Button type='submit' done={type !== ''} />
       </form>
       <Emailform type={type} setType={setType} id={id} setId={setId} email={email} navigate={navigate} />
     </Main>

@@ -13,7 +13,7 @@ export const Wrap = styled.div`
 `;
 
 export const Board = styled.div`
-  height: 65vh;
+  height: 60vh;
   width: 60vw;
   overflow: auto;
   padding: 3vw;
@@ -21,11 +21,31 @@ export const Board = styled.div`
   justify-content: center;
 `;
 
-export const Group = styled.div`
-  width: 60%;
+export const Tuple = styled.div`
+  width: 85%;
   margin-left: ${props => props.self ? 'auto' : '0'};
   margin-bottom: 10px;
+  display: flex;
+`
+
+export const Avatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 10px;
+  align-self: center;
+  display: ${props => props.self ? 'none' : ''};
 `;
+
+export const Group = styled.div`
+  max-width: ${props => props.self ? '100%' : '90%'};
+  margin-left: ${props => props.self ? 'auto' : '0'};
+`;
+
+// export const Title = styled.div`
+//   background-color: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+  
+// `
 
 export const Name = styled.div`
   font-weight: bold;
@@ -55,17 +75,22 @@ export const Input = styled.input`
   font-size: large;
   border-radius: 10px;
   height: 30px;
-  width: 45vw;
+  width: 47vw;
   &:focus {
     outline: none;
-    border: solid #d3b7d8 3px;
+    border: solid transparent 2px;
+    border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+    border-image-slice: 1;
   }
 `;
 
 export const Button = styled.button`
-  width: 10vw;
+  width: 9vw;
+  background-color: #e2d8ee;
   font: inherit;
   font-size: large;
+  font-variant: small-caps;
+  font-weight: bold;
   height: 40px;
   padding: 5px;
   border-color: transparent; 
@@ -84,18 +109,29 @@ export const WrapInput = styled.div`
 
 export const ChatButton = styled.div`
   border: solid transparent 1px;
+  border-radius: 3px;
+  border-image: ${props => props.active ? 'linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)' : ''};
+  border-image-slice: 1;
   background-color: #e2d8ee;
   font: inherit;
   font-size: large;
   height: 40px;
   line-height: 40px;
-  margin-bottom: 20px
+  margin: 10px auto;
+  opacity: ${props => props.active ? 1 : 0.6 };
 `;
 
 export const Friends = styled.div`
-  width: 23vw;
-  height: 65vh;
+  width: 20vw;
+  height: 60vh;
   overflow: auto;
   background-color: #f8f8f8;
-  padding: 3vw;
+  padding: 2vw;
+`;
+
+export const SmallTitle = styled.div`
+  text-align: left;
+  font-variant: small-caps;
+  font-size: large;
+  font-weight: bold;
 `;

@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, Allartists, Wrap, ProfileButton, SmallTitle, Seperate, Board, Name, Button, SingleProfile, Quote } from '../styles/Directory.style';
+import { Main, Allartists, Wrap, ProfileButton, SmallTitle, Seperate, Board, Name, Button, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
 import { api } from '../utils/api';
 
 function Profile(props) {
-  const { role, name, profile, friends, toChat } = props;
+  const { role, name, profile, friends, toChat, toMore } = props;
   const text = { true: 'Chat', false: 'Subscribe'};
 
   const buttonFunction = (subscribed, artist) => {
-    subscribed ? toChat(artist) : window.alert('to More, subscribe page');
+    subscribed ? toChat(artist) : toMore(artist);
   }
 
   return (
     <SingleProfile>
+      <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
       <Name profile={profile}>{profile.name}</Name>
       <Quote>{profile.quote}</Quote>
       <Button profile={profile} dont={(role === 1) && (profile.name !== name)} onClick={() => buttonFunction(friends.includes(profile.name), profile.name)}>{text[friends.includes(profile.name)]}</Button>
@@ -21,7 +22,16 @@ function Profile(props) {
 };
 
 function Artists(props) {
-  const { friends, notfriends, setProfile } = props;
+  const { role, friends, notfriends, setProfile, profile } = props;
+  const text = { 0: 'My Friends', 1: 'Fans', 2: 'Suggested Artists', 3: 'Other Artists' };
+  
+  useEffect(() => {
+    if (friends[0]) {
+      getProfile(friends[0]);
+    } else if (notfriends[0]) {
+      getProfile(notfriends[0]);
+    }
+  }, [friends]);
 
   const getProfile = (artist) => {
     api.getProfile(artist).then((response) => {
@@ -43,21 +53,21 @@ function Artists(props) {
 
   return (
     <Allartists>
-      <SmallTitle>My Friends</SmallTitle>
+      <SmallTitle>{text[role % 2]}</SmallTitle>
        <>
         {
          friends.map((item, index) => (
-           <ProfileButton key={index} onClick={() => getProfile(item)}>
+           <ProfileButton key={index} active={profile.name === item} onClick={() => getProfile(item)}>
             {item}
            </ProfileButton>
          ))
         }</>
       <Seperate />
-      <SmallTitle>Suggested Artists</SmallTitle>
+      <SmallTitle>{text[role % 2 + 2]}</SmallTitle>
       <>
         {
         notfriends.map((item, index) => (
-          <ProfileButton key={index} onClick={() => getProfile(item)}>
+          <ProfileButton key={index} active={profile.name === item} onClick={() => getProfile(item)}>
             {item}
           </ProfileButton>
         ))
@@ -77,6 +87,10 @@ export default function Directory() {
 
   const toChat = (chatroom) => {
     navigate(`../chat`, {state: {role: role, name: name, email: email, chatroom: chatroom}});
+  };
+
+  const toMore = (artist) => {
+    navigate(`../more`, {state: {role: role, name: name, email: email, artistPre: artist}});
   };
 
   useEffect(() => {
@@ -125,9 +139,9 @@ export default function Directory() {
   return (
     <Main>
       <Wrap>
-        <Artists friends={friends} notfriends={notfriends} setProfile={setProfile} />
+        <Artists role={role} friends={friends} notfriends={notfriends} setProfile={setProfile} profile={profile} />
         <Board>
-          <Profile role={role} name={name} profile={profile} friends={friends} toChat={toChat}/>
+          <Profile role={role} name={name} profile={profile} friends={friends} toChat={toChat} toMore={toMore} />
         </Board>
       </Wrap>
     </Main>

@@ -64,6 +64,7 @@ const getProfile = async (req, res) => {
       profile: {
         name: result.name,
         quote: result.quote,
+        avatar: result.avatar,
       },
     },
   });
