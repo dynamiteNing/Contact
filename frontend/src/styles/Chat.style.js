@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import send from '../images/send.png';
 
 export const Main = styled.main`
   margin-top: 10vh;
@@ -7,7 +8,8 @@ export const Main = styled.main`
 `;
 
 export const Wrap = styled.div`
-  justify-content: space-around;
+  // justify-content: space-around;
+  justify-content: center;
   display: flex;
   flex-wrap: warp;
 `;
@@ -16,7 +18,8 @@ export const Board = styled.div`
   height: 60vh;
   width: 60vw;
   overflow: auto;
-  padding: 3vw;
+  // padding: 3vw;
+  padding: 5vw;
   background-color: #f8f8f8;
   justify-content: center;
 `;
@@ -75,7 +78,7 @@ export const Input = styled.input`
   font-size: large;
   border-radius: 10px;
   height: 30px;
-  width: 47vw;
+  width: 60vw;
   &:focus {
     outline: none;
     border: solid transparent 2px;
@@ -85,26 +88,27 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 9vw;
-  background-color: #e2d8ee;
-  font: inherit;
-  font-size: large;
-  font-variant: small-caps;
-  font-weight: bold;
-  height: 40px;
-  padding: 5px;
-  border-color: transparent; 
-  border-radius: 10px;
+  width: 35px;
+  height: 35px;
+  background-image: url(${send});
+  background-size: contain;
+  background-color: transparent;
+  border: solid transparent 0px;
+  position: relative;
+  object-fit: contain;
   align-self: center;
   &:hover {
-    opacity: 70%;
+    opacity: 60%;
   }
 `;
 
+{/* <a href="https://www.flaticon.com/free-icons/send" title="send icons">Send icons created by Gregor Cresnar - Flaticon</a> */}
+
 export const WrapInput = styled.div`
   display: flex;
-  justify-content: space-around;
-  padding: 1vw
+  // justify-content: space-around;
+  justify-content: space-evenly;
+  margin-top: 1vh;
 `;
 
 export const ChatButton = styled.div`
@@ -126,7 +130,11 @@ export const Friends = styled.div`
   height: 60vh;
   overflow: auto;
   background-color: #f8f8f8;
-  padding: 2vw;
+  // padding: 2vw;
+  padding: 5vw;
+  border-right: solid transparent 1px;
+  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+  border-image-slice: 1;
 `;
 
 export const SmallTitle = styled.div`

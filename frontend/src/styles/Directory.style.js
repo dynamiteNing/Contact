@@ -7,7 +7,8 @@ export const Main = styled.main`
 `;
 
 export const Wrap = styled.div`
-  justify-content: space-around;
+  // justify-content: space-around;
+  justify-content: center;
   display: flex;
   flex-wrap: warp;
 `;
@@ -16,11 +17,24 @@ export const Board = styled.div`
   height: 60vh;
   width: 60vw;
   overflow: auto;
-  padding: 3vw;
+  // padding: 3vw;
+  padding: 5vw;
   background-color: #f8f8f8;
   justify-content: center;
   align-items: center;
   display: flex;
+`;
+
+export const Allartists = styled.div`
+  width: 20vw;
+  height: 60vh;
+  overflow: auto;
+  background-color: #f8f8f8;
+  // padding: 2vw;
+  padding: 5vw;
+  border-right: solid transparent 1px;
+  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+  border-image-slice: 1;
 `;
 
 export const ProfileButton = styled.div`
@@ -35,14 +49,6 @@ export const ProfileButton = styled.div`
   line-height: 40px;
   margin: 10px auto;
   opacity: ${props => props.active ? 1 : 0.6 };
-`;
-
-export const Allartists = styled.div`
-  width: 20vw;
-  height: 60vh;
-  overflow: auto;
-  background-color: #f8f8f8;
-  padding: 2vw;
 `;
 
 export const SmallTitle = styled.div`

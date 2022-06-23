@@ -7,7 +7,8 @@ export const Main = styled.main`
 `;
 
 export const Wrap = styled.div`
-  justify-content: space-around;
+  // justify-content: space-around;
+  justify-content: center;
   display: flex;
   flex-wrap: warp;
 `;
@@ -16,7 +17,8 @@ export const Board = styled.div`
   height: 60vh;
   width: 60vw;
   overflow: auto;
-  padding: 3vw;
+  // padding: 3vw;
+  padding: 5vw;
   background-color: #f8f8f8;
   justify-content: center;
   align-items: center;
@@ -28,7 +30,11 @@ export const FunctionBar = styled.div`
   height: 60vh;
   overflow: auto;
   background-color: #f8f8f8;
-  padding: 2vw;
+  // padding: 2vw;
+  padding: 5vw;
+  border-right: solid transparent 1px;
+  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+  border-image-slice: 1;
 `;
 
 export const FunctionButton = styled.div`
@@ -74,3 +80,17 @@ export const Avatar = styled.img`
   aspect-ratio: 1/1;  
   margin-bottom: 1vh;
 `;
+
+export const SingleArtist = styled.div`
+
+`;
+
+export const Tpfield = styled.div`
+  height: 30px;
+  width: 200px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 3px auto;
+  text-align: center;
+`

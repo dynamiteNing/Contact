@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, FunctionBar, Wrap, Board, FunctionButton, SingleProfile, Name, Quote, Profile, Avatar } from '../styles/More.style';
+import { Main, FunctionBar, Wrap, Board, FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield } from '../styles/More.style';
 import { api } from '../utils/api';
 
 function Functions(props) {
@@ -47,10 +47,7 @@ function AllnotPurchased(props) {
         {
           suggested.map((item, index) => (
           <Profile>
-            {/* <img src={`../admin/images/${item.avatar}`} alt="img" style={{ width: '100%', aspectRatio: '3/4' }} /> */}
-            <div>
-              {item}
-            </div>
+            {item}
           </Profile>
         ))
         }</>
@@ -66,6 +63,11 @@ function SinglePurchase(props) {
     <>
       <>{artist} pruchase page</>
       <div onClick={() => setPurchasetype(false)}>test</div>
+
+      <div style={{ fontWeight: 'bold', height: '30px' }}>信用卡資料</div>
+      <Tpfield className="tpfield" id="card-number"></Tpfield>
+      <Tpfield className="tpfield" id="card-expiration-date"></Tpfield>
+      <Tpfield className="tpfield" id="card-ccv"></Tpfield>
     </>
   )
 };
@@ -73,8 +75,59 @@ function SinglePurchase(props) {
 function Purchase(props) {
   const { email, artist, setArtist, suggested } = props;
   const [purchasetype, setPurchasetype] = useState(false);
+  const [TPDirect, setTPDirect] = useState();
+
+  const getTPD = function () {
+    return new Promise((resolve, reject) => {
+      const script = window.document.createElement('script');
+      script.src = 'https://js.tappaysdk.com/tpdirect/v5.1.0';
+      script.async = true;
+      script.onload = () => {
+        if (typeof window.TPDirect !== 'undefined') {
+          resolve(window.TPDirect);
+        } else {
+          reject(new Error('TapPay sdk loading failed'));
+        }
+      };
+      script.onerror = reject;
+      window.document.body.appendChild(script);
+    });
+  };
 
   useEffect(() => {
+    getTPD().then((res) => {
+      res.setupSDK(
+        '12348',
+        'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF',
+        'sandbox',
+      );
+      res.card.setup({
+        fields: {
+          number: {
+            element: '#card-number',
+            placeholder: '**** **** **** ****',
+          },
+          expirationDate: {
+            element: '#card-expiration-date',
+            placeholder: 'MM / YY',
+          },
+          ccv: {
+            element: '#card-ccv',
+            placeholder: '後三碼',
+          },
+        },
+        styles: {
+          '.valid': {
+            color: 'green',
+          },
+          '.invalid': {
+            color: 'red',
+          },
+        },
+      });
+      setTPDirect(res);
+    });
+
     if (artist) {
       setPurchasetype(true);
     }
