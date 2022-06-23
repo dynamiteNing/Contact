@@ -1,25 +1,25 @@
 import styled from 'styled-components';
 
 export const Main = styled.main`
-  margin-top: 10vh;
+  ${'' /* margin-top: 10vh; */}
   justify-content: center;
   text-align: center;
 `;
 
 export const Wrap = styled.div`
-  // justify-content: space-around;
+  ${'' /* justify-content: space-around; */}
   justify-content: center;
   display: flex;
   flex-wrap: warp;
 `;
 
 export const Board = styled.div`
-  height: 60vh;
+  ${'' /* height: 60vh; */}
+  height: 65vh;
   width: 60vw;
   overflow: auto;
-  // padding: 3vw;
+  ${'' /* padding: 3vw; */}
   padding: 5vw;
-  background-color: #f8f8f8;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -27,10 +27,10 @@ export const Board = styled.div`
 
 export const Allartists = styled.div`
   width: 20vw;
-  height: 60vh;
+  ${'' /* height: 60vh; */}
+  height: 65vh;
   overflow: auto;
-  background-color: #f8f8f8;
-  // padding: 2vw;
+  ${'' /* padding: 2vw; */}
   padding: 5vw;
   border-right: solid transparent 1px;
   border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);

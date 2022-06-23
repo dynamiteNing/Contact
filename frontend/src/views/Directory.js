@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Main, Allartists, Wrap, ProfileButton, SmallTitle, Seperate, Board, Name, Button, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
 import { api } from '../utils/api';
+import Header from './components/Header';
 
 function Profile(props) {
   const { role, name, profile, friends, toChat, toMore } = props;
@@ -138,6 +139,7 @@ export default function Directory() {
 
   return (
     <Main>
+      <Header role={role} name={name} email={email} />
       <Wrap>
         <Artists role={role} friends={friends} notfriends={notfriends} setProfile={setProfile} profile={profile} />
         <Board>

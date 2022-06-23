@@ -62,6 +62,7 @@ export const Name = styled.div`
   background-color: #e2d8ee;
   padding: 5px;
   border-radius: 3px;
+  margin-bottom: 10px;
   ${'' /* display: flex; */}
 `;
 
@@ -86,11 +87,54 @@ export const SingleArtist = styled.div`
 `;
 
 export const Tpfield = styled.div`
-  height: 30px;
-  width: 200px;
-  border: 1px solid gray;
-  border-radius: 8px;
-  margin: 20px 0;
-  padding: 3px auto;
+  height: 25px;
+  width: 130px;
+  border-radius: 10px;
+  border: solid #e2d8ee 2px;
+  padding: 3px;
+  font: inherit;
   text-align: center;
+  align-self: center;
+  margin: 10px auto;
 `
+
+export const Input = styled.input`
+  height: 25px;
+  width: 130px;
+  border-radius: 10px;
+  border: solid #e2d8ee 2px;
+  padding: 3px;
+  font: inherit;
+  text-align: center;
+  align-self: center;
+  margin: 5px auto;
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Button = styled.button`
+  width: 8vw;
+  font: inherit;
+  font-size: medium;
+  font-variant: small-caps;
+  font-weight: bold;
+  height: 30px;
+  text-align: center;
+  border-color: transparent; 
+  border-radius: 10px;
+  align-self: center;
+  background-color: #e2d8ee;
+  &:hover {
+    opacity: 70%;
+  }
+`;
+
+export const Seperate = styled.div`
+  margin: 10px auto;
+  width: 100%;
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+`;

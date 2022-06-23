@@ -15,7 +15,7 @@ export const Wrap = styled.div`
 `;
 
 export const Board = styled.div`
-  height: 60vh;
+  height: 58vh;
   width: 60vw;
   overflow: auto;
   // padding: 3vw;
@@ -77,7 +77,7 @@ export const Input = styled.input`
   font: inherit;
   font-size: large;
   border-radius: 10px;
-  height: 30px;
+  height: 25px;
   width: 60vw;
   &:focus {
     outline: none;
@@ -88,8 +88,8 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   background-image: url(${send});
   background-size: contain;
   background-color: transparent;
@@ -127,7 +127,7 @@ export const ChatButton = styled.div`
 
 export const Friends = styled.div`
   width: 20vw;
-  height: 60vh;
+  height: 58vh;
   overflow: auto;
   background-color: #f8f8f8;
   // padding: 2vw;

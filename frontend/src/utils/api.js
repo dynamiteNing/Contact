@@ -55,4 +55,21 @@ export const api = {
       method: 'GET',
     });
   },
+  subscribe(email, artist, prime, name, phone, time) {
+    return fetch(`${this.hostname}/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        artist: artist,
+        prime: prime,
+        name: name, 
+        phone: phone,
+        time: time,
+      })
+    });
+  },
 };

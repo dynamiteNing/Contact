@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, FunctionBar, Wrap, Board, FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield } from '../styles/More.style';
+import { Main, FunctionBar, Wrap, Board, FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Button, Input, Seperate } from '../styles/More.style';
 import { api } from '../utils/api';
 
 function Functions(props) {
@@ -51,31 +51,16 @@ function AllnotPurchased(props) {
           </Profile>
         ))
         }</>
-      <div onClick={() => setPurchasetype(true)}>test</div>
+      <div onClick={() => setPurchasetype(true)}>put this on each artists</div>
     </>
   )
 };
 
 function SinglePurchase(props) {
-  const { email, artist, setPurchasetype } = props;
+  const { name, email, artist, setPurchasetype, role, navigate } = props;
 
-  return (
-    <>
-      <>{artist} pruchase page</>
-      <div onClick={() => setPurchasetype(false)}>test</div>
-
-      <div style={{ fontWeight: 'bold', height: '30px' }}>信用卡資料</div>
-      <Tpfield className="tpfield" id="card-number"></Tpfield>
-      <Tpfield className="tpfield" id="card-expiration-date"></Tpfield>
-      <Tpfield className="tpfield" id="card-ccv"></Tpfield>
-    </>
-  )
-};
-
-function Purchase(props) {
-  const { email, artist, setArtist, suggested } = props;
-  const [purchasetype, setPurchasetype] = useState(false);
   const [TPDirect, setTPDirect] = useState();
+  const [phone, setPhone] = useState('');
 
   const getTPD = function () {
     return new Promise((resolve, reject) => {
@@ -93,7 +78,6 @@ function Purchase(props) {
       window.document.body.appendChild(script);
     });
   };
-
   useEffect(() => {
     getTPD().then((res) => {
       res.setupSDK(
@@ -113,12 +97,12 @@ function Purchase(props) {
           },
           ccv: {
             element: '#card-ccv',
-            placeholder: '後三碼',
+            placeholder: 'CCV',
           },
         },
         styles: {
           '.valid': {
-            color: 'green',
+            color: 'blue',
           },
           '.invalid': {
             color: 'red',
@@ -127,30 +111,90 @@ function Purchase(props) {
       });
       setTPDirect(res);
     });
+  }, []);
 
+
+   const handlePay = (e, email, artist, name, phone, role) => {
+    e.preventDefault();
+    TPDirect.card.getPrime(function (result) {
+      const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+      if (tappayStatus.canGetPrime === false) {
+        alert('Cannot get prime!');
+      }
+
+      if (result.status !== 0) {
+        alert('getPrime error!');
+      }
+
+      const prime = result.card.prime;
+      
+      api.subscribe(email, artist, prime, name, phone, new Date().toLocaleString()).then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 404) {
+          return {};
+        }
+      }).then((json) => {
+        if (json.hasOwnProperty('data')){
+          return json.data
+        }
+      }).then((data) => {
+        if (data) {
+          window.alert(`Artist ${artist} subscription succeed!`);
+          navigate(`../chat`, {state: {role: role, name: name, email: email, chatroom: artist}});
+        }
+      }).catch((error) => {
+        console.error(error);
+      })
+    })
+  }
+
+  return (
+    <SingleArtist>
+      <div onClick={() => setPurchasetype(false)}>put this on the corner</div>
+      <Name>{artist}</Name>
+      <div>NT. 120</div>
+      <Seperate />
+      <form onSubmit={(e) => handlePay(e, email, artist, name, phone, role)} method="post" id='form' >
+        <div>Payment Details</div>
+        <Input type='text' className='phone' value={phone} onChange={e => setPhone(e.target.value)} placeholder="PHONE" required/>
+        <Tpfield className="tpfield" id="card-number" key="card-number" />
+        <Tpfield className="tpfield" id="card-expiration-date" key="card-expiration-date" />
+        <Tpfield className="tpfield" id="card-ccv" key="card-ccv" />
+        <Button type="submit" key="submit">Pay</Button>
+      </form>
+    </SingleArtist>
+  )
+};
+
+function Purchase(props) {
+  const { name, email, artist, setArtist, suggested, role, navigate } = props;
+  const [purchasetype, setPurchasetype] = useState(false);
+
+  useEffect(() => {
     if (artist) {
       setPurchasetype(true);
     }
   }, []);
 
-
   return (
     <>
       {
-        purchasetype ? <SinglePurchase email={email} artist={artist} setPurchasetype={setPurchasetype} /> : <AllnotPurchased suggested={suggested} setPurchasetype={setPurchasetype} setArtist={setArtist} />
+        purchasetype ? <SinglePurchase name={name} email={email} artist={artist} setPurchasetype={setPurchasetype} role={role} navigate={navigate} /> : <AllnotPurchased suggested={suggested} setPurchasetype={setPurchasetype} setArtist={setArtist} />
       }
     </>
   )
 };
 
 function MoreSingle(props) {
-  const { service, profile, artist, setArtist, email, suggested } = props;
+  const { service, profile, artist, setArtist, name, email, suggested, role, navigate } = props;
 
   return (
     <>
       {
         service === 'buy' ? 
-          <Purchase email={email} artist={artist} setArtist={setArtist} suggested={suggested} />
+          <Purchase name={name} email={email} artist={artist} setArtist={setArtist} suggested={suggested} role={role} navigate={navigate} />
         : service === 'buy_history' ? 
           <div>buy_history</div>
         : 
@@ -165,7 +209,7 @@ function MoreSingle(props) {
 };
 
 export default function More() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { role, name, email, artistPre } = useLocation().state;
 
   const [service, setService] = useState('');
@@ -207,7 +251,7 @@ export default function More() {
       <Wrap>
         <Functions service={service} setService={setService} name={name} setProfile={setProfile} />
         <Board>
-          <MoreSingle service={service} profile={profile} artist={artist} setArtist={setArtist} email={email} suggested={suggested}  />
+          <MoreSingle service={service} profile={profile} artist={artist} setArtist={setArtist} name={name} email={email} suggested={suggested} role={role} navigate={navigate} />
         </Board>
       </Wrap>
     </Main>

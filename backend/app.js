@@ -10,6 +10,7 @@ const env = require('dotenv').config().parsed;
 const memberRoute = require('./routes/main_route');
 const chatRoute = require('./routes/chat_route');
 const directoryRoute = require('./routes/directory_route');
+const moreRoute = require('./routes/more_route');
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use('/admin', express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/api/' + env.API_VERSION, [memberRoute, chatRoute, directoryRoute]); // , rateLimiterRoute
+app.use('/api/' + env.API_VERSION, [memberRoute, chatRoute, directoryRoute, moreRoute]); // , rateLimiterRoute
 
 const buildPath = '../frontend/build';
 app.use(express.static(buildPath));
