@@ -1,71 +1,14 @@
 import styled from 'styled-components';
 
-export const Main = styled.main`
-  ${'' /* margin-top: 10vh; */}
-  justify-content: center;
-  text-align: center;
-`;
-
-export const Wrap = styled.div`
-  ${'' /* justify-content: space-around; */}
-  justify-content: center;
-  display: flex;
-  flex-wrap: warp;
-`;
-
-export const Board = styled.div`
-  ${'' /* height: 60vh; */}
-  height: 65vh;
-  width: 60vw;
-  overflow: auto;
-  ${'' /* padding: 3vw; */}
-  padding: 5vw;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
-
-export const Allartists = styled.div`
-  width: 20vw;
-  ${'' /* height: 60vh; */}
-  height: 65vh;
-  overflow: auto;
-  ${'' /* padding: 2vw; */}
-  padding: 5vw;
-  border-right: solid transparent 1px;
-  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-  border-image-slice: 1;
-`;
-
-export const ProfileButton = styled.div`
-  border: solid transparent 1px;
-  border-radius: 3px;
-  border-image: ${props => props.active ? 'linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)' : ''};
-  border-image-slice: 1;
-  background-color: #e2d8ee;
-  font: inherit;
-  font-size: large;
-  height: 40px;
-  line-height: 40px;
-  margin: 10px auto;
-  opacity: ${props => props.active ? 1 : 0.6 };
-`;
-
-export const SmallTitle = styled.div`
-  text-align: left;
-  font-variant: small-caps;
-  font-size: large;
-  font-weight: bold;
-`;
-
 export const Seperate = styled.div`
-  margin-top: 30px;
-  margin-bottom: 10px;
+  // margin-top: 30px;
+  margin-bottom: 3vh;
   width: 100%;
   border: 0;
   height: 1px;
   background: #333;
-  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  // background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  background-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)
 `;
 
 export const SingleProfile = styled.div`

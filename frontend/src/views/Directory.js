@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, Allartists, Wrap, ProfileButton, SmallTitle, Seperate, Board, Name, Button, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
+import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
+import { Seperate, Name, Button, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -12,12 +13,23 @@ function Profile(props) {
     subscribed ? toChat(artist) : toMore(artist);
   }
 
+  const Check = (friends, profile) => {
+    let result = false;
+    friends.map((item, index) => {
+      if (item.name === profile.name) {
+        result = true;
+      }
+    });
+    return result;
+  }
+
   return (
     <SingleProfile>
       <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
       <Name profile={profile}>{profile.name}</Name>
       <Quote>{profile.quote}</Quote>
-      <Button profile={profile} dont={(role === 1) && (profile.name !== name)} onClick={() => buttonFunction(friends.includes(profile.name), profile.name)}>{text[friends.includes(profile.name)]}</Button>
+      <>{() => Check(friends, profile)}</>
+      <Button profile={profile} dont={(role === 1) && (profile.name !== name)} onClick={() => buttonFunction(Check(friends, profile), profile.name)}>{text[Check(friends, profile)]}</Button>
     </SingleProfile>
   );
 };
@@ -28,9 +40,9 @@ function Artists(props) {
   
   useEffect(() => {
     if (friends[0]) {
-      getProfile(friends[0]);
+      getProfile(friends[0].name);
     } else if (notfriends[0]) {
-      getProfile(notfriends[0]);
+      getProfile(notfriends[0].name);
     }
   }, [friends]);
 
@@ -53,14 +65,15 @@ function Artists(props) {
   };
 
   return (
-    <Allartists>
+    <SideBar>
       <SmallTitle>{text[role % 2]}</SmallTitle>
        <>
         {
          friends.map((item, index) => (
-           <ProfileButton key={index} active={profile.name === item} onClick={() => getProfile(item)}>
-            {item}
-           </ProfileButton>
+           <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
+            <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
+            <div>{item.name}</div>
+           </SideButton>
          ))
         }</>
       <Seperate />
@@ -68,13 +81,13 @@ function Artists(props) {
       <>
         {
         notfriends.map((item, index) => (
-          <ProfileButton key={index} active={profile.name === item} onClick={() => getProfile(item)}>
-            {item}
-          </ProfileButton>
+          <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
+            <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
+            <div>{item.name}</div>
+          </SideButton>
         ))
         }</>
-      
-    </Allartists>
+    </SideBar>
   )
 };
 
@@ -108,7 +121,7 @@ export default function Directory() {
     }).then((data) => {
       if(data){
         data.friends.map((item, index) => {
-          setFriends(friends => [...friends, item.artist]);
+          setFriends(friends => [...friends, item]); // item.artist
         });
       }
     }).catch((error) => {
@@ -128,7 +141,7 @@ export default function Directory() {
     }).then((data) => {
       if(data){
         data.notfriends.map((item, index) => {
-          setNotfriends(notfriends => [...notfriends, item.artist]);
+          setNotfriends(notfriends => [...notfriends, item]); //item.artist
         });
       }
     }).catch((error) => {

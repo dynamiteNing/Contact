@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { Main, Wrap, Board, Group, Name, Message, Time, Input, Button, WrapInput, ChatButton, Friends, SmallTitle, Tuple, Avatar, Title } from '../styles/Chat.style';
+import { Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
+import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar, Title } from '../styles/Chat.style';
 import { api } from '../utils/api';
+import Header from './components/Header';
 
 function Chatmessage(props) {
   const { history, name, profile } = props;
@@ -33,9 +35,9 @@ function Chatinput(props) {
   useEffect(() => {
     if(rooms[0]){
       if (role === 1) {
-        setRoomto(fanrooms[rooms.indexOf(chatroom)]);
+        setRoomto(chatroom ? fanrooms[rooms.indexOf(chatroom)] : fanrooms[0]);
       } else {
-        setRoomto(chatroom);
+        setRoomto(chatroom ? chatroom : rooms[0]);
       }
     }
   }, [rooms]);
@@ -56,14 +58,14 @@ function Chatinput(props) {
 };
 
 function Rooms(props) {
-  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom, roomin, roomto } = props;
+  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom, roomin, roomto, friends } = props;
 
   useEffect(() => {
     if(rooms[0]){
       if (role === 1) {
-        changeRoom(chatroom);
+        changeRoom(chatroom ? chatroom : rooms[0]);
       } else {
-        changeRoom(fanrooms[rooms.indexOf(chatroom)]);
+        changeRoom(chatroom ? fanrooms[rooms.indexOf(chatroom)] : fanrooms[0]);
       }
     }
   }, [rooms]);
@@ -81,16 +83,17 @@ function Rooms(props) {
   }
 
   return (
-      <Friends>
+      <SideBar>
       <SmallTitle>Chat Rooms</SmallTitle>
       {
-        rooms.map((item, index) => (
-          <ChatButton key={index} active={roomin === item || roomto === item} onClick={() => changeFriend(index)}>
-            {item}
-          </ChatButton>
+        friends.map((item, index) => (
+          <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => changeFriend(index)}>
+            <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
+            {item.name}
+          </SideButton>
         ))
       }
-      </Friends>
+      </SideBar>
   )
 };
 
@@ -103,6 +106,7 @@ export default function Chat() {
   const [roomto, setRoomto] = useState('');
   const [roomin, setRoomin] = useState('');
   const [profile, setProfile] = useState({});
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     getProfile(name);
@@ -175,6 +179,27 @@ export default function Chat() {
     }).catch((error) => {
       console.error(error);
     })
+    
+    api.getFriends(email).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 404) {
+        return {};
+      }
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        data.friends.map((item, index) => {
+          setFriends(friends => [...friends, item]); // item.artist
+        });
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
+
   }, []);
 
   useEffect(() => {
@@ -198,8 +223,9 @@ export default function Chat() {
 
   return (
     <Main>
+      <Header role={role} name={name} email={email} />
       <Wrap>
-        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto}/>
+        <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto} friends={friends} />
         <div>
           <Chatmessage history={history} name={name} profile={profile} />
           <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} profile={profile} />

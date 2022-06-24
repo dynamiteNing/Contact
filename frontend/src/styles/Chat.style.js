@@ -1,26 +1,11 @@
 import styled from 'styled-components';
 import send from '../images/send.png';
 
-export const Main = styled.main`
-  margin-top: 10vh;
-  justify-content: center;
-  text-align: center;
-`;
-
-export const Wrap = styled.div`
-  // justify-content: space-around;
-  justify-content: center;
-  display: flex;
-  flex-wrap: warp;
-`;
-
 export const Board = styled.div`
-  height: 58vh;
+  height: 70vh;
   width: 60vw;
   overflow: auto;
-  // padding: 3vw;
-  padding: 5vw;
-  background-color: #f8f8f8;
+  padding: 5vh 5vw 5vh 5vw;
   justify-content: center;
 `;
 
@@ -79,6 +64,7 @@ export const Input = styled.input`
   border-radius: 10px;
   height: 25px;
   width: 60vw;
+  align-self: center;
   &:focus {
     outline: none;
     border: solid transparent 2px;
@@ -102,44 +88,10 @@ export const Button = styled.button`
   }
 `;
 
-{/* <a href="https://www.flaticon.com/free-icons/send" title="send icons">Send icons created by Gregor Cresnar - Flaticon</a> */}
-
 export const WrapInput = styled.div`
   display: flex;
+  height: 10vh;
   // justify-content: space-around;
   justify-content: space-evenly;
   margin-top: 1vh;
-`;
-
-export const ChatButton = styled.div`
-  border: solid transparent 1px;
-  border-radius: 3px;
-  border-image: ${props => props.active ? 'linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)' : ''};
-  border-image-slice: 1;
-  background-color: #e2d8ee;
-  font: inherit;
-  font-size: large;
-  height: 40px;
-  line-height: 40px;
-  margin: 10px auto;
-  opacity: ${props => props.active ? 1 : 0.6 };
-`;
-
-export const Friends = styled.div`
-  width: 20vw;
-  height: 58vh;
-  overflow: auto;
-  background-color: #f8f8f8;
-  // padding: 2vw;
-  padding: 5vw;
-  border-right: solid transparent 1px;
-  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-  border-image-slice: 1;
-`;
-
-export const SmallTitle = styled.div`
-  text-align: left;
-  font-variant: small-caps;
-  font-size: large;
-  font-weight: bold;
 `;
