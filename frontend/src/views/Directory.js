@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
-import { Seperate, Name, Button, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
+import { Seperate, Name, Subscribe, Chat, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
 function Profile(props) {
   const { role, name, profile, friends, toChat, toMore } = props;
-  const text = { true: 'Chat', false: 'Subscribe'};
 
   const buttonFunction = (subscribed, artist) => {
     subscribed ? toChat(artist) : toMore(artist);
@@ -28,8 +27,8 @@ function Profile(props) {
       <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
       <Name profile={profile}>{profile.name}</Name>
       <Quote>{profile.quote}</Quote>
-      <>{() => Check(friends, profile)}</>
-      <Button profile={profile} dont={(role === 1) && (profile.name !== name)} onClick={() => buttonFunction(Check(friends, profile), profile.name)}>{text[Check(friends, profile)]}</Button>
+      <Subscribe profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
+      <Chat profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
     </SingleProfile>
   );
 };
@@ -41,7 +40,8 @@ function Artists(props) {
   useEffect(() => {
     if (friends[0]) {
       getProfile(friends[0].name);
-    } else if (notfriends[0]) {
+    }
+    else if (notfriends[0]) {
       getProfile(notfriends[0].name);
     }
   }, [friends]);
@@ -68,24 +68,24 @@ function Artists(props) {
     <SideBar>
       <SmallTitle>{text[role % 2]}</SmallTitle>
        <>
-        {
+        { friends ? 
          friends.map((item, index) => (
            <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
             <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
             <div>{item.name}</div>
            </SideButton>
-         ))
+         )) : <></>
         }</>
       <Seperate />
       <SmallTitle>{text[role % 2 + 2]}</SmallTitle>
       <>
-        {
+        { notfriends ? 
         notfriends.map((item, index) => (
           <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
             <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
             <div>{item.name}</div>
           </SideButton>
-        ))
+        )) : <></>
         }</>
     </SideBar>
   )

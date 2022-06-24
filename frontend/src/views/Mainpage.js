@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Main, Contact, Input, Button } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
-
+import { MySwal } from '../styles/Common.style';
 
 function Signup(props) {
   const { setType, setId, email } = props;
@@ -18,10 +18,20 @@ function Signup(props) {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 400) {
-        window.alert('password not match');
+        // window.alert('password not match');
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: response.message,
+        });
         return new Error();
       } else if (response.status === 404) {
-        window.alert('password wrong');
+        // window.alert('password wrong');
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: response.message,
+        });
         return new Error();
       } else {
         return new Error();
@@ -61,7 +71,11 @@ function Signin(props) {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
-        window.alert('password wrong');
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Wrong password!',
+        });
         return new Error();
       } else {
         return new Error();

@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+export const MySwal = withReactContent(Swal);
 
 export const Main = styled.main`
   justify-content: center;
@@ -37,7 +41,7 @@ export const SmallAvatar = styled.img`
   height: 70px;
   border-radius: 35px;
   align-self: center;
-  padding-right: 10px;
+  margin-right: 10px;
 `;
 
 /** 

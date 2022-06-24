@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import enter from '../images/enter.png';
+{/* <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect"> Pixel perfect </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a> */}
 
 export const Contact = styled.div`
   font-size: 75px;
@@ -46,5 +48,9 @@ export const Button = styled.button`
   width: 20px;
   margin-left: 10px;
   border-radius: 10px;
-  background-color: #d3b7d8;
+  background-image: url(${enter});
+  background-size: contain;
+  &:hover {
+    opacity: 70%;
+  }
 `;

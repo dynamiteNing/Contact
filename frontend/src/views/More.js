@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Main, Wrap, Board, SideBar, SmallTitle } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Button, Input, Seperate } from '../styles/More.style';
+import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar } from '../styles/More.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -34,9 +34,18 @@ function Functions(props) {
   return (
     <SideBar>
       <SmallTitle>More</SmallTitle>
-      <FunctionButton active={service === 'profile'} onClick={() => setService('profile')}>My Profile</FunctionButton>
-      <FunctionButton active={service === 'buy'} dont={(role === 1)} onClick={() => setService('buy')}>Purchase</FunctionButton>
-      <FunctionButton active={service === 'buy_history'} dont={(role === 1)} onClick={() => setService('buy_history')}>My Purchase</FunctionButton>
+      <FunctionButton active={service === 'profile'} onClick={() => setService('profile')}>
+        <Myprofile />
+        <div>My Profile</div>
+      </FunctionButton>
+      <FunctionButton active={service === 'buy'} dont={(role === 1)} onClick={() => setService('buy')}>
+        <Buy />
+        <div>Purchase</div>
+      </FunctionButton>
+      <FunctionButton active={service === 'buy_history'} dont={(role === 1)} onClick={() => setService('buy_history')}>
+        <Mypurchase />
+        <div>My Purchase</div>
+      </FunctionButton>
     </SideBar>
   )
 };
@@ -45,17 +54,17 @@ function AllnotPurchased(props) {
   const { suggested, setPurchasetype, setArtist } = props;
 
   return (
-    <>
-      <>
+    <Allsuggusted>
         {
           suggested.map((item, index) => (
-          <Profile>
-            {item}
-          </Profile>
-        ))
-        }</>
-      <div onClick={() => setPurchasetype(true)}>put this on each artists</div>
-    </>
+            <Profile onClick={() => { setPurchasetype(true); setArtist(item.name); }}>
+              <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
+              <Name>{item.name}</Name>
+              <Quote>{item.quote}</Quote>
+            </Profile>
+          ))
+        }
+    </Allsuggusted>
   )
 };
 
@@ -64,6 +73,7 @@ function SinglePurchase(props) {
 
   const [TPDirect, setTPDirect] = useState();
   const [phone, setPhone] = useState('');
+  const [today, setToday] = useState('');
 
   const getTPD = function () {
     return new Promise((resolve, reject) => {
@@ -114,6 +124,8 @@ function SinglePurchase(props) {
       });
       setTPDirect(res);
     });
+
+    setToday(new Date().toLocaleString().slice(0, 9));
   }, []);
 
 
@@ -132,7 +144,7 @@ function SinglePurchase(props) {
 
       const prime = result.card.prime;
       
-      api.subscribe(email, artist, prime, name, phone, new Date().toLocaleString()).then((response) => {
+      api.subscribe(email, artist, prime, name, phone, today).then((response) => {
         if (response.status === 200) {
           return response.json();
         } else if (response.status === 404) {
@@ -155,9 +167,11 @@ function SinglePurchase(props) {
 
   return (
     <SingleArtist>
-      <div onClick={() => setPurchasetype(false)}>put this on the corner</div>
+      <Previous onClick={() => setPurchasetype(false)}/>
       <Name>{artist}</Name>
       <div>NT. 120</div>
+      <div>Starts from: {today}</div>
+      <div>Duration: 31 days</div>
       <Seperate />
       <form onSubmit={(e) => handlePay(e, email, artist, name, phone, role)} method="post" id='form' >
         <div>Payment Details</div>
@@ -165,7 +179,7 @@ function SinglePurchase(props) {
         <Tpfield className="tpfield" id="card-number" key="card-number" />
         <Tpfield className="tpfield" id="card-expiration-date" key="card-expiration-date" />
         <Tpfield className="tpfield" id="card-ccv" key="card-ccv" />
-        <Button type="submit" key="submit">Pay</Button>
+        <Pay type="submit" key="submit" />
       </form>
     </SingleArtist>
   )
@@ -243,7 +257,7 @@ export default function More() {
     }).then((data) => {
       if(data){
         data.notfriends.map((item, index) => {
-          setSuggested(suggested => [...suggested, item.artist]);
+          setSuggested(suggested => [...suggested, item]); // .artist
         });
       }
     }).catch((error) => {
