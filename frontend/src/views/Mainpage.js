@@ -16,21 +16,25 @@ function Signup(props) {
       'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString(),
     }).then((response) => {
       if (response.status === 200) {
+        MySwal.fire({
+          icon: 'success',
+          title: `Sign up success!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
         return response.json();
       } else if (response.status === 400) {
-        // window.alert('password not match');
         MySwal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: response.message,
+          text: 'Password not match!',
         });
         return new Error();
       } else if (response.status === 404) {
-        // window.alert('password wrong');
         MySwal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: response.message,
+          text: 'Wrong password!',
         });
         return new Error();
       } else {
@@ -69,6 +73,12 @@ function Signin(props) {
     e.preventDefault();
     api.signin(id, password).then((response) => {
       if (response.status === 200) {
+        MySwal.fire({
+          icon: 'success',
+          title: `Login success!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
         return response.json();
       } else if (response.status === 404) {
         MySwal.fire({
@@ -147,6 +157,12 @@ export default function Mainpage() {
         setType('signin');
         return response.json();
       } else if (response.status === 201) {
+        MySwal.fire({
+          icon: 'success',
+          title: `Login success!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
         return response.json();
       } else if (response.status === 404) {
         setType('signup');

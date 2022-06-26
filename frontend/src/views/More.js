@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, Wrap, Board, SideBar, SmallTitle } from '../styles/Common.style';
+import { MySwal, Main, Wrap, Board, SideBar, SmallTitle } from '../styles/Common.style';
 import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar } from '../styles/More.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
@@ -135,11 +135,20 @@ function SinglePurchase(props) {
       const tappayStatus = TPDirect.card.getTappayFieldsStatus();
 
       if (tappayStatus.canGetPrime === false) {
-        alert('Cannot get prime!');
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Cannot get prime!',
+        });
       }
 
       if (result.status !== 0) {
-        alert('getPrime error!');
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Get prime error!',
+        });
+        
       }
 
       const prime = result.card.prime;
@@ -156,7 +165,12 @@ function SinglePurchase(props) {
         }
       }).then((data) => {
         if (data) {
-          window.alert(`Artist ${artist} subscription succeed!`);
+          MySwal.fire({
+            icon: 'success',
+            title: `Artist ${artist} subscription succeed!`,
+            showConfirmButton: false,
+            timer: 1500
+          });
           navigate(`../chat`, {state: {role: role, name: name, email: email, chatroom: artist}});
         }
       }).catch((error) => {

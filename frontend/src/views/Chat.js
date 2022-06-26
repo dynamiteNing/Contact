@@ -29,7 +29,7 @@ function Chatmessage(props) {
 };
 
 function Chatinput(props) {
-  const { role, name, chat, rooms, fanrooms, roomto, setRoomto, chatroom, profile } = props;
+  const { role, name, chat, rooms, fanrooms, roomto, setRoomto, chatroom, profile, email } = props;
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -42,9 +42,14 @@ function Chatinput(props) {
     }
   }, [rooms]);
 
-  const send = (room, name, message, profile, time) => {
+  const send = (room, name, message, profile, time, role, email) => {
     if (message !== ''){
       chat(room, { name: name, message: message, time: time, avatar: profile.avatar }); 
+      api.postChatMessage(email, role, room, time, message).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.error(error);
+      });
       setMessage('');
     }
   };
@@ -52,7 +57,7 @@ function Chatinput(props) {
   return (
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString()); }} />
+      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString(), role, email); }} />
     </WrapInput>
   )
 };
@@ -135,8 +140,27 @@ export default function Chat() {
   }
 
   const resetHistory = (friend) => {
-    // TODO: history from db
-    setHistory([]);
+    api.getChatMessage(email, role, friend).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } if (response.status === 404 ){
+        return {
+          data: {
+              history: [],
+          },
+        }
+      }
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        setHistory(data.history);
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   const connectWS = () => {
@@ -157,9 +181,6 @@ export default function Chat() {
 
   useEffect(() => {
     connectWS();
-
-
-    // TODO: load the history from db
 
     api.getRooms(email).then((response) => {
       if (response.status === 200) {
@@ -193,7 +214,7 @@ export default function Chat() {
     }).then((data) => {
       if(data){
         data.friends.map((item, index) => {
-          setFriends(friends => [...friends, item]); // item.artist
+          setFriends(friends => [...friends, item]);
         });
       }
     }).catch((error) => {
@@ -228,7 +249,7 @@ export default function Chat() {
         <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto} friends={friends} />
         <div>
           <Chatmessage history={history} name={name} profile={profile} />
-          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} profile={profile} />
+          <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} profile={profile} email={email} />
         </div>
       </Wrap>
     </Main>

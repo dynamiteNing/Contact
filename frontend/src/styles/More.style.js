@@ -10,11 +10,6 @@ import previous from '../images/return.png';
 {/* <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Ahmer - Flaticon</a> */}
 
 export const FunctionButton = styled.div`
-  // border: solid transparent 1px;
-  // border-radius: 3px;
-  // border-image: ${props => props.active ? 'linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)' : ''};
-  // border-image-slice: 1;
-  // background-color: #e2d8ee;
   font: inherit;
   font-size: large;
   font-variant: small-caps;
@@ -67,7 +62,6 @@ export const SmallAvatar = styled.img`
   height: 60%;
   border-radius: 25%;
   align-self: center;
-  ${'' /* margin-right: 10px; */}
 `;
 
 

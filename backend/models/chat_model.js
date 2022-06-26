@@ -13,6 +13,48 @@ const getRooms = async function (email) {
     return result;
 };
 
+const postChatMessage = async function (email, role, room, time, message) {
+    const result = await db('insert', 'chatHistory', { 'email': email, 'role': role, 'room': room, 'time': time, 'message': message });
+    return result;
+};
+
+const getChatMessage = async function (email, role, room) {
+    const rooms = await db('find', 'register', { $or: [{ 'artist': room }, {'fanclub': room}]});
+
+    let emailConstraint = {};
+
+    role === '2' ? emailConstraint = {'email': email} : {};
+
+    let result = await db('find', 'chatHistory', {
+        $or: [
+            {
+                $and: [
+                    {'room': rooms[0].fanclub},
+                    {'role': 1},
+                ]
+            }, 
+            {
+                $and: [
+                    {'room': rooms[0].artist},
+                    {'role': 2},
+                    emailConstraint
+                ]
+            }
+        ]
+    });
+
+    let temp;
+    for (let i = 0; i < result.length; i++) {
+        temp = await db('find', 'member', {'email': result[i].email});
+        result[i].name = temp[0].name;
+        result[i].avatar = temp[0].avatar;
+    }
+
+    return result;
+};
+
 module.exports = {
     getRooms,
+    postChatMessage,
+    getChatMessage,
 };

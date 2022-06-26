@@ -3,9 +3,7 @@ const axios = require('axios').default;
 const env = require('dotenv').config().parsed;
 
 const subscribe = async (req, res) => {
-  const { email, artist, prime, name, phone, time } = req.body;
-  
-  console.log(email, artist, prime, name, phone, time);
+    const { email, artist, prime, name, phone, time } = req.body;
     
     const post_data = {
         "prime": prime,

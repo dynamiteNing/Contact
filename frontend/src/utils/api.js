@@ -72,4 +72,25 @@ export const api = {
       })
     });
   },
+  postChatMessage(email, role, room, time, message) {
+    return fetch(`${this.hostname}/chat/message`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        role: role,
+        room: room,
+        time: time,
+        message: message,
+      })
+    });
+  },
+  getChatMessage(email, role, room) {
+    return fetch(`${this.hostname}/chat/message?email=${email}&role=${role}&room=${room}`, {
+      method: 'GET',
+    });
+  },
 };

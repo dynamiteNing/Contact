@@ -121,7 +121,7 @@ export default function Directory() {
     }).then((data) => {
       if(data){
         data.friends.map((item, index) => {
-          setFriends(friends => [...friends, item]); // item.artist
+          setFriends(friends => [...friends, item]); 
         });
       }
     }).catch((error) => {
@@ -141,7 +141,7 @@ export default function Directory() {
     }).then((data) => {
       if(data){
         data.notfriends.map((item, index) => {
-          setNotfriends(notfriends => [...notfriends, item]); //item.artist
+          setNotfriends(notfriends => [...notfriends, item]); 
         });
       }
     }).catch((error) => {

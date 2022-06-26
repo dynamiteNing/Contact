@@ -4,13 +4,11 @@ import chat from '../images/send.png';
 {/* <a href="https://www.flaticon.com/free-icons/subscriber" title="subscriber icons">Subscriber icons created by Ferdinand - Flaticon</a> */}
 
 export const Seperate = styled.div`
-  // margin-top: 30px;
   margin-bottom: 3vh;
   width: 100%;
   border: 0;
   height: 1px;
   background: #333;
-  // background-image: linear-gradient(to right, #ccc, #333, #ccc);
   background-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6)
 `;
 

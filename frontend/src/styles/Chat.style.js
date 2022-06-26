@@ -91,7 +91,6 @@ export const Button = styled.button`
 export const WrapInput = styled.div`
   display: flex;
   height: 10vh;
-  // justify-content: space-around;
   justify-content: space-evenly;
   margin-top: 1vh;
 `;
