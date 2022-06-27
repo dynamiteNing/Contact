@@ -35,7 +35,7 @@ export const Name = styled.div`
   padding: 5px;
   border-radius: 3px;
   margin-bottom: 10px;
-  align-self: center
+  align-self: center;
 `;
 
 export const Quote = styled.div`
@@ -163,4 +163,27 @@ export const Previous = styled.div`
   background-image: url(${previous});
   background-size: contain;
   margin-bottom: 10px;
+`
+
+export const BuyList = styled.div`
+  width: 75%;
+`
+
+export const SingleBuy = styled.div`
+  justify-content: space-between;
+  height: 50px;
+  display: flex;
+  margin-bottom: 10px;
+
+`
+export const Time = styled.div`
+  align-self: center;
+`
+
+export const BuyName = styled.div`
+  font-weight: bold;
+  background-color: #e2d8ee;
+  padding: 5px;
+  border-radius: 3px;
+  align-self: center;
 `

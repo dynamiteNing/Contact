@@ -1,9 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MySwal, Main, Wrap, Board, SideBar, SmallTitle } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar } from '../styles/More.style';
+import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName } from '../styles/More.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
+
+function BuyHistory(props) {
+  const { bought } = props;
+
+  return (
+    <BuyList>
+      {
+        bought.map((item, index) => (
+          <>
+          <SingleBuy key={index}>
+            <BuyName>{item.artist}</BuyName>
+            <Time>{item.subcription_date.slice(0, 10)} ~ for 31 days</Time>
+          </SingleBuy>
+          <Seperate />
+          </>
+        ))
+      }
+    </BuyList>
+  )
+};
 
 function Functions(props) {
   const { service, setService, name, setProfile, role } = props;
@@ -219,7 +239,7 @@ function Purchase(props) {
 };
 
 function MoreSingle(props) {
-  const { service, profile, artist, setArtist, name, email, suggested, role, navigate } = props;
+  const { service, profile, artist, setArtist, name, email, suggested, bought, role, navigate } = props;
 
   return (
     <>
@@ -227,7 +247,7 @@ function MoreSingle(props) {
         service === 'buy' ? 
           <Purchase name={name} email={email} artist={artist} setArtist={setArtist} suggested={suggested} role={role} navigate={navigate} />
         : service === 'buy_history' ? 
-          <div>buy_history</div>
+          <BuyHistory bought={bought} />
         : 
           <SingleProfile>
             <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
@@ -247,6 +267,7 @@ export default function More() {
   const [profile, setProfile] = useState({});
   const [suggested, setSuggested] = useState([]);
   const [artist, setArtist] = useState('');
+  const [bought, setBought] = useState([]);
 
   useEffect(() => {
     if (role === 1) {
@@ -271,8 +292,24 @@ export default function More() {
     }).then((data) => {
       if(data){
         data.notfriends.map((item, index) => {
-          setSuggested(suggested => [...suggested, item]); // .artist
+          setSuggested(suggested => [...suggested, item]);
         });
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
+
+    api.getPurchased(email).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    }).then((json) => {
+      if (json.hasOwnProperty('data')){
+        return json.data
+      }
+    }).then((data) => {
+      if(data){
+        setBought(data.purchased);
       }
     }).catch((error) => {
       console.error(error);
@@ -285,7 +322,7 @@ export default function More() {
       <Wrap>
         <Functions service={service} setService={setService} name={name} setProfile={setProfile} role={role} />
         <Board>
-          <MoreSingle service={service} profile={profile} artist={artist} setArtist={setArtist} name={name} email={email} suggested={suggested} role={role} navigate={navigate} />
+          <MoreSingle service={service} profile={profile} artist={artist} setArtist={setArtist} name={name} email={email} suggested={suggested} bought={bought} role={role} navigate={navigate} />
         </Board>
       </Wrap>
     </Main>
