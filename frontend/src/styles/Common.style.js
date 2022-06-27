@@ -69,3 +69,11 @@ export const SideButton = styled.div`
     opacity: ${props => props.active ? '1' : '0.6'};
   }
 `;
+
+export const Name = styled.div`
+  font-weight: bold;
+  background-color: #e2d8ee;
+  padding: 5px;
+  border-radius: 3px;
+  ${'' /* display: ${props => Object.entries(props.profile).length === 0 ? 'none' : ''}; */}
+`;

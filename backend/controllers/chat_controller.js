@@ -25,7 +25,7 @@ const getRooms = async (req, res) => {
 const postChatMessage = async (req, res) => {
     const { email, role, room, time, message } = req.body;
 
-    let result = await Chat.postChatMessage(email, role, room, time, message);
+    let result = await Chat.postChatMessage(email, role, room, new Date(time), message);
 
     if (result.error) {
         res.status(403).send({ error: result.error });

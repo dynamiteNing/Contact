@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MySwal, Main, Wrap, Board, SideBar, SmallTitle } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, Name, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName } from '../styles/More.style';
+import { MySwal, Main, Wrap, Board, SideBar, SmallTitle, Name } from '../styles/Common.style';
+import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName } from '../styles/More.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -10,7 +10,7 @@ function BuyHistory(props) {
 
   return (
     <BuyList>
-      {
+      { bought.length !== 0 ?
         bought.map((item, index) => (
           <>
           <SingleBuy key={index}>
@@ -20,6 +20,8 @@ function BuyHistory(props) {
           <Seperate />
           </>
         ))
+        :
+        <Name>You have not subscribed any artist!</Name>
       }
     </BuyList>
   )
@@ -79,7 +81,7 @@ function AllnotPurchased(props) {
           suggested.map((item, index) => (
             <Profile onClick={() => { setPurchasetype(true); setArtist(item.name); }}>
               <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-              <Name>{item.name}</Name>
+              <NameSmall>{item.name}</NameSmall>
               <Quote>{item.quote}</Quote>
             </Profile>
           ))
@@ -168,7 +170,6 @@ function SinglePurchase(props) {
           title: 'Oops...',
           text: 'Get prime error!',
         });
-        
       }
 
       const prime = result.card.prime;
@@ -202,7 +203,7 @@ function SinglePurchase(props) {
   return (
     <SingleArtist>
       <Previous onClick={() => setPurchasetype(false)}/>
-      <Name>{artist}</Name>
+      <NameSmall>{artist}</NameSmall>
       <div>NT. 120</div>
       <div>Starts from: {today}</div>
       <div>Duration: 31 days</div>
@@ -251,7 +252,7 @@ function MoreSingle(props) {
         : 
           <SingleProfile>
             <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
-            <Name>{profile.name}</Name>
+            <NameSmall>{profile.name}</NameSmall>
             <Quote>{profile.quote}</Quote>
           </SingleProfile>
       }
@@ -274,7 +275,9 @@ export default function More() {
       setService('profile');
     } else if (artistPre) {
       setService('buy');
-      setArtist(artistPre);
+      if (artistPre !== ' ') {
+        setArtist(artistPre);
+      }
     } else {
       setService('profile');
     }
@@ -283,7 +286,11 @@ export default function More() {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
-        return {};
+        return {
+          data: {
+              notfriends: [],
+          },
+        };
       }
     }).then((json) => {
       if (json.hasOwnProperty('data')){
@@ -302,6 +309,12 @@ export default function More() {
     api.getPurchased(email).then((response) => {
       if (response.status === 200) {
         return response.json();
+      } else if (response.status === 404) {
+        return {
+          data: {
+            purchased: [],
+          },
+        };
       }
     }).then((json) => {
       if (json.hasOwnProperty('data')){
