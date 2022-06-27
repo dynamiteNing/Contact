@@ -66,7 +66,7 @@ function Signup(props) {
 };
 
 function Signin(props) {
-  const { id, navigate, type } = props;
+  const { id, navigate } = props;
   const [password, setPassword] = useState('');
 
   const signin = (e) => {

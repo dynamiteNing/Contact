@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
-import { Seperate, Name, Subscribe, Chat, SingleProfile, Quote, Avatar } from '../styles/Directory.style';
+import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton, Name } from '../styles/Common.style';
+import { Seperate, Subscribe, Chat, SingleProfile, Quote, Avatar, Buy } from '../styles/Directory.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -23,13 +23,22 @@ function Profile(props) {
   }
 
   return (
-    <SingleProfile>
-      <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
-      <Name profile={profile}>{profile.name}</Name>
-      <Quote>{profile.quote}</Quote>
-      <Subscribe profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
-      <Chat profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
-    </SingleProfile>
+  <>
+    { profile.name ? 
+      <SingleProfile>
+        <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
+        <Name profile={profile}>{profile.name}</Name>
+        <Quote>{profile.quote}</Quote>
+        <Subscribe profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
+        <Chat profile={profile} dont={(role === 1) && (profile.name !== name)} friend={Check(friends, profile)} onClick={() => buttonFunction(Check(friends, profile), profile.name)} />
+      </SingleProfile>
+      :
+      <SingleProfile>
+        <Name>You have not subscribed any artist!</Name>    
+        <Buy onClick={ () => toMore(' ') }/>
+      </SingleProfile>
+    }
+  </>
   );
 };
 
@@ -112,7 +121,11 @@ export default function Directory() {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
-        return {};
+        return {
+          data: {
+              friends: [],
+          },
+        };
       }
     }).then((json) => {
       if (json.hasOwnProperty('data')){
@@ -132,7 +145,11 @@ export default function Directory() {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
-        return {};
+        return {
+          data: {
+              notfriends: [],
+          },
+        };
       }
     }).then((json) => {
       if (json.hasOwnProperty('data')){

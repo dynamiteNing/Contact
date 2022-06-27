@@ -19,7 +19,8 @@ const postChatMessage = async function (email, role, room, time, message) {
 };
 
 const getChatMessage = async function (email, role, room) {
-    const rooms = await db('find', 'register', { $or: [{ 'artist': room }, {'fanclub': room}]});
+    const rooms = await db('find', 'register', { $or: [{ 'artist': room }, { 'fanclub': room }] });
+    const me = await db('find', 'member', { 'email': email });
 
     let emailConstraint = {};
 
@@ -30,14 +31,16 @@ const getChatMessage = async function (email, role, room) {
             {
                 $and: [
                     {'room': rooms[0].fanclub},
-                    {'role': 1},
+                    { 'role': 1 },
+                    { 'time' : {$gte: me[0].join_date}}
                 ]
             }, 
             {
                 $and: [
                     {'room': rooms[0].artist},
                     {'role': 2},
-                    emailConstraint
+                    emailConstraint,
+                    { 'time' : {$gte: me[0].join_date}}
                 ]
             }
         ]

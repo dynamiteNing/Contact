@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
+import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
 import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar, Title } from '../styles/Chat.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
 function Chatmessage(props) {
-  const { history, name, profile } = props;
+  const { history, name } = props;
 
   return (
     <Board>
@@ -19,7 +19,7 @@ function Chatmessage(props) {
               {/* <Title self={name === item.name}>title</Title> */}
               <Name self={name === item.name}>{item.name}</Name>
               <Message>{item.message}</Message>
-              <Time self={name === item.name}>{item.time}</Time>
+              <Time self={name === item.name}>{new Date(item.time).toLocaleString()}</Time>
             </Group>
           </Tuple>
         ))
@@ -43,7 +43,7 @@ function Chatinput(props) {
   }, [rooms]);
 
   const send = (room, name, message, profile, time, role, email) => {
-    if (message !== ''){
+    if (message !== '' && room !== ''){
       chat(room, { name: name, message: message, time: time, avatar: profile.avatar }); 
       api.postChatMessage(email, role, room, time, message).then((response) => {
         console.log(response);
@@ -51,6 +51,15 @@ function Chatinput(props) {
         console.error(error);
       });
       setMessage('');
+    } else if (room === '') {
+      setMessage('');  
+      MySwal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You have not subscribed any artist!',
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
   
@@ -205,7 +214,11 @@ export default function Chat() {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 404) {
-        return {};
+        return {
+          data: {
+              friends: [],
+          },
+        };
       }
     }).then((json) => {
       if (json.hasOwnProperty('data')){
@@ -248,7 +261,7 @@ export default function Chat() {
       <Wrap>
         <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto} friends={friends} />
         <div>
-          <Chatmessage history={history} name={name} profile={profile} />
+          <Chatmessage history={history} name={name} />
           <Chatinput role={role} name={name} chat={chat} rooms={rooms} fanrooms={fanrooms} roomto={roomto} setRoomto={setRoomto} chatroom={chatroom} profile={profile} email={email} />
         </div>
       </Wrap>

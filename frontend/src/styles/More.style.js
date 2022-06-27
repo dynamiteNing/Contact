@@ -29,7 +29,7 @@ export const SingleProfile = styled.div`
   
 `;
 
-export const Name = styled.div`
+export const NameSmall = styled.div`
   font-weight: bold;
   background-color: #e2d8ee;
   padding: 5px;
