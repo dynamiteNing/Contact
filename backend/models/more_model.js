@@ -7,6 +7,12 @@ const subscribe = async function (email, artist, time) {
     return updateRooms;
 };
 
+const getPurchased = async function (email) {
+    const result = await db('find', 'subscription', {'email': email});
+    return result;
+}
+
 module.exports = {
     subscribe,
+    getPurchased,
 };

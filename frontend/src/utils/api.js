@@ -93,4 +93,9 @@ export const api = {
       method: 'GET',
     });
   },
+  getPurchased(email) {
+    return fetch(`${this.hostname}/purchased?email=${email}`, {
+      method: 'GET',
+    });
+  },
 };
