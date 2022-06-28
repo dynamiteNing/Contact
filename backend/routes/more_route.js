@@ -6,9 +6,11 @@ const {
 const {
     subscribe,
     getPurchased,
+    postQuote,
 } = require('../controllers/more_controller');
 
-router.route('/subscribe').post(wrapAsync(subscribe));
-router.route('/purchased').get(wrapAsync(getPurchased));
+router.route('/more/subscribe').post(wrapAsync(subscribe));
+router.route('/more/purchased').get(wrapAsync(getPurchased));
+router.route('/more/quote').post(wrapAsync(postQuote));
 
 module.exports = router;

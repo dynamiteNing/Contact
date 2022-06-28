@@ -56,7 +56,7 @@ export const api = {
     });
   },
   subscribe(email, artist, prime, name, phone, time) {
-    return fetch(`${this.hostname}/subscribe`, {
+    return fetch(`${this.hostname}/more/subscribe`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,8 +94,21 @@ export const api = {
     });
   },
   getPurchased(email) {
-    return fetch(`${this.hostname}/purchased?email=${email}`, {
+    return fetch(`${this.hostname}/more/purchased?email=${email}`, {
       method: 'GET',
     });
   },
+  postQuote(email, quotechange) {
+    return fetch(`${this.hostname}/more/quote`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email, 
+        quote: quotechange,
+      })
+    });
+  }
 };

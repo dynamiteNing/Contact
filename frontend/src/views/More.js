@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MySwal, Main, Wrap, Board, SideBar, SmallTitle, Name } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName } from '../styles/More.style';
+import { MySwal, Main, Wrap, Board, SideBar, SmallTitle, Name, Flex } from '../styles/Common.style';
+import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton } from '../styles/More.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import Header from './components/Header';
@@ -80,7 +80,7 @@ function AllnotPurchased(props) {
     <Allsuggusted>
         {
           suggested.map((item, index) => (
-            <Profile onClick={() => { setPurchasetype(true); setArtist(item.name); }}>
+            <Profile key={index} onClick={() => { setPurchasetype(true); setArtist(item.name); }}>
               <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
               <NameSmall>{item.name}</NameSmall>
               <Quote>{item.quote}</Quote>
@@ -242,6 +242,71 @@ function Purchase(props) {
 
 function MoreSingle(props) {
   const { service, profile, artist, setArtist, name, email, suggested, bought, role, navigate } = props;
+  const [quotechange, setQuotechange] = useState('');
+  const [avatarchange, setAvatarchange] = useState(0);
+
+  useEffect(() => {
+    setQuotechange(profile.quote);
+    if (role === 2 && profile.avatar){
+      setAvatarchange(parseInt(profile.avatar.split('_')[1].split('.')[0]));
+    }
+  }, [profile]);
+
+  const postQuote = function (email, quotechange) {
+    api.postQuote(email, quotechange).then((response) => {
+      if (response.status === 200) {
+        MySwal.fire({
+          icon: 'success',
+          title: `Change quote success!`,
+          showConfirmButton: false,
+          timer: 1000
+        });
+      } else if (response.status === 404) {
+        MySwal.fire({
+          icon: 'error',
+          title: `Oops...`,
+          text: 'Cannot save the quote!',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+      return;
+    }).catch((error) => {
+      console.error(error);
+    });
+  };
+
+  const RecurSwal = (role, count) => {
+    if (role === 1) {
+      return;
+    }
+
+    return MySwal.fire({
+      title: `Change Avatar`,
+      showCancelButton: true,
+      showDenyButton: true,
+      denyButtonText: `Another`,
+      confirmButtonText: 'Confirm',
+      imageUrl: `../admin/images/default_${count}.png`,
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setArtist(count);
+        // api change avatar
+        MySwal.fire({
+          icon: 'success',
+          title: `Avatar changed`,
+          showConfirmButton: false,
+          timer: 1000
+        });
+      } else if (result.isDenied) {
+        if (count === 11){
+          return RecurSwal(role, 12);
+        }
+        return RecurSwal(role, (count + 1) % 12);
+      }
+    });
+  };
 
   return (
     <>
@@ -252,9 +317,12 @@ function MoreSingle(props) {
           <BuyHistory bought={bought} />
         : 
           <SingleProfile>
-            <Avatar src={`../admin/images/${profile.avatar}`} alt="img" /> 
+            <Avatar src={`../admin/images/${profile.avatar}`} alt="img" onClick={() => RecurSwal(role, avatarchange)} /> 
             <NameSmall>{profile.name}</NameSmall>
-            <Quote>{profile.quote}</Quote>
+            <Flex>
+              <QuoteChange type='text' className='quote' value={quotechange} onChange={e => setQuotechange(e.target.value)} />
+              <ChangeButton onClick={() => postQuote(email, quotechange)} />
+            </Flex>
           </SingleProfile>
       }
     </>
