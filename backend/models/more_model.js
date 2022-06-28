@@ -10,9 +10,15 @@ const subscribe = async function (email, artist, time) {
 const getPurchased = async function (email) {
     const result = await db('find', 'subscription', {'email': email});
     return result;
-}
+};
+
+const postQuote = async function (email, quote) {
+    const result = await db('update', 'member', [{ 'email': email }, { $set: { 'quote': quote }}]);
+    return result;
+};
 
 module.exports = {
     subscribe,
     getPurchased,
+    postQuote,
 };

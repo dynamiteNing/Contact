@@ -4,6 +4,7 @@ import purchase from '../images/purchase.png';
 import mypurchase from '../images/my_purchase.png';
 import pay from '../images/pay.png';
 import previous from '../images/return.png';
+import save from '../images/save.png';
 {/* <a href="https://www.flaticon.com/free-icons/online-payment" title="online-payment icons">Online-payment icons created by Freepik - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/login" title="login icons">Login icons created by Pixel perfect - Flaticon</a> */}
 {/* <a href="https://www.flaticon.com/free-icons/market" title="market icons">Market icons created by Freepik - Flaticon</a> */ }
@@ -26,16 +27,44 @@ export const FunctionButton = styled.div`
 `;
 
 export const SingleProfile = styled.div`
-  
 `;
 
 export const NameSmall = styled.div`
   font-weight: bold;
+  font-size: large;
   background-color: #e2d8ee;
   padding: 5px;
   border-radius: 3px;
-  margin-bottom: 10px;
+  margin: 20px auto;
   align-self: center;
+`;
+
+export const QuoteChange = styled.input`
+  font: inherit;
+  font-size: medium;
+  padding: 5px;
+  border-radius: 3px;
+  border: solid #222222 1px;
+  text-align: center;
+  width: 82%;
+  align-self: center;
+  &:focus {
+    outline: none;
+    border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
+    border-image-slice: 1;
+  }
+`;
+
+export const ChangeButton = styled.button`
+  border: solid #f8f8f8 2px;
+  background-color: transparent;
+  width: 10%;
+  aspect-ratio: 1;
+  background-image: url(${save});
+  background-size: contain;
+  &:hover {
+    opacity: 70%;
+  }
 `;
 
 export const Quote = styled.div`
@@ -66,9 +95,10 @@ export const SmallAvatar = styled.img`
 
 
 export const Avatar = styled.img`
-  width: 16vw;
-  border-radius: 8vw;
-  aspect-ratio: 1/1;  
+  width: 20vw;
+  border-radius: 10vw;
+  border-radius: 25%;
+  aspect-ratio: 1;  
   margin-bottom: 1vh;
 `;
 

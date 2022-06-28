@@ -68,10 +68,33 @@ const getPurchased = async (req, res) => {
         purchased: result,
       },
     });
-  };
+};
+
+const postQuote = async (req, res) => {
+    const { email, quote } = req.body;
+  
+    const result = await More.postQuote(email, quote);
+  
+    if (result.error) {
+      res.status(403).send({ error: result.error });
+      return;
+    }
+      
+    if (result.length <= 0) {
+      res.status(404).send({ message: `The quote ${quote} cannot be set.` });
+      return;
+    }
+      
+    res.status(200).send({
+      data: {
+        quote: result,
+      },
+    });
+};
   
 
 module.exports = {
     subscribe,
     getPurchased,
+    postQuote,
 };
