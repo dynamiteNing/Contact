@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MySwal, Main, Wrap, Board, SideBar, SmallTitle, Name } from '../styles/Common.style';
 import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName } from '../styles/More.style';
 import { api } from '../utils/api';
+import { options } from '../utils/date';
 import Header from './components/Header';
 
 function BuyHistory(props) {
@@ -147,7 +148,7 @@ function SinglePurchase(props) {
       setTPDirect(res);
     });
 
-    setToday(new Date().toLocaleString().slice(0, 9));
+    setToday(new Date().toLocaleString('en-US', options).slice(0, 9));
   }, []);
 
 
@@ -190,7 +191,7 @@ function SinglePurchase(props) {
             icon: 'success',
             title: `Artist ${artist} subscription succeed!`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 1000
           });
           navigate(`../chat`, {state: {role: role, name: name, email: email, chatroom: artist}});
         }

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
 import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar, Title } from '../styles/Chat.style';
 import { api } from '../utils/api';
+import { options } from '../utils/date';
 import Header from './components/Header';
 
 function Chatmessage(props) {
@@ -19,7 +20,7 @@ function Chatmessage(props) {
               {/* <Title self={name === item.name}>title</Title> */}
               <Name self={name === item.name}>{item.name}</Name>
               <Message>{item.message}</Message>
-              <Time self={name === item.name}>{new Date(item.time).toLocaleString()}</Time>
+              <Time self={name === item.name}>{new Date(item.time).toLocaleString('en-US', options)}</Time>
             </Group>
           </Tuple>
         ))
@@ -58,7 +59,7 @@ function Chatinput(props) {
         title: 'Oops...',
         text: 'You have not subscribed any artist!',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1000
       });
     }
   };
@@ -66,7 +67,7 @@ function Chatinput(props) {
   return (
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString(), role, email); }} />
+      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString('en-US', options), role, email); }} />
     </WrapInput>
   )
 };
@@ -173,7 +174,8 @@ export default function Chat() {
   }
 
   const connectWS = () => {
-    setWs(webSocket('http://localhost:3000'));
+    // setWs(webSocket('34.208.177.77:3000', {transports: ['websocket', 'polling', 'flashsocket']}));
+    setWs(webSocket('http://localhost:3000', {transports: ['websocket', 'polling', 'flashsocket']}));
   }
 
   const initWebSocket = () => {

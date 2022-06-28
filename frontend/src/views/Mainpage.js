@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Main, Contact, Input, Button } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
+import { options } from '../utils/date';
 import { useNavigate } from 'react-router-dom';
 import { MySwal } from '../styles/Common.style';
 
@@ -13,14 +14,14 @@ function Signup(props) {
   const signup = (e) => {
     e.preventDefault();
     api.signup({
-      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString(),
+      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString('en-US', options),
     }).then((response) => {
       if (response.status === 200) {
         MySwal.fire({
           icon: 'success',
           title: `Sign up success!`,
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         });
         return response.json();
       } else if (response.status === 400) {
@@ -77,7 +78,7 @@ function Signin(props) {
           icon: 'success',
           title: `Login success!`,
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         });
         return response.json();
       } else if (response.status === 404) {
@@ -161,7 +162,7 @@ export default function Mainpage() {
           icon: 'success',
           title: `Login success!`,
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         });
         return response.json();
       } else if (response.status === 404) {
