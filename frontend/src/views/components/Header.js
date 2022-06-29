@@ -36,7 +36,7 @@ export default function Header(props) {
       <Directory onClick={directory}/>
       <Chat onClick={chat}/>
       <More onClick={more}/>
-      <Logout onClick={logout}/>
+      <Logout onClick={logout} />
     </Head>
   );
 }

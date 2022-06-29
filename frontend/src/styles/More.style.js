@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import myprofile from '../images/profile.png';
 import purchase from '../images/purchase.png';
 import mypurchase from '../images/my_purchase.png';
 import pay from '../images/pay.png';
 import previous from '../images/return.png';
 import save from '../images/save.png';
+import arrow from '../images/arrow.png';
 {/* <a href="https://www.flaticon.com/free-icons/online-payment" title="online-payment icons">Online-payment icons created by Freepik - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/login" title="login icons">Login icons created by Pixel perfect - Flaticon</a> */}
 {/* <a href="https://www.flaticon.com/free-icons/market" title="market icons">Market icons created by Freepik - Flaticon</a> */ }
@@ -56,10 +57,12 @@ export const QuoteChange = styled.input`
 `;
 
 export const ChangeButton = styled.button`
-  border: solid #f8f8f8 2px;
+  border: solid #f8f8f8 0px;
   background-color: transparent;
   width: 10%;
+  height: fit-content;
   aspect-ratio: 1;
+  align-self: center;
   background-image: url(${save});
   background-size: contain;
   &:hover {
@@ -80,7 +83,7 @@ export const Profile = styled.div`
 
 export const Allsuggusted = styled.div`
   width: 100%;
-  aspect-ratio: '1/1';
+  aspect-ratio: 1;
   justify-content: space-evenly;
   display: flex;
   flex-wrap: wrap;
@@ -134,11 +137,32 @@ export const Input = styled.input`
   }
 `;
 
+const arrowAnimation = keyframes`
+  0% { opacity: 0.3; }
+  70% { opacity: 1; }
+  100% { opacity: 0.3; }
+`
+
+export const Arrow = styled.div`
+  width: 20px;
+  height: fit-content;
+  aspect-ratio: 1;
+  align-self: center;
+  margin-right: 10px;
+  background-image: url(${arrow});
+  background-size: contain;
+  background-color: transparent;
+  border: solid #f8f8f8 0px;
+  animation-name: ${arrowAnimation};
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+`;
+
 export const Pay = styled.button`
   width: 60px;
-  height: 60px;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
-  margin-left: auto;
   background-image: url(${pay});
   background-size: contain;
   border: solid #f8f8f8 2px;
@@ -161,7 +185,8 @@ export const Seperate = styled.div`
 
 export const Myprofile = styled.div`
   width: 30px;
-  height: 30px;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   background-image: url(${myprofile});
   background-size: contain;
@@ -170,7 +195,8 @@ export const Myprofile = styled.div`
 
 export const Buy = styled.div`
   width: 30px;
-  height: 30px;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   background-image: url(${purchase});
   background-size: contain;
@@ -179,7 +205,8 @@ export const Buy = styled.div`
 
 export const Mypurchase = styled.div`
   width: 30px;
-  height: 30px;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   background-image: url(${mypurchase});
   background-size: contain;
@@ -188,7 +215,8 @@ export const Mypurchase = styled.div`
 
 export const Previous = styled.div`
   width: 25px;
-  height: 25px;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   background-image: url(${previous});
   background-size: contain;

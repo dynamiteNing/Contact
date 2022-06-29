@@ -35,11 +35,6 @@ export const api = {
       }),
     });
   },
-  getRooms(email) {
-    return fetch(`${this.hostname}/chat?email=${email}`, {
-      method: 'GET',
-    });
-  },
   getFriends(email) {
     return fetch(`${this.hostname}/directory/friends?email=${email}`, {
       method: 'GET',
@@ -55,21 +50,9 @@ export const api = {
       method: 'GET',
     });
   },
-  subscribe(email, artist, prime, name, phone, time) {
-    return fetch(`${this.hostname}/more/subscribe`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        artist: artist,
-        prime: prime,
-        name: name, 
-        phone: phone,
-        time: time,
-      })
+  getRooms(email) {
+    return fetch(`${this.hostname}/chat?email=${email}`, {
+      method: 'GET',
     });
   },
   postChatMessage(email, role, room, time, message) {
@@ -93,6 +76,28 @@ export const api = {
       method: 'GET',
     });
   },
+  getUnreadCount(email, role, room) {
+    return fetch(`${this.hostname}/chat/message/unread?email=${email}&role=${role}&room=${room}`, {
+      method: 'GET',
+    });
+  },
+  subscribe(email, artist, prime, name, phone, time) {
+    return fetch(`${this.hostname}/more/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        artist: artist,
+        prime: prime,
+        name: name, 
+        phone: phone,
+        time: time,
+      })
+    });
+  },
   getPurchased(email) {
     return fetch(`${this.hostname}/more/purchased?email=${email}`, {
       method: 'GET',
@@ -110,5 +115,18 @@ export const api = {
         quote: quotechange,
       })
     });
-  }
+  },
+  changeAvatar(email, newavatar) {
+    return fetch(`${this.hostname}/more/avatar`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email, 
+        newavatar: newavatar,
+      })
+    });
+  },
 };

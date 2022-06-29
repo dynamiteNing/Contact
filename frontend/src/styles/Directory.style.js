@@ -25,8 +25,9 @@ export const Quote = styled.div`
 `;
 
 export const Subscribe = styled.button`
-  width: 60px;
-  height: 60px;
+  max-width: 50px;
+  width: 10vw;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   background-image: url(${subscribe});
@@ -42,8 +43,9 @@ export const Subscribe = styled.button`
 `
 
 export const Chat = styled.button`
-  width: 60px;
-  height: 60px;
+  max-width: 50px;
+  width: 10vw;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   background-image: url(${chat});
@@ -59,15 +61,16 @@ export const Chat = styled.button`
 `
 
 export const Avatar = styled.img`
-  width: 16vw;
-  border-radius: 8vw;
-  aspect-ratio: 1/1;
+  width: 20vw;
+  aspect-ratio: 1;
+  border-radius: 25%;
   margin-bottom: 1vh;  
 `;
 
 export const Buy = styled.button`
-  width: 60px;
-  height: 60px;
+  max-width: 60px;
+  width: 15vw;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   margin-top: 3vh;

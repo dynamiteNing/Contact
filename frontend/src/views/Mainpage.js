@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Main, Contact, Input, Button } from '../styles/Mainpage.style';
+import { Main, Contact, Input, Button, ButtonDown, Form, Type } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import { useNavigate } from 'react-router-dom';
-import { MySwal } from '../styles/Common.style';
+import { MySwal, WrapButton } from '../styles/Common.style';
 
 function Signup(props) {
   const { setType, setId, email } = props;
@@ -57,12 +57,15 @@ function Signup(props) {
   }
 
   return (
-    <form onSubmit={signup}>
-      <Input autoFocus type='text' className='name' value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required />
-      <Input type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
-      <Input type='text' className='password_check' value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required />
-      <Button type='submit' />
-    </form>
+    <Form onSubmit={signup}>
+      <Input autoFocus type='text' className='name' done={true} value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required />
+      <Input type='text' className='password' done={true} value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
+      <Input type='text' className='password_check' done={true} value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required />
+      <WrapButton>
+        <Type>SIGN UP</Type>
+        <ButtonDown type='submit' /> 
+      </WrapButton>
+    </Form>
   )
 };
 
@@ -113,8 +116,11 @@ function Signin(props) {
   return (
     <>
       <form onSubmit={signin}>
-        <Input autoFocus type='text' className='password' value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
-        <Button type='submit' />
+        <Input autoFocus type='text' className='password' value={password} done={true} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
+        <WrapButton>
+        <Type>LOG IN</Type>
+          <ButtonDown type='submit' /> 
+        </WrapButton>
       </form>
     </>
   )
@@ -196,7 +202,7 @@ export default function Mainpage() {
     <Main>
       <Contact>Contact</Contact>
       <form onSubmit={emailCheck}>
-        <Input autoFocus type='text' className='email' value={email} done={type !== ''} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
+        <Input autoFocus type='email' className='email' value={email} done={type !== ''} onChange={e => setEmail(e.target.value)} placeholder="EMAIL" required/>
         <Button type='submit' done={type !== ''} />
       </form>
       <Emailform type={type} setType={setType} id={id} setId={setId} email={email} navigate={navigate} />

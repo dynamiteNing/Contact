@@ -47,6 +47,15 @@ export const Flex = styled.div`
   justify-content: space-between;
 `;
 
+export const WrapButton = styled.div`
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-warp: wrap;
+  margin: 20px auto;
+`;
+
 /** 
   * PARTIAL 
   **/

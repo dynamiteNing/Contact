@@ -14,12 +14,13 @@ export const Head = styled.div`
   max-height: 80px;
   text-align: center;
   display: flex;
-  background: radial-gradient(#000000 10%, #111111 30%, #222222 50%);
+  background: linear-gradient(to right, #444, #333, #222, #111, #000, #111, #222, #333, #444);
   align-items: center;
+  align-content: center;
 `
 
 export const Contact = styled.div`
-  font-size: 45px;
+  font-size: 2em;
   color: #d3b7d8;
   font-weight: bold;
   font-style: oblique;
@@ -28,8 +29,11 @@ export const Contact = styled.div`
 `;
 
 export const Directory = styled.div`
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  min-width: 20px;
+  width: 5vw;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   background-image: url(${directory});
@@ -41,8 +45,11 @@ export const Directory = styled.div`
   }
 `
 export const Chat = styled.div`
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  min-width: 20px;
+  width: 5vw;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   background-image: url(${chat});
@@ -55,8 +62,11 @@ export const Chat = styled.div`
 `
 
 export const More = styled.div`
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  min-width: 20px;
+  width: 5vw;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   background-image: url(${more});
@@ -69,8 +79,11 @@ export const More = styled.div`
 `
 
 export const Logout = styled.div`
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  min-width: 20px;
+  width: 5vw;
+  height: fit-content;
+  aspect-ratio: 1;
   align-self: center;
   margin-left: auto;
   margin-right: 10vw;

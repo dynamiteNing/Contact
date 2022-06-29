@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MySwal, Main, Wrap, Board, SideBar, SmallTitle, Name, Flex } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton } from '../styles/More.style';
+import { MySwal, Main, Wrap, WrapButton, Board, SideBar, SmallTitle, Name, Flex } from '../styles/Common.style';
+import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton, Arrow } from '../styles/More.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import Header from './components/Header';
@@ -16,7 +16,7 @@ function BuyHistory(props) {
           <>
           <SingleBuy key={index}>
             <BuyName>{item.artist}</BuyName>
-            <Time>{item.subcription_date.slice(0, 10)} ~ for 31 days</Time>
+            <Time>{new Date(item.subcription_date).toLocaleString('en-US', options).slice(0, 12)} ~ for 31 days</Time>
           </SingleBuy>
           <Seperate />
           </>
@@ -92,7 +92,7 @@ function AllnotPurchased(props) {
 };
 
 function SinglePurchase(props) {
-  const { name, email, artist, setPurchasetype, role, navigate } = props;
+  const { name, email, artist, setArtist, setPurchasetype, role, navigate } = props;
 
   const [TPDirect, setTPDirect] = useState();
   const [phone, setPhone] = useState('');
@@ -148,7 +148,7 @@ function SinglePurchase(props) {
       setTPDirect(res);
     });
 
-    setToday(new Date().toLocaleString('en-US', options).slice(0, 9));
+    setToday(new Date().toLocaleString('en-US', options)); //.slice(0, 12)
   }, []);
 
 
@@ -203,19 +203,22 @@ function SinglePurchase(props) {
 
   return (
     <SingleArtist>
-      <Previous onClick={() => setPurchasetype(false)}/>
+      <Previous onClick={() => { setArtist(''); setPurchasetype(false); }} />
       <NameSmall>{artist}</NameSmall>
       <div>NT. 120</div>
-      <div>Starts from: {today}</div>
+      <div>Starts from: {today.slice(0, 12)}</div>
       <div>Duration: 31 days</div>
       <Seperate />
       <form onSubmit={(e) => handlePay(e, email, artist, name, phone, role)} method="post" id='form' >
         <div>Payment Details</div>
-        <Input type='text' className='phone' value={phone} onChange={e => setPhone(e.target.value)} placeholder="PHONE" required/>
+        <Input type='text' className='phone' pattern='[0-9]{9}' value={phone} onChange={e => setPhone(e.target.value)} placeholder="PHONE (987654321)" required/>
         <Tpfield className="tpfield" id="card-number" key="card-number" />
         <Tpfield className="tpfield" id="card-expiration-date" key="card-expiration-date" />
         <Tpfield className="tpfield" id="card-ccv" key="card-ccv" />
-        <Pay type="submit" key="submit" />
+        <WrapButton>
+          <Arrow />
+          <Pay type="submit" key="submit" />
+        </WrapButton>
       </form>
     </SingleArtist>
   )
@@ -228,13 +231,15 @@ function Purchase(props) {
   useEffect(() => {
     if (artist) {
       setPurchasetype(true);
+    } else {
+      setPurchasetype(false);
     }
   }, []);
 
   return (
     <>
       {
-        purchasetype ? <SinglePurchase name={name} email={email} artist={artist} setPurchasetype={setPurchasetype} role={role} navigate={navigate} /> : <AllnotPurchased suggested={suggested} setPurchasetype={setPurchasetype} setArtist={setArtist} />
+        purchasetype ? <SinglePurchase name={name} email={email} artist={artist} setArtist={setArtist} setPurchasetype={setPurchasetype} role={role} navigate={navigate} /> : <AllnotPurchased suggested={suggested} setPurchasetype={setPurchasetype} setArtist={setArtist} />
       }
     </>
   )
@@ -288,17 +293,35 @@ function MoreSingle(props) {
       denyButtonText: `Another`,
       confirmButtonText: 'Confirm',
       imageUrl: `../admin/images/default_${count}.png`,
+      imageHeight: '30vh',
+      imageWidth: '30vh',
       allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        setArtist(count);
-        // api change avatar
-        MySwal.fire({
-          icon: 'success',
-          title: `Avatar changed`,
-          showConfirmButton: false,
-          timer: 1000
-        });
+        if (avatarchange !== count) {
+          setAvatarchange(count);
+          api.changeAvatar(email, `default_${count}.png`).then((response) => {
+            if (response.status === 200) {
+              MySwal.fire({
+                icon: 'success',
+                title: `Avatar changed!`,
+                showConfirmButton: false,
+                timer: 1000
+              });
+            } else if (response.status === 404) {
+              MySwal.fire({
+                icon: 'error',
+                title: `Oops...`,
+                text: 'Cannot change the avatar!',
+                showConfirmButton: false,
+                timer: 1000,
+              });
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+        }
+        return;
       } else if (result.isDenied) {
         if (count === 11){
           return RecurSwal(role, 12);
@@ -317,7 +340,7 @@ function MoreSingle(props) {
           <BuyHistory bought={bought} />
         : 
           <SingleProfile>
-            <Avatar src={`../admin/images/${profile.avatar}`} alt="img" onClick={() => RecurSwal(role, avatarchange)} /> 
+            <Avatar src={role === 2 ? `../admin/images/default_${avatarchange}.png` : `../admin/images/${profile.avatar}`} alt="img" onClick={() => RecurSwal(role, avatarchange)} /> 
             <NameSmall>{profile.name}</NameSmall>
             <Flex>
               <QuoteChange type='text' className='quote' value={quotechange} onChange={e => setQuotechange(e.target.value)} />

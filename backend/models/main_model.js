@@ -38,6 +38,7 @@ const signUp = async function (email, name, hashed_password, join_date){
         avatar = `${name}.png`;
         rooms = { [name]: new Date(join_date) };
         const updateRegister = await db('update', 'register', [{ 'email': email }, { $set: { 'artist': name } }]);
+        // initial message from the artist;
     } else {
         role = MEMBER_ROLE.FAN;
         avatar = `default_${getRandomInt(12) + 1}.png`;
