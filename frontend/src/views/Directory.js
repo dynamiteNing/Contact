@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton, Name } from '../styles/Common.style';
-import { Seperate, Subscribe, Chat, SingleProfile, Quote, Avatar, Buy } from '../styles/Directory.style';
+import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton, Avatar, Name, SmallName } from '../styles/Common.style';
+import { Seperate, Subscribe, Chat, SingleProfile, Quote, Buy } from '../styles/Directory.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -44,7 +44,7 @@ function Profile(props) {
 
 function Artists(props) {
   const { role, friends, notfriends, setProfile, profile } = props;
-  const text = { 0: 'My Friends', 1: 'Fans', 2: 'Suggested Artists', 3: 'Other Artists' };
+  const text = { 0: 'My Friends', 1: 'Fans', 2: 'Advised Artists', 3: 'Other Artists' };
   
   useEffect(() => {
     if (friends[0]) {
@@ -81,7 +81,7 @@ function Artists(props) {
          friends.map((item, index) => (
            <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
             <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-            <div>{item.name}</div>
+            <SmallName>{item.name}</SmallName>
            </SideButton>
          )) : <></>
         }</>
@@ -92,7 +92,7 @@ function Artists(props) {
         notfriends.map((item, index) => (
           <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
             <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-            <div>{item.name}</div>
+            <SmallName>{item.name}</SmallName>
           </SideButton>
         )) : <></>
         }</>
@@ -169,7 +169,7 @@ export default function Directory() {
 
   return (
     <Main>
-      <Header role={role} name={name} email={email} />
+      <Header role={role} name={name} email={email} type={'directory'} />
       <Wrap>
         <Artists role={role} friends={friends} notfriends={notfriends} setProfile={setProfile} profile={profile} />
         <Board>

@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import enter from '../images/enter.png';
+import { Animation } from './Common.style';
 {/* <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect"> Pixel perfect </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a> */}
 
 export const Contact = styled.div`
-  font-size: 75px;
+  font-size: 4em;
   color: #d3b7d8;
   font-weight: bold;
   font-style: oblique;
@@ -12,11 +13,11 @@ export const Contact = styled.div`
 `;
 
 export const Main = styled.main`
-  height: 70vh;
-  padding-top: 30vh;
+  height: 75vh;
+  padding-top: 25vh;
   justify-content: center;
   text-align: center;
-  background-color: #222222;
+  background: linear-gradient(to right, #444, #333, #222, #111, #000, #111, #222, #333, #444);
 `;
 
 export const Input = styled.input`
@@ -35,11 +36,16 @@ export const Input = styled.input`
   }
 `;
 
-export const Wrap = styled.div`
-  justify-content: center;
-  text-align: center;
-  display: flex;
-  flex-warp: wrap;
+export const Type = styled.div`
+  color: #d3b7d8;
+  font-style: oblique;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 15px;
+  padding-left: 10px;
+  animation-name: ${Animation};
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
 `;
 
 export const Button = styled.button`
@@ -54,3 +60,23 @@ export const Button = styled.button`
     opacity: 70%;
   }
 `;
+
+export const ButtonDown = styled.button`
+  display: ${props => props.done ? 'none' : ''};
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  background-image: url(${enter});
+  background-size: contain;
+  align-self: center;
+  &:hover {
+    opacity: 70%;
+  }
+`;
+
+export const Form = styled.form`
+  display: inline-grid;
+  align-content: center;
+  justify-content: center;
+  align-self: center;
+`

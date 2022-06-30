@@ -4,9 +4,12 @@ import { MySwal } from '../../styles/Common.style';
 
 export default function Header(props) {
   const navigate = useNavigate();
-  const { role, name, email } = props;
+  const { role, name, email, type, disConnect } = props;
 
   const logout = () => {
+    if (type === 'chat') {
+      disConnect();
+    }
     window.localStorage.removeItem('jwtToken');
     window.localStorage.removeItem('timestamp');
     MySwal.fire({
@@ -23,10 +26,16 @@ export default function Header(props) {
   }
 
   const directory = () => {
+    if (type === 'chat') {
+      disConnect();
+    }
     navigate(`/directory`, {state: {role: role, name: name, email: email}});
   }
 
   const more = () => {
+    if (type === 'chat') {
+      disConnect();
+    }
     navigate(`/more`, {state: {role: role, name: name, email: email}});
   }
 
@@ -36,7 +45,7 @@ export default function Header(props) {
       <Directory onClick={directory}/>
       <Chat onClick={chat}/>
       <More onClick={more}/>
-      <Logout onClick={logout}/>
+      <Logout onClick={logout} />
     </Head>
   );
 }

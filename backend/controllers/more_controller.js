@@ -28,7 +28,7 @@ const subscribe = async (req, res) => {
         if (response.data.status !== 0) {
             return res.status(500).send({ message: `The payment failed!` });
         }
-        const result = await More.subscribe(email, artist, time);
+        const result = await More.subscribe(email, name, artist, time);
 
         if (result.error) {
             res.status(403).send({ error: result.error });
@@ -91,10 +91,32 @@ const postQuote = async (req, res) => {
       },
     });
 };
+
+const changeAvatar = async (req, res) => {
+    const { email, newavatar } = req.body;
   
+    const result = await More.changeAvatar(email, newavatar);
+  
+    if (result.error) {
+      res.status(403).send({ error: result.error });
+      return;
+    }
+      
+    if (result.length <= 0) {
+      res.status(404).send({ message: `The new avatar cannot be set.` });
+      return;
+    }
+      
+    res.status(200).send({
+      data: {
+        avatar: result,
+      },
+    });
+};
 
 module.exports = {
     subscribe,
     getPurchased,
     postQuote,
+    changeAvatar,
 };
