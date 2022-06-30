@@ -62,7 +62,7 @@ export const SmallName = styled.div`
 
 export const Flex = styled.div`
   display: flex;
-  flex-wrap; wrap;
+  flex-wrap: wrap;
   justify-content: space-between;
 `;
 
@@ -71,19 +71,19 @@ export const WrapButton = styled.div`
   justify-content: center;
   text-align: center;
   display: flex;
-  flex-warp: wrap;
+  flex-wrap: wrap;
   margin: 20px auto;
 `;
+
+/** 
+  * PARTIAL 
+  **/
 
 export const Animation = keyframes`
   0% { opacity: 0.7; }
   50% { opacity: 1; }
   100% { opacity: 0.7; }
-`
-
-/** 
-  * PARTIAL 
-  **/
+`;
 
 export const Board = styled.div`
   height: 80vh;
@@ -94,7 +94,7 @@ export const Board = styled.div`
   align-items: center;
   display: flex;
   @media (max-width: 700px) {
-    width: 80vw;
+    width: 70vw;
   }
 `;
 
@@ -124,7 +124,7 @@ export const Avatar = styled.img`
   border-radius: 25%;
   margin-bottom: 1vh;  
   @media (max-width: 700px) {
-    width: 40vh;
+    width: 35vh;
   }
 `;
 

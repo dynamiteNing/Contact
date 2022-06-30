@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
+import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton, SmallName } from '../styles/Common.style';
 import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar } from '../styles/Chat.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
@@ -98,15 +98,15 @@ function Rooms(props) {
 
   return (
       <SideBar>
-      <SmallTitle>Chat Rooms</SmallTitle>
-      {
-        friends.map((item, index) => (
-          <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => changeFriend(index)}>
-            <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-            {item.name}
-          </SideButton>
-        ))
-      }
+        <SmallTitle>Chat Rooms</SmallTitle>
+        {
+          friends.map((item, index) => (
+            <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => changeFriend(index)}>
+              <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
+              <SmallName>{item.name}</SmallName>
+            </SideButton>
+          ))
+        }
       </SideBar>
   )
 };
