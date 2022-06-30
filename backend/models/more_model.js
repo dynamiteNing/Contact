@@ -1,10 +1,10 @@
 const { db } = require('../utils/db_connect');
 
-const subscribe = async function (email, artist, time) {
+const subscribe = async function (email, name, artist, time) {
     const result = await db('insert', 'subscription', { 'email': email, 'artist': artist, 'subcription_date': new Date(time)});
     const object_name = `rooms.${artist}`;
     const updateRooms = await db('update', 'member', [{ 'email': email }, { $set: { [object_name]: new Date(time) } }]);
-    // initial message from the fan to the artist
+    const initialChat = await db('insert', 'chatHistory', { 'email': email, 'role': 2, 'room': artist, 'time': new Date(time), 'message': `${name} joined room ${artist}!`, initial: true });
     return updateRooms;
 };
 

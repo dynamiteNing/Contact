@@ -28,7 +28,7 @@ const subscribe = async (req, res) => {
         if (response.data.status !== 0) {
             return res.status(500).send({ message: `The payment failed!` });
         }
-        const result = await More.subscribe(email, artist, time);
+        const result = await More.subscribe(email, name, artist, time);
 
         if (result.error) {
             res.status(403).send({ error: result.error });
