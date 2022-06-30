@@ -25,6 +25,10 @@ export const FunctionButton = styled.div`
     background-color: #e2d8ee;
     opacity: ${props => props.active ? 1 : 0.6};
   }
+  @media (max-width: 700px) {
+    height: 60px;
+    padding: 0 1vw 0 1vw;
+  }
 `;
 
 export const SingleProfile = styled.div`
@@ -36,8 +40,12 @@ export const NameSmall = styled.div`
   background-color: #e2d8ee;
   padding: 5px;
   border-radius: 3px;
-  margin: 20px auto;
+  margin: 10px auto;
   align-self: center;
+  @media (max-width: 700px) {
+    font-size: medium;
+    margin: 5px auto;
+  }
 `;
 
 export const QuoteChange = styled.input`
@@ -77,16 +85,23 @@ export const Quote = styled.div`
 
 export const Profile = styled.div`
   width: 30%;
-  height: 30%;
+  max-height: 30%;
   margin: auto;
+  @media (max-width: 700px) {
+    width: 40%;
+    max-height: 35%;
+  }
 `;
 
 export const Allsuggusted = styled.div`
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   justify-content: space-evenly;
   display: flex;
   flex-wrap: wrap;
+  @media (max-width: 700px) {
+    height: 100%;
+  }
 `;
 
 export const SmallAvatar = styled.img`
@@ -94,15 +109,6 @@ export const SmallAvatar = styled.img`
   height: 60%;
   border-radius: 25%;
   align-self: center;
-`;
-
-
-export const Avatar = styled.img`
-  width: 20vw;
-  border-radius: 10vw;
-  border-radius: 25%;
-  aspect-ratio: 1;  
-  margin-bottom: 1vh;
 `;
 
 export const SingleArtist = styled.div`
@@ -119,7 +125,7 @@ export const Tpfield = styled.div`
   text-align: center;
   align-self: center;
   margin: 10px auto;
-`
+`;
 
 export const Input = styled.input`
   height: 25px;
@@ -137,14 +143,14 @@ export const Input = styled.input`
   }
 `;
 
-const arrowAnimation = keyframes`
-  0% { opacity: 0.3; }
-  70% { opacity: 1; }
-  100% { opacity: 0.3; }
-`
+const Animation = keyframes`
+  0% { opacity: 0.1; }
+  50% { opacity: 1; }
+  100% { opacity: 0.1; }
+`;
 
 export const Arrow = styled.div`
-  width: 20px;
+  width: 25px;
   height: fit-content;
   aspect-ratio: 1;
   align-self: center;
@@ -153,7 +159,7 @@ export const Arrow = styled.div`
   background-size: contain;
   background-color: transparent;
   border: solid #f8f8f8 0px;
-  animation-name: ${arrowAnimation};
+  animation-name: ${Animation};
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
 `;
@@ -172,7 +178,7 @@ export const Pay = styled.button`
     border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
     border-image-slice: 1;
   }
-`
+`;
 
 export const Seperate = styled.div`
   margin: 10px auto;
@@ -191,7 +197,11 @@ export const Myprofile = styled.div`
   background-image: url(${myprofile});
   background-size: contain;
   margin-right: 10px;
-`
+  @media (max-width: 700px) {
+    width: 60%;
+    margin: auto;
+  }
+`;
 
 export const Buy = styled.div`
   width: 30px;
@@ -201,7 +211,11 @@ export const Buy = styled.div`
   background-image: url(${purchase});
   background-size: contain;
   margin-right: 10px;
-`
+  @media (max-width: 700px) {
+    width: 60%;
+    margin: auto;
+  }
+`;
 
 export const Mypurchase = styled.div`
   width: 30px;
@@ -211,7 +225,11 @@ export const Mypurchase = styled.div`
   background-image: url(${mypurchase});
   background-size: contain;
   margin-right: 10px;
-`
+  @media (max-width: 700px) {
+    width: 60%;
+    margin: auto;
+  }
+`;
 
 export const Previous = styled.div`
   width: 25px;
@@ -221,22 +239,29 @@ export const Previous = styled.div`
   background-image: url(${previous});
   background-size: contain;
   margin-bottom: 10px;
-`
+`;
 
 export const BuyList = styled.div`
   width: 75%;
-`
+`;
 
 export const SingleBuy = styled.div`
   justify-content: space-between;
   height: 50px;
   display: flex;
   margin-bottom: 10px;
+  @media (max-width: 700px) {
+    display: block;
+  }
+`;
 
-`
 export const Time = styled.div`
   align-self: center;
-`
+  @media (max-width: 700px) {
+    font-size: 12px;
+    padding: 5px;
+  }
+`;
 
 export const BuyName = styled.div`
   font-weight: bold;
@@ -244,4 +269,4 @@ export const BuyName = styled.div`
   padding: 5px;
   border-radius: 3px;
   align-self: center;
-`
+`;

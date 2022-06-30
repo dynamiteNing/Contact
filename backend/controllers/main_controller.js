@@ -12,11 +12,6 @@ const checkJwtExpire = async (req, res) => {
 const checkEmail = async (req, res) => {
     const { email } = req.query;
 
-    if (!email) {
-        res.status(400).send({ message: 'email required' });
-        return;
-    }
-
     if (!validator.isEmail(email)) {
         res.status(400).send({ error: 'invalid email' });
         return;

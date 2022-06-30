@@ -7,6 +7,9 @@ export const Board = styled.div`
   overflow: auto;
   padding: 5vh 5vw 5vh 5vw;
   justify-content: center;
+  @media (max-width: 800px) {
+    height: 50vh;
+  }
 `;
 
 export const Tuple = styled.div`

@@ -23,13 +23,13 @@ const getChatMessage = async function (email, role, room) {
     const me = await db('find', 'member', { 'email': email });
 
     let emailConstraint = {};
-    let fanInitialConstraint = null;
+    let fanInitialConstraint = {};
 
     // const join_date = me[0].join_date;
     const join_date = me[0].rooms[rooms[0].artist];
 
-    role === '2' ? emailConstraint = {'email': email} : {};
-    role === '1' ? fanInitialConstraint = { $and: [ {'room': rooms[0].artist }, {'role': 2}, { 'initial': true} ]} : null;
+    role === '2' ? emailConstraint = {'email': email} : emailConstraint = {};
+    role === '1' ? fanInitialConstraint = { $and: [ {'room': rooms[0].artist }, { 'role': 2 }, { 'initial': true } ]} : fanInitialConstraint = { $and: [ { 'room': rooms[0].fanclub }, { 'role': 1 }, { 'initial' : true } ] }
 
     let result = await db('find', 'chatHistory', {
         $or: [
@@ -57,14 +57,7 @@ const getChatMessage = async function (email, role, room) {
                     { 'initial': { $ne: true } }
                 ]
             },
-            { 
-                $and: [ 
-                    { 'room': rooms[0].artist }, 
-                    { 'role': 2 }, 
-                    { 'initial': true },
-                    { 'email': { $ne : email } } 
-                ]
-            }
+            fanInitialConstraint
         ]
     });
 

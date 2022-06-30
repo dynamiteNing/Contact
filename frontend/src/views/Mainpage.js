@@ -171,6 +171,13 @@ export default function Mainpage() {
           timer: 1000
         });
         return response.json();
+      } else if (response.status === 400) {
+        MySwal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Invalid email!',
+        });
+        return new Error();
       } else if (response.status === 404) {
         setType('signup');
         return {};

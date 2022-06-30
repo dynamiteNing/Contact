@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton } from '../styles/Common.style';
-import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar, Title } from '../styles/Chat.style';
+import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar } from '../styles/Chat.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import Header from './components/Header';
@@ -17,7 +17,6 @@ function Chatmessage(props) {
           <Tuple self={name === item.name}>
             <Avatar src={`../admin/images/${item.avatar}`} alt="img" self={name === item.name} /> 
             <Group key={index} self={name === item.name}>
-              {/* <Title self={name === item.name}>title</Title> */}
               <Name self={name === item.name}>{item.name}</Name>
               <Message>{item.message}</Message>
               <Time self={name === item.name}>{new Date(item.time).toLocaleString('en-US', options)}</Time>
@@ -188,6 +187,9 @@ export default function Chat() {
     ws.on('chat', message => {
       updateHistory(message);
     })
+    ws.on('disConnect', () => {
+      ws.close();
+    })
   }
 
   useEffect(() => {
@@ -257,9 +259,13 @@ export default function Chat() {
     ws.emit('chat', room, message);
   };
 
+  const disConnect = () => {
+    ws.emit('disConnect');
+  }
+
   return (
     <Main>
-      <Header role={role} name={name} email={email} />
+      <Header role={role} name={name} email={email} type={'chat'} disConnect={disConnect} />
       <Wrap>
         <Rooms role={role} rooms={rooms} changeRoom={changeRoom} fanrooms={fanrooms} email={email} setRoomto={setRoomto} chatroom={chatroom} roomin={roomin} roomto={roomto} friends={friends} />
         <div>

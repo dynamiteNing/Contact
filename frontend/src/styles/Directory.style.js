@@ -15,7 +15,9 @@ export const Seperate = styled.div`
 `;
 
 export const SingleProfile = styled.div`
-
+  @media (max-width: 700px) {
+    justify-connect: center;
+  }
 `;
 
 export const Quote = styled.div`
@@ -59,13 +61,6 @@ export const Chat = styled.button`
   }
   display: ${props => (Object.entries(props.profile).length === 0 || (props.dont) || !props.friend) ? 'none' : ''};
 `
-
-export const Avatar = styled.img`
-  width: 20vw;
-  aspect-ratio: 1;
-  border-radius: 25%;
-  margin-bottom: 1vh;  
-`;
 
 export const Buy = styled.button`
   max-width: 60px;

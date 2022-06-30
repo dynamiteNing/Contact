@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MySwal, Main, Wrap, WrapButton, Board, SideBar, SmallTitle, Name, Flex } from '../styles/Common.style';
-import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, Avatar, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton, Arrow } from '../styles/More.style';
+import { MySwal, Main, Wrap, WrapButton, Board, SideBar, SmallTitle, Avatar, Name, Flex, SmallName } from '../styles/Common.style';
+import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton, Arrow } from '../styles/More.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import Header from './components/Header';
@@ -59,15 +59,15 @@ function Functions(props) {
       <SmallTitle>More</SmallTitle>
       <FunctionButton active={service === 'profile'} onClick={() => setService('profile')}>
         <Myprofile />
-        <div>My Profile</div>
+        <SmallName>My Profile</SmallName>
       </FunctionButton>
       <FunctionButton active={service === 'buy'} dont={(role === 1)} onClick={() => setService('buy')}>
         <Buy />
-        <div>Purchase</div>
+        <SmallName>Purchase</SmallName>
       </FunctionButton>
       <FunctionButton active={service === 'buy_history'} dont={(role === 1)} onClick={() => setService('buy_history')}>
         <Mypurchase />
-        <div>My Purchase</div>
+        <SmallName>My Purchase</SmallName>
       </FunctionButton>
     </SideBar>
   )
@@ -423,7 +423,7 @@ export default function More() {
 
   return (
     <Main>
-      <Header role={role} name={name} email={email} />
+      <Header role={role} name={name} email={email} type={'more'} />
       <Wrap>
         <Functions service={service} setService={setService} name={name} setProfile={setProfile} role={role} />
         <Board>
