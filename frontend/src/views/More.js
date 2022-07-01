@@ -148,7 +148,7 @@ function SinglePurchase(props) {
       setTPDirect(res);
     });
 
-    setToday(new Date().toLocaleString('en-US', options)); //.slice(0, 12)
+    setToday(new Date()); //.toLocaleString('en-US', options).slice(0, 12)
   }, []);
 
 
