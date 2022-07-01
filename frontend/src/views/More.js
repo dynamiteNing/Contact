@@ -206,7 +206,7 @@ function SinglePurchase(props) {
       <Previous onClick={() => { setArtist(''); setPurchasetype(false); }} />
       <NameSmall>{artist}</NameSmall>
       <div>NT. 120</div>
-      <div>Starts from: {today.slice(0, 12)}</div>
+      <div>Starts from: {today.toLocaleString('en-US', options).slice(0, 12)}</div>
       <div>Duration: 31 days</div>
       <Seperate />
       <form onSubmit={(e) => handlePay(e, email, artist, name, phone, role)} method="post" id='form' >

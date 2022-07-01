@@ -81,6 +81,20 @@ export const api = {
       method: 'GET',
     });
   },
+  lastreadTime(email, room, time) {
+    return fetch(`${this.hostname}/chat/message/unread`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        room: room,
+        time: time,
+      })
+    });
+  },
   subscribe(email, artist, prime, name, phone, time) {
     return fetch(`${this.hostname}/more/subscribe`, {
       method: 'POST',

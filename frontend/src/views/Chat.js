@@ -14,7 +14,7 @@ function Chatmessage(props) {
     <Board>
       {
         history.map((item, index) => (
-          <Tuple self={name === item.name}>
+          <Tuple key={index} self={name === item.name}>
             <Avatar src={`../admin/images/${item.avatar}`} alt="img" self={name === item.name} /> 
             <Group key={index} self={name === item.name}>
               <Name self={name === item.name}>{item.name}</Name>
@@ -44,7 +44,10 @@ function Chatinput(props) {
 
   const send = (room, name, message, profile, time, role, email) => {
     if (message !== '' && room !== ''){
-      chat(room, { name: name, message: message, time: time, avatar: profile.avatar }); 
+      chat(room, { name: name, message: message, time: time, avatar: profile.avatar, email: email, room: room }); 
+      api.lastreadTime(email, room, new Date()).then((response) => {
+        console.log(response);
+      })
       api.postChatMessage(email, role, room, time, message).then((response) => {
         console.log(response);
       }).catch((error) => {
@@ -73,7 +76,7 @@ function Chatinput(props) {
 };
 
 function Rooms(props) {
-  const { role, rooms, changeRoom, fanrooms, setRoomto, chatroom, roomin, roomto, friends } = props;
+  const { role, rooms, changeRoom, fanrooms, email, setRoomto, chatroom, roomin, roomto, friends } = props;
 
   useEffect(() => {
     if(rooms[0]){
@@ -82,18 +85,20 @@ function Rooms(props) {
       } else {
         changeRoom(chatroom ? fanrooms[rooms.indexOf(chatroom)] : fanrooms[0]);
       }
+      api.lastreadTime(email, chatroom ? chatroom : rooms[0], new Date());
     }
   }, [rooms]);
 
   const changeFriend = (friend) => {
-    if (friend > -1) {
+    if (friend) {
       if (role === 1) {
-        changeRoom(rooms[friend]);
+        changeRoom(friend);
         setRoomto(fanrooms[friend]);
       } else {
-        changeRoom(fanrooms[friend]);
-        setRoomto(rooms[friend]);
+        changeRoom(fanrooms[rooms.indexOf(friend)]);
+        setRoomto(friend);
       }
+      api.lastreadTime(email, friend, new Date());
     }
   }
 
@@ -102,7 +107,7 @@ function Rooms(props) {
         <SmallTitle>Chat Rooms</SmallTitle>
         {
           friends.map((item, index) => (
-            <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => changeFriend(index)}>
+            <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => { changeFriend(item.name); }}>
               <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
               <SmallName>{item.name}</SmallName>
             </SideButton>
@@ -183,9 +188,10 @@ export default function Chat() {
       updateHistory(message);
     })
     ws.on('changeRoom', message => {
-      console.log(message)
+      console.log(message);
     })
     ws.on('chat', message => {
+      api.lastreadTime(email, message.room, new Date());
       updateHistory(message);
     })
     ws.on('disConnect', () => {
