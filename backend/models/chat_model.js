@@ -14,7 +14,7 @@ const getRooms = async function (email) {
 };
 
 const postChatMessage = async function (email, role, room, time, message) {
-    const result = await db('insert', 'chatHistory', { 'email': email, 'role': role, 'room': room, 'time': time, 'message': message });
+    const result = await db('insert', 'chatHistory', { 'email': email, 'role': role, 'room': room, 'time': new Date(time), 'message': message });
     return result;
 };
 

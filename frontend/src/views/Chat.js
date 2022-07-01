@@ -66,7 +66,8 @@ function Chatinput(props) {
   return (
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
-      <Button onClick={() => { send(roomto, name, message, profile, new Date().toLocaleString('en-US', options), role, email); }} />
+      <Button onClick={() => { send(roomto, name, message, profile, new Date(), role, email); }} /> 
+      {/* .toLocaleString('en-US', options) */}
     </WrapInput>
   )
 };
