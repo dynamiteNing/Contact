@@ -25,8 +25,8 @@ const getChatMessage = async function (email, role, room) {
     let emailConstraint = {};
     let fanInitialConstraint = {};
 
-    // const join_date = me[0].join_date;
-    const join_date = me[0].rooms[rooms[0].artist];
+    // const join_date = me[0].rooms[rooms[0].artist];
+    const join_date = me[0].rooms[rooms[0].artist].join_date;
 
     role === '2' ? emailConstraint = {'email': email} : emailConstraint = {};
     role === '1' ? fanInitialConstraint = { $and: [ {'room': rooms[0].artist }, { 'role': 2 }, { 'initial': true } ]} : fanInitialConstraint = { $and: [ { 'room': rooms[0].fanclub }, { 'role': 1 }, { 'initial' : true } ] }
@@ -75,43 +75,15 @@ const getChatMessage = async function (email, role, room) {
 };
 
 const getUnreadCount = async function (email, role, room) {
-    // const rooms = await db('find', 'register', { $or: [{ 'artist': room }, { 'fanclub': room }] });
-    // const me = await db('find', 'member', { 'email': email });
+    console.log(email, role, room);
+    return;
+};
 
-    // let emailConstraint = {};
-
-    // const join_date = me[0].rooms[rooms[0].artist];
-
-    // role === '2' ? emailConstraint = {'email': email} : {};
-
-    // let result = await db('find', 'chatHistory', {
-    //     $or: [
-    //         {
-    //             $and: [
-    //                 {'room': rooms[0].fanclub},
-    //                 { 'role': 1 },
-    //                 { 'time' : {$gte: join_date}}
-    //             ]
-    //         }, 
-    //         {
-    //             $and: [
-    //                 {'room': rooms[0].artist},
-    //                 {'role': 2},
-    //                 emailConstraint,
-    //                 { 'time' : {$gte: join_date}}
-    //             ]
-    //         }
-    //     ]
-    // });
-
-    // let temp;
-    // for (let i = 0; i < result.length; i++) {
-    //     temp = await db('find', 'member', {'email': result[i].email});
-    //     result[i].name = temp[0].name;
-    //     result[i].avatar = temp[0].avatar;
-    // }
-
-    // return result;
+const lastreadTime = async function (email, room, time) {
+    const rooms = await db('find', 'register', { $or: [{ 'artist': room }, { 'fanclub': room }] });
+    const last_read = `rooms.${rooms[0].artist}.last_read`;
+    const result = await db('update', 'member', [{ 'email': email }, { $set: { [last_read]: new Date(time) }}]);
+    return result;
 };
 
 module.exports = {
@@ -119,4 +91,5 @@ module.exports = {
     postChatMessage,
     getChatMessage,
     getUnreadCount,
+    lastreadTime,
 };

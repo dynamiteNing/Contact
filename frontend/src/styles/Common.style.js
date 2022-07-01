@@ -50,6 +50,7 @@ export const SmallAvatar = styled.img`
   margin-right: 10px;
   @media (max-width: 700px) {
     width: 75%;
+    max-width: 50px;
     margin: auto;
   }
 `;

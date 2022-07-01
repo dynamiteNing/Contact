@@ -198,7 +198,8 @@ export const Myprofile = styled.div`
   background-size: contain;
   margin-right: 10px;
   @media (max-width: 700px) {
-    width: 55%;
+    width: 50%;
+    max-width: 50px;
     margin: auto;
   }
 `;
@@ -212,7 +213,8 @@ export const Buy = styled.div`
   background-size: contain;
   margin-right: 10px;
   @media (max-width: 700px) {
-    width: 55%;
+    width: 50%;
+    max-width: 50px;
     margin: auto;
   }
 `;
@@ -226,7 +228,8 @@ export const Mypurchase = styled.div`
   background-size: contain;
   margin-right: 10px;
   @media (max-width: 700px) {
-    width: 55%;
+    width: 50%;
+    max-width: 50px;
     margin: auto;
   }
 `;

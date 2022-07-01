@@ -14,7 +14,6 @@ export const Board = styled.div`
 
 export const Tuple = styled.div`
   width: 85%;
-  /* width: auto; */
   margin-left: ${props => props.self ? 'auto' : '0'};
   margin-bottom: 10px;
   display: flex;

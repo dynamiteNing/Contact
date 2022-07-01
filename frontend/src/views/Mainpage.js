@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Main, Contact, Input, Button, ButtonDown, Form, Type } from '../styles/Mainpage.style';
 import { api } from '../utils/api';
-import { options } from '../utils/date';
+// import { options } from '../utils/date';
 import { useNavigate } from 'react-router-dom';
 import { MySwal, WrapButton } from '../styles/Common.style';
 
@@ -14,7 +14,7 @@ function Signup(props) {
   const signup = (e) => {
     e.preventDefault();
     api.signup({
-      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date().toLocaleString('en-US', options),
+      'email': email, 'name': name, 'password': password, 'password_check': password_check, 'join_date': new Date(), //.toLocaleString('en-US', options)
     }).then((response) => {
       if (response.status === 200) {
         MySwal.fire({

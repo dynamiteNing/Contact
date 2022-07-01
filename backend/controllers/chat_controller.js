@@ -88,9 +88,32 @@ const getUnreadCount = async (req, res) => {
     });
 };
 
+const lastreadTime = async (req, res) => {
+    const { email, room, time } = req.body;
+
+    let result = await Chat.lastreadTime(email, room, time);
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    if (result.length <= 0) {
+        res.status(404).send({ message: `The user ${email} in room ${room} update last read time failed` });
+        return;
+    }
+
+    res.status(200).send({
+        data: {
+            time: result,
+        },
+    });
+};
+
 module.exports = {
     getRooms,
     postChatMessage,
     getChatMessage,
     getUnreadCount,
+    lastreadTime,
 };
