@@ -81,6 +81,10 @@ export const Flex = styled.div`
   justify-content: space-between;
 `;
 
+export const NotFlex = styled.div`
+  
+`;
+
 export const WrapButton = styled.div`
   align-self: center;
   justify-content: center;
@@ -116,12 +120,13 @@ export const Board = styled.div`
 export const SideButton = styled.div`
   font: inherit;
   font-size: large;
-
+  align-items: center;
+  text-align: start;
   display: flex;
   background-color: ${props => props.active ? '#e2d8ee' : 'transparent'};
   padding: 0 3vw 0 3vw;
   height: 100px;
-  line-height: 100px;
+  /* line-height: 100px; */
   &:hover {
     background-color: #e2d8ee;
     opacity: ${props => props.active ? '1' : '0.6'};
@@ -150,3 +155,22 @@ export const Name = styled.div`
   padding: 5px;
   border-radius: 3px;
 `;
+
+export const ArtistTitle = styled.div`
+  background: linear-gradient(101deg, #622569, #6b5b95, #622569);
+  color: #f5f5f5; 
+  text-align: center;
+  font-variant: small-caps;
+  font-style: oblique;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 1px;
+  height: 15px;
+  width: 45px;
+  border-radius: 7.5px;  
+  display: ${props => (props.role === 2 || props.self) ? 'none' : ''};
+  margin-right: 3px;
+  @media (max-width: 700px) {
+    display: ${props => (props.role !== 2 || !props.self) && props.type === 'rwd' ? '' : 'none'};
+  }
+`

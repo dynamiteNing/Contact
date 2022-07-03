@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MySwal, Main, Wrap, WrapButton, Board, SideBar, SmallTitle, Avatar, Name, Flex, SmallName } from '../styles/Common.style';
+import { WrapTitle } from '../styles/Chat.style';
+import { MySwal, Main, Wrap, WrapButton, Board, SideBar, SmallTitle, Avatar, Name, Flex, SmallName, ArtistTitle } from '../styles/Common.style';
 import { FunctionButton, SingleProfile, NameSmall, Quote, Profile, SingleArtist, Tpfield, Pay, Input, Seperate, Myprofile, Buy, Mypurchase, Previous, Allsuggusted, SmallAvatar, BuyList, SingleBuy, Time, BuyName, QuoteChange, ChangeButton, Arrow } from '../styles/More.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
@@ -15,8 +16,11 @@ function BuyHistory(props) {
         bought.map((item, index) => (
           <>
           <SingleBuy key={index}>
-            <BuyName>{item.artist}</BuyName>
-            <Time>{new Date(item.subcription_date).toLocaleString('en-US', options).slice(0, 12)} ~ for 31 days</Time>
+            <WrapTitle>
+              <ArtistTitle type={'rwd'}>artist</ArtistTitle>
+              <BuyName>{item.artist}</BuyName>
+            </WrapTitle>
+            <Time>$120&emsp;{new Date(item.subcription_date).toLocaleString('en-US', options).slice(0, 12)} for 31 days</Time>
           </SingleBuy>
           <Seperate />
           </>
@@ -148,7 +152,7 @@ function SinglePurchase(props) {
       setTPDirect(res);
     });
 
-    setToday(new Date()); //.toLocaleString('en-US', options).slice(0, 12)
+    setToday(new Date());
   }, []);
 
 

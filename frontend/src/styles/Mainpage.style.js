@@ -1,5 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import enter from '../images/enter.png';
+import enter_hover from '../images/enter_hover.png'
 import { Animation } from './Common.style';
 {/* <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect"> Pixel perfect </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a> */}
 
@@ -31,9 +32,7 @@ export const Input = styled.input`
   text-align: center;
   &:focus {
     outline: none;
-    border: solid transparent 2px;
-    border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-    border-image-slice: 1;
+    border: solid #d3b7d8 2px;
   }
 `;
 
@@ -59,7 +58,8 @@ export const Button = styled.button`
   background-image: url(${enter});
   background-size: contain;
   &:hover {
-    opacity: 70%;
+    background-image: url(${enter_hover});
+    background-size: contain;
   }
 `;
 
@@ -72,7 +72,8 @@ export const ButtonDown = styled.button`
   background-size: contain;
   align-self: center;
   &:hover {
-    opacity: 70%;
+    background-image: url(${enter_hover});
+    background-size: contain;
   }
 `;
 
