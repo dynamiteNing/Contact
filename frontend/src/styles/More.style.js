@@ -36,6 +36,7 @@ export const SingleProfile = styled.div`
 
 export const NameSmall = styled.div`
   font-weight: bold;
+  letter-spacing: 1px;
   font-size: large;
   background-color: #e2d8ee;
   padding: 5px;
@@ -268,6 +269,7 @@ export const Time = styled.div`
 
 export const BuyName = styled.div`
   font-weight: bold;
+  letter-spacing: 1px;
   background-color: #e2d8ee;
   padding: 5px;
   border-radius: 3px;

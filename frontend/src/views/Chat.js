@@ -79,7 +79,7 @@ function Rooms(props) {
   const { role, rooms, changeRoom, fanrooms, email, setRoomto, chatroom, roomin, roomto, friends } = props;
 
   useEffect(() => {
-    if(rooms[0]){
+    if (rooms[0]) {
       if (role === 1) {
         changeRoom(chatroom ? chatroom : rooms[0]);
       } else {

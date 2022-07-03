@@ -5,6 +5,18 @@ export const Board = styled.div`
   height: 70vh;
   width: 60vw;
   overflow: auto;
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 1.5px;
+    -webkit-box-shadow: inset 0 0 1.5px rgba(0,0,0,0.2); 
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1.5px;
+    -webkit-box-shadow: inset 0 0 1.5px rgba(0,0,0,0.4); 
+  }
+
   padding: 5vh 5vw 5vh 5vw;
   justify-content: center;
   @media (max-width: 700px) {
@@ -51,6 +63,7 @@ export const Group = styled.div`
 export const Name = styled.div`
   font-weight: bold;
   text-align: left;
+  letter-spacing: 1px;
   display: ${props => props.self ? 'none' : ''};
 `;
 

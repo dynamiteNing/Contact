@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Main, Wrap, Board, SideBar, SmallTitle, SmallAvatar, SideButton, Avatar, Name, SmallName } from '../styles/Common.style';
-import { Seperate, Subscribe, Chat, SingleProfile, Quote, Buy } from '../styles/Directory.style';
+import { Subscribe, Chat, SingleProfile, Quote, Buy } from '../styles/Directory.style';
 import { api } from '../utils/api';
 import Header from './components/Header';
 
@@ -81,12 +81,12 @@ function Artists(props) {
          friends.map((item, index) => (
            <SideButton key={index} active={profile.name === item.name} onClick={() => getProfile(item.name)}>
             <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-            <SmallName>{item.name}</SmallName>
+             <SmallName>{item.name}</SmallName>
+             {/* <div>{item.count}</div> */}
            </SideButton>
          )) : <></>
         }</>
-      <Seperate />
-      <SmallTitle>{text[role % 2 + 2]}</SmallTitle>
+      <SmallTitle notfriend={true}>{text[role % 2 + 2]}</SmallTitle>
       <>
         { notfriends ? 
         notfriends.map((item, index) => (
@@ -116,6 +116,30 @@ export default function Directory() {
     navigate(`../more`, {state: {role: role, name: name, email: email, artistPre: artist}});
   };
 
+  // const unreadCount = (artist) => {
+  //   api.getUnreadCount(email, role, artist.name).then((response) => {
+  //     if (response.status === 200) {
+  //       return response.json();
+  //     } if (response.status === 404 ){
+  //       return {
+  //         data: {
+  //           count: [],
+  //         },
+  //       }
+  //     }
+  //   }).then((json) => {
+  //     if (json.hasOwnProperty('data')){
+  //       return json.data
+  //     }
+  //   }).then((data) => {
+  //     if(data){
+  //       artist.count = data.count;
+  //     }
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
+  // }
+
   useEffect(() => {
     api.getFriends(email).then((response) => {
       if (response.status === 200) {
@@ -134,6 +158,7 @@ export default function Directory() {
     }).then((data) => {
       if(data){
         data.friends.map((item, index) => {
+          // unreadCount(item);
           setFriends(friends => [...friends, item]); 
         });
       }

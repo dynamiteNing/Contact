@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Head, Contact, Directory, Chat, More, Logout } from '../../styles/Header.style';
+import { Head, Contact, Directory, Chat, More, Logout, Button, Navigation } from '../../styles/Header.style';
 import { MySwal } from '../../styles/Common.style';
 
 export default function Header(props) {
@@ -42,10 +42,22 @@ export default function Header(props) {
   return (
     <Head>
       <Contact>Contact</Contact>
-      <Directory onClick={directory}/>
-      <Chat onClick={chat}/>
-      <More onClick={more}/>
-      <Logout onClick={logout} />
+      <Button onClick={directory} >
+        <Directory />
+        <Navigation>Directory</Navigation>
+      </Button>
+      <Button onClick={chat} >
+        <Chat />
+        <Navigation>Chat</Navigation>
+      </Button>
+      <Button onClick={more} >
+        <More />
+        <Navigation>More</Navigation>
+      </Button>
+      <Button onClick={logout} >
+        <Logout />
+        <Navigation>Logout</Navigation>
+      </Button>
     </Head>
   );
 }

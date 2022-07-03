@@ -19,12 +19,21 @@ export const SideBar = styled.div`
   width: 30vw;
   height: 80vh;
   overflow: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.2); 
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.4); 
+  }
+
   padding: 5vh 0 5vh 0;
-  border-right: solid transparent 1px;
-  border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-  border-image-slice: 1;
+  background-color: #f3f3f3;
   @media (max-width: 700px) {
-    background-color: #f8f8f8;
     width: 20vw;
     z-index: 99;
   }
@@ -33,9 +42,12 @@ export const SideBar = styled.div`
 export const SmallTitle = styled.div`
   text-align: left;
   font-variant: small-caps;
+  font-style: oblique;
   font-size: large;
+  letter-spacing: 1px;
   font-weight: bold;
   padding: 0 3vw 1vh 3vw;
+  margin-top: ${props => props.notfriend ? '5vh': 0};
   @media (max-width: 700px) {
     font-size: 12px;
   }
@@ -56,6 +68,8 @@ export const SmallAvatar = styled.img`
 `;
 
 export const SmallName = styled.div`
+  font-style: oblique;
+  letter-spacing: 1px;
   @media (max-width: 700px) {
     display: none;
   }
@@ -131,8 +145,8 @@ export const Avatar = styled.img`
 
 export const Name = styled.div`
   font-weight: bold;
+  letter-spacing: 1px;
   background-color: #e2d8ee;
   padding: 5px;
   border-radius: 3px;
-  ${'' /* display: ${props => Object.entries(props.profile).length === 0 ? 'none' : ''}; */}
 `;

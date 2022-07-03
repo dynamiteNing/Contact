@@ -9,6 +9,7 @@ export const Contact = styled.div`
   font-weight: bold;
   font-style: oblique;
   font-variant: small-caps;
+  letter-spacing: 1px;
   margin: auto;
 `;
 
@@ -41,6 +42,7 @@ export const Type = styled.div`
   font-style: oblique;
   font-size: 18px;
   font-weight: bold;
+  letter-spacing: 1px;
   margin-right: 15px;
   padding-left: 10px;
   animation-name: ${Animation};
