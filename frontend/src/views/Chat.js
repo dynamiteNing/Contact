@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import webSocket from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton, SmallName } from '../styles/Common.style';
-import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar } from '../styles/Chat.style';
+import { MySwal, Main, Wrap, SideBar, SmallTitle, SmallAvatar, SideButton, SmallName, NotFlex, ArtistTitle } from '../styles/Common.style';
+import { Board, Group, Name, Message, Time, Input, Button, WrapInput, Tuple, Avatar, WrapTitle } from '../styles/Chat.style';
 import { api } from '../utils/api';
 import { options } from '../utils/date';
 import Header from './components/Header';
@@ -17,7 +17,10 @@ function Chatmessage(props) {
           <Tuple key={index} self={name === item.name}>
             <Avatar src={`../admin/images/${item.avatar}`} alt="img" self={name === item.name} /> 
             <Group key={index} self={name === item.name}>
-              <Name self={name === item.name}>{item.name}</Name>
+              <WrapTitle>
+                <ArtistTitle role={item.role} self={name === item.name} type={'rwd'}>artist</ArtistTitle>
+                <Name self={name === item.name}>{item.name}</Name>
+              </WrapTitle>
               <Message>{item.message}</Message>
               <Time self={name === item.name}>{new Date(item.time).toLocaleString('en-US', options)}</Time>
             </Group>
@@ -44,7 +47,7 @@ function Chatinput(props) {
 
   const send = (room, name, message, profile, time, role, email) => {
     if (message !== '' && room !== ''){
-      chat(room, { name: name, message: message, time: time, avatar: profile.avatar, email: email, room: room }); 
+      chat(room, { name: name, message: message, time: time, avatar: profile.avatar, email: email, room: room, role: role }); 
       api.lastreadTime(email, room, new Date()).then((response) => {
         console.log(response);
       })
@@ -70,7 +73,6 @@ function Chatinput(props) {
     <WrapInput>
       <Input autoFocus value={message} onChange={e => setMessage(e.target.value)} />
       <Button onClick={() => { send(roomto, name, message, profile, new Date(), role, email); }} /> 
-      {/* .toLocaleString('en-US', options) */}
     </WrapInput>
   )
 };
@@ -79,7 +81,7 @@ function Rooms(props) {
   const { role, rooms, changeRoom, fanrooms, email, setRoomto, chatroom, roomin, roomto, friends } = props;
 
   useEffect(() => {
-    if(rooms[0]){
+    if (rooms[0]) {
       if (role === 1) {
         changeRoom(chatroom ? chatroom : rooms[0]);
       } else {
@@ -109,7 +111,10 @@ function Rooms(props) {
           friends.map((item, index) => (
             <SideButton key={index} active={roomin === item.name || roomto === item.name} onClick={() => { changeFriend(item.name); }}>
               <SmallAvatar src={`../admin/images/${item.avatar}`} alt="img" /> 
-              <SmallName>{item.name}</SmallName>
+              <NotFlex>
+                <ArtistTitle>artist</ArtistTitle>
+                <SmallName>{item.name}</SmallName>
+              </NotFlex>
             </SideButton>
           ))
         }

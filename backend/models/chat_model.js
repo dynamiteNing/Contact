@@ -75,8 +75,38 @@ const getChatMessage = async function (email, role, room) {
 };
 
 const getUnreadCount = async function (email, role, room) {
-    console.log(email, role, room);
-    return;
+    const rooms = await db('find', 'register', { $or: [{ 'artist': room }, { 'fanclub': room }] });
+    const me = await db('find', 'member', { 'email': email });
+
+    let emailConstraint = {};
+
+    const last_read = me[0].rooms[rooms[0].artist].last_read;
+
+    role === '2' ? emailConstraint = {'email': email} : emailConstraint = {};
+
+    const result = await db('find', 'chatHistory', {
+        $or: [
+            {
+                $and: [
+                    { 'room': rooms[0].fanclub },
+                    { 'role': 1 },
+                    { 'time': { $gte: last_read } },
+                    { 'initial': { $ne: true } }
+                ]
+            },
+            {
+                $and: [
+                    { 'room': rooms[0].artist },
+                    { 'role': 2 },
+                    emailConstraint,
+                    { 'time': { $gte: last_read } },
+                    { 'initial': { $ne: true } }
+                ]
+            }
+        ]
+    });
+
+    return result.length;
 };
 
 const lastreadTime = async function (email, room, time) {

@@ -3,12 +3,14 @@ import myprofile from '../images/profile.png';
 import purchase from '../images/purchase.png';
 import mypurchase from '../images/my_purchase.png';
 import pay from '../images/pay.png';
+import pay_hover from '../images/pay_hover.png';
 import previous from '../images/return.png';
+import previous_hover from '../images/return_hover.png';
 import save from '../images/save.png';
+import save_hover from '../images/save_hover.png';
 import arrow from '../images/arrow.png';
 {/* <a href="https://www.flaticon.com/free-icons/online-payment" title="online-payment icons">Online-payment icons created by Freepik - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/login" title="login icons">Login icons created by Pixel perfect - Flaticon</a> */}
-{/* <a href="https://www.flaticon.com/free-icons/market" title="market icons">Market icons created by Freepik - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Ahmer - Flaticon</a> */}
 
 export const FunctionButton = styled.div`
@@ -36,6 +38,7 @@ export const SingleProfile = styled.div`
 
 export const NameSmall = styled.div`
   font-weight: bold;
+  letter-spacing: 1px;
   font-size: large;
   background-color: #e2d8ee;
   padding: 5px;
@@ -59,8 +62,7 @@ export const QuoteChange = styled.input`
   align-self: center;
   &:focus {
     outline: none;
-    border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-    border-image-slice: 1;
+    border: solid #622569 1px;
   }
 `;
 
@@ -74,7 +76,8 @@ export const ChangeButton = styled.button`
   background-image: url(${save});
   background-size: contain;
   &:hover {
-    opacity: 70%;
+    background-image: url(${save_hover});
+    background-size: contain;
   }
 `;
 
@@ -119,19 +122,23 @@ export const Tpfield = styled.div`
   height: 25px;
   width: 200px;
   border-radius: 10px;
-  border: solid #e2d8ee 2px;
+  border: solid #222222 1px;
   padding: 3px;
   font: inherit;
   text-align: center;
   align-self: center;
   margin: 10px auto;
+  &:focus {
+    outline: none;
+    border: solid #622569 1px;
+  }
 `;
 
 export const Input = styled.input`
   height: 25px;
   width: 200px;
   border-radius: 10px;
-  border: solid #e2d8ee 2px;
+  border: solid #222222 1px;
   background-color: transparent;
   padding: 3px;
   font: inherit;
@@ -140,13 +147,14 @@ export const Input = styled.input`
   margin: 5px auto;
   &:focus {
     outline: none;
+    border: solid #622569 1px;
   }
 `;
 
 const Animation = keyframes`
-  0% { opacity: 0.1; }
+  0% { opacity: 0.2; }
   50% { opacity: 1; }
-  100% { opacity: 0.1; }
+  100% { opacity: 0.2; }
 `;
 
 export const Arrow = styled.div`
@@ -174,9 +182,8 @@ export const Pay = styled.button`
   border: solid #f8f8f8 2px;
   background-color: transparent;
   &:hover {
-    opacity: 70%;
-    border-image: linear-gradient(101deg, #38b8f2, #843cf6, #f030c1, #6094ea, #fd8041, #ff4ca1, #ffa7e7, #ea6362, #4dd0e1, #6078ea, #38b8f2, #843cf6);
-    border-image-slice: 1;
+    background-image: url(${pay_hover});
+    background-size: contain;
   }
 `;
 
@@ -186,7 +193,8 @@ export const Seperate = styled.div`
   border: 0;
   height: 1px;
   background: #333;
-  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  /* background-image: linear-gradient(to right, #ccc, #333, #ccc); */
+  background-image: linear-gradient(101deg, #e2d8ee, #d3b7d8, #622569, #6b5b95, #622569, #d3b7d8, #e2d8ee);
 `;
 
 export const Myprofile = styled.div`
@@ -242,10 +250,17 @@ export const Previous = styled.div`
   background-image: url(${previous});
   background-size: contain;
   margin-bottom: 10px;
+  &:hover {
+    background-image: url(${previous_hover});
+    background-size: contain;
+  }
 `;
 
 export const BuyList = styled.div`
-  width: 75%;
+  width: 65%;
+  @media (max-width: 700px) {
+    width: 75%;
+  }
 `;
 
 export const SingleBuy = styled.div`
@@ -268,8 +283,10 @@ export const Time = styled.div`
 
 export const BuyName = styled.div`
   font-weight: bold;
-  background-color: #e2d8ee;
+  letter-spacing: 1px;
+  /* background-color: #e2d8ee; */
   padding: 5px;
   border-radius: 3px;
   align-self: center;
+  margin-left: 3px;
 `;
