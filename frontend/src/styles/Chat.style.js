@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import send from '../images/send.png';
 import send_hover from '../images/send_hover.png';
+import cursor from '../images/cursor.png';
 
 export const Board = styled.div`
   height: 70vh;
@@ -113,6 +114,7 @@ export const Button = styled.button`
   position: relative;
   object-fit: contain;
   align-self: center;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${send_hover});
     background-size: contain;

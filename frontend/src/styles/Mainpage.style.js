@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import enter from '../images/enter.png';
 import enter_hover from '../images/enter_hover.png'
 import { Animation } from './Common.style';
+import cursor from '../images/cursor.png';
 {/* <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect"> Pixel perfect </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a> */}
 
 export const Contact = styled.div`
@@ -57,6 +58,7 @@ export const Button = styled.button`
   border-radius: 10px;
   background-image: url(${enter});
   background-size: contain;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${enter_hover});
     background-size: contain;
@@ -71,6 +73,7 @@ export const ButtonDown = styled.button`
   background-image: url(${enter});
   background-size: contain;
   align-self: center;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${enter_hover});
     background-size: contain;

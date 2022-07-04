@@ -9,6 +9,7 @@ import previous_hover from '../images/return_hover.png';
 import save from '../images/save.png';
 import save_hover from '../images/save_hover.png';
 import arrow from '../images/arrow.png';
+import cursor from '../images/cursor.png';
 {/* <a href="https://www.flaticon.com/free-icons/online-payment" title="online-payment icons">Online-payment icons created by Freepik - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/login" title="login icons">Login icons created by Pixel perfect - Flaticon</a> */}
 {/* <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Ahmer - Flaticon</a> */}
@@ -23,6 +24,7 @@ export const FunctionButton = styled.div`
   padding: 0 3vw 0 3vw;
   display: ${props => props.dont ? 'none' : 'flex'};
   background-color: ${props => props.active ? '#e2d8ee' : 'transparent'};
+  cursor: url(${cursor}), auto;
   &:hover {
     background-color: #e2d8ee;
     opacity: ${props => props.active ? 1 : 0.6};
@@ -75,6 +77,7 @@ export const ChangeButton = styled.button`
   align-self: center;
   background-image: url(${save});
   background-size: contain;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${save_hover});
     background-size: contain;
@@ -90,6 +93,7 @@ export const Profile = styled.div`
   width: 30%;
   max-height: 30%;
   margin: auto;
+  cursor: url(${cursor}), auto;
   @media (max-width: 700px) {
     width: 40%;
     max-height: 35%;
@@ -115,7 +119,6 @@ export const SmallAvatar = styled.img`
 `;
 
 export const SingleArtist = styled.div`
-
 `;
 
 export const Tpfield = styled.div`
@@ -181,6 +184,7 @@ export const Pay = styled.button`
   background-size: contain;
   border: solid #f8f8f8 2px;
   background-color: transparent;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${pay_hover});
     background-size: contain;
@@ -250,6 +254,7 @@ export const Previous = styled.div`
   background-image: url(${previous});
   background-size: contain;
   margin-bottom: 10px;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${previous_hover});
     background-size: contain;

@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import cursor from '../images/cursor.png';
 
 export const MySwal = withReactContent(Swal);
 
@@ -126,7 +127,7 @@ export const SideButton = styled.div`
   background-color: ${props => props.active ? '#e2d8ee' : 'transparent'};
   padding: 0 3vw 0 3vw;
   height: 100px;
-  /* line-height: 100px; */
+  cursor: url(${cursor}), auto;
   &:hover {
     background-color: #e2d8ee;
     opacity: ${props => props.active ? '1' : '0.6'};

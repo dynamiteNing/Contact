@@ -3,9 +3,11 @@ import directory from '../images/directory.png';
 import chat from '../images/chat.png';
 import more from '../images/more.png';
 import logout from '../images/logout.png';
+import cursor from '../images/cursor_light.png';
 {/* <a href="https://www.flaticon.com/free-icons/directory" title="directory icons">Directory icons created by SumberRejeki - Flaticon</a> */ }
 {/* <a href="https://www.flaticon.com/free-icons/chat" title="chat icons">Chat icons created by Kiranshastry - Flaticon</a> */}
-{/* <a href="https://www.flaticon.com/free-icons/logout" title="logout icons">Logout icons created by SumberRejeki - Flaticon</a> */}
+{/* <a href="https://www.flaticon.com/free-icons/logout" title="logout icons">Logout icons created by SumberRejeki - Flaticon</a> */ }
+{/* <a href="https://www.flaticon.com/free-icons/cursor" title="cursor icons">Cursor icons created by zky.icon - Flaticon</a> */}
 
 export const Head = styled.div`
   width: 100%; 
@@ -36,7 +38,7 @@ export const Button = styled.div`
   align-items: center;
   align-content: center;
   justify-content: center;
-  ${'' /* hover and active different color maybe grey? */}
+  cursor: url(${cursor}), auto;
   &:hover{
     background-color: #444444;
   }
