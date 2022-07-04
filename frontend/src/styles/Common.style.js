@@ -143,7 +143,8 @@ export const Avatar = styled.img`
   width: 20vw;
   aspect-ratio: 1;
   border-radius: 25%;
-  margin-bottom: 1vh;  
+  margin-bottom: 1vh;
+  cursor: ${props => props.type === 'change' ? `url(${cursor}), auto` : ''};
   @media (max-width: 700px) {
     width: 35vh;
   }

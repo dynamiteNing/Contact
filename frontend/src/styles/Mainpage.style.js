@@ -56,12 +56,15 @@ export const Button = styled.button`
   width: 20px;
   margin-left: 10px;
   border-radius: 10px;
+  background-color: #f5f5f5;
   background-image: url(${enter});
   background-size: contain;
+  background-position: center;
   cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${enter_hover});
     background-size: contain;
+    background-position: center;
   }
 `;
 
@@ -70,13 +73,16 @@ export const ButtonDown = styled.button`
   height: 20px;
   width: 20px;
   border-radius: 10px;
+  background-color: #f5f5f5;
   background-image: url(${enter});
   background-size: contain;
+  background-position: center;
   align-self: center;
   cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${enter_hover});
     background-size: contain;
+    background-position: center;
   }
 `;
 
