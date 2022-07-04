@@ -58,8 +58,8 @@ function Signup(props) {
   return (
     <Form onSubmit={signup}>
       <Input autoFocus type='text' className='name' done={true} value={name} onChange={e => setName(e.target.value)} placeholder="NAME" required />
-      <Input type='text' className='password' done={true} value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
-      <Input type='text' className='password_check' done={true} value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required />
+      <Input type='password' className='password' done={true} value={password} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
+      <Input type='password' className='password_check' done={true} value={password_check} onChange={e => setPwdcheck(e.target.value)} placeholder="PASSWORD_CHECK" required />
       <WrapButton>
         <Type>SIGN UP</Type>
         <ButtonDown type='submit' /> 
@@ -115,7 +115,7 @@ function Signin(props) {
   return (
     <>
       <form onSubmit={signin}>
-        <Input autoFocus type='text' className='password' value={password} done={true} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
+        <Input autoFocus type='password' className='password' value={password} done={true} onChange={e => setPassword(e.target.value)} placeholder="PASSWORD" required/>
         <WrapButton>
         <Type>LOG IN</Type>
           <ButtonDown type='submit' /> 
