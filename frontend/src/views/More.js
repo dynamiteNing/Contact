@@ -344,11 +344,11 @@ function MoreSingle(props) {
           <BuyHistory bought={bought} />
         : 
           <SingleProfile>
-            <Avatar src={role === 2 ? `../admin/images/default_${avatarchange}.png` : `../admin/images/${profile.avatar}`} alt="img" onClick={() => RecurSwal(role, avatarchange)} /> 
+            <Avatar src={role === 2 ? `../admin/images/default_${avatarchange}.png` : `../admin/images/${profile.avatar}`} alt="img" type={'change'} onClick={() => RecurSwal(role, avatarchange)} /> 
             <NameSmall>{profile.name}</NameSmall>
             <Flex>
               <QuoteChange type='text' className='quote' value={quotechange} onChange={e => setQuotechange(e.target.value)} />
-              <ChangeButton onClick={() => postQuote(email, quotechange)} />
+              <ChangeButton onClick={() => quotechange !== profile.quote ? postQuote(email, quotechange) : ''} />
             </Flex>
           </SingleProfile>
       }

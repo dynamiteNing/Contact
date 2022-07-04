@@ -32,7 +32,7 @@ export const Contact = styled.div`
 `;
 
 export const Button = styled.div`
-  width: 18vw;
+  width: 17vw;
   height: 100%;
   display: flex;
   align-items: center;
@@ -61,7 +61,7 @@ export const Navigation = styled.div`
 `;
 
 export const Directory = styled.div`
-  max-width: 40px;
+  max-width: 30px;
   min-width: 20px;
   width: 18%;
   height: fit-content;
@@ -76,7 +76,7 @@ export const Directory = styled.div`
   }
 `
 export const Chat = styled.div`
-  max-width: 40px;
+  max-width: 30px;
   min-width: 20px;
   width: 18%;
   height: fit-content;
@@ -92,7 +92,7 @@ export const Chat = styled.div`
 `
 
 export const More = styled.div`
-  max-width: 40px;
+  max-width: 30px;
   min-width: 20px;
   width: 18%;
   height: fit-content;
@@ -108,7 +108,7 @@ export const More = styled.div`
 `
 
 export const Logout = styled.div`
-  max-width: 40px;
+  max-width: 30px;
   min-width: 20px;
   width: 18%;
   height: fit-content;
