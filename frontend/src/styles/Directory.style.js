@@ -5,6 +5,7 @@ import chat from '../images/send.png';
 import chat_hover from '../images/send_hover.png';
 import purchase from '../images/purchase_.png';
 import purchase_hover from '../images/purchase_hover.png';
+import cursor from '../images/cursor.png';
 {/* <a href="https://www.flaticon.com/free-icons/subscriber" title="subscriber icons">Subscriber icons created by Ferdinand - Flaticon</a> */}
 {/* <a href="https://www.flaticon.com/free-icons/buy" title="buy icons">Buy icons created by Freepik - Flaticon</a> */}
 
@@ -39,6 +40,7 @@ export const Subscribe = styled.button`
   background-size: contain;
   border: solid transparent 0px;
   background-color: transparent;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${subscribe_hover});
     background-size: contain;
@@ -56,6 +58,7 @@ export const Chat = styled.button`
   background-size: contain;
   border: solid transparent 0px;
   background-color: transparent;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${chat_hover});
     background-size: contain;
@@ -74,6 +77,7 @@ export const Buy = styled.button`
   background-size: contain;
   border: solid transparent 0px;
   background-color: transparent;
+  cursor: url(${cursor}), auto;
   &:hover {
     background-image: url(${purchase_hover});
     background-size: contain;
