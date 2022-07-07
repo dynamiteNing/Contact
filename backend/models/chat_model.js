@@ -25,7 +25,6 @@ const getChatMessage = async function (email, role, room) {
     let emailConstraint = {};
     let fanInitialConstraint = {};
 
-    // const join_date = me[0].rooms[rooms[0].artist];
     const join_date = me[0].rooms[rooms[0].artist].join_date;
 
     role === '2' ? emailConstraint = {'email': email} : emailConstraint = {};

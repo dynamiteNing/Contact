@@ -26,7 +26,7 @@ var server = http.createServer(app);
  */
 const io = require('socket.io')(server);
 io.on('connection', (socket) => {
-  console.log(`a user connected [id=${socket.id}]`);
+  /* A user connected, with id=`${socket.id}` */
 
   socket.on('selfMessage', (message) => {
     socket.emit('selfMessage', message)
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    console.log(`a user go out [id=${socket.id}]`);
+    /* A user go out, with id=`${socket.id}` */
   });
 })
 

@@ -6,8 +6,6 @@ import chat_hover from '../images/send_hover.png';
 import purchase from '../images/purchase_.png';
 import purchase_hover from '../images/purchase_hover.png';
 import cursor from '../images/cursor.png';
-{/* <a href="https://www.flaticon.com/free-icons/subscriber" title="subscriber icons">Subscriber icons created by Ferdinand - Flaticon</a> */}
-{/* <a href="https://www.flaticon.com/free-icons/buy" title="buy icons">Buy icons created by Freepik - Flaticon</a> */}
 
 export const Seperate = styled.div`
   margin-bottom: 3vh;

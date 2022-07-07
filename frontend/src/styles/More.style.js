@@ -10,9 +10,6 @@ import save from '../images/save.png';
 import save_hover from '../images/save_hover.png';
 import arrow from '../images/arrow.png';
 import cursor from '../images/cursor.png';
-{/* <a href="https://www.flaticon.com/free-icons/online-payment" title="online-payment icons">Online-payment icons created by Freepik - Flaticon</a> */ }
-{/* <a href="https://www.flaticon.com/free-icons/login" title="login icons">Login icons created by Pixel perfect - Flaticon</a> */}
-{/* <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Ahmer - Flaticon</a> */}
 
 export const FunctionButton = styled.div`
   font: inherit;
@@ -197,7 +194,6 @@ export const Seperate = styled.div`
   border: 0;
   height: 1px;
   background: #333;
-  /* background-image: linear-gradient(to right, #ccc, #333, #ccc); */
   background-image: linear-gradient(101deg, #e2d8ee, #d3b7d8, #622569, #6b5b95, #622569, #d3b7d8, #e2d8ee);
 `;
 
@@ -289,7 +285,6 @@ export const Time = styled.div`
 export const BuyName = styled.div`
   font-weight: bold;
   letter-spacing: 1px;
-  /* background-color: #e2d8ee; */
   padding: 5px;
   border-radius: 3px;
   align-self: center;

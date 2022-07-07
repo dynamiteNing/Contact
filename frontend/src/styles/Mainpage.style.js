@@ -3,7 +3,6 @@ import enter from '../images/enter.png';
 import enter_hover from '../images/enter_hover.png'
 import { Animation } from './Common.style';
 import cursor from '../images/cursor.png';
-{/* <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect"> Pixel perfect </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a> */}
 
 export const Contact = styled.div`
   font-size: 4em;

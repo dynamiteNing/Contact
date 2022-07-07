@@ -4,10 +4,10 @@ const {
 } = require('../utils/util');
 
 const {
-    subscribe,
-    getPurchased,
-    postQuote,
-    changeAvatar,
+    subscribe, /* POST, subscribe an artist */
+    getPurchased, /* GET, get all the artists had been subscribed of an user */
+    postQuote, /* POST, change the quote of an user */
+    changeAvatar, /* POST, change the avatar of an user */
 } = require('../controllers/more_controller');
 
 router.route('/more/subscribe').post(wrapAsync(subscribe));

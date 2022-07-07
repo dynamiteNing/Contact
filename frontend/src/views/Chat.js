@@ -184,7 +184,6 @@ export default function Chat() {
   }
 
   const connectWS = () => {
-    // setWs(webSocket('34.208.177.77:3000', {transports: ['websocket', 'polling', 'flashsocket']}));
     setWs(webSocket('http://localhost:3000', {transports: ['websocket', 'polling', 'flashsocket']}));
   }
 

@@ -4,9 +4,9 @@ const {
 } = require('../utils/util');
 
 const {
-    getFriends,
-    getNotfriends,
-    getProfile,
+    getFriends, /* GET, all the friends of an user */
+    getNotfriends,  /* GET, all the artists that are not friends of an user */
+    getProfile, /* GET, the profile an user */
 } = require('../controllers/directory_controller');
 
 router.route('/directory').get(wrapAsync(getProfile));
