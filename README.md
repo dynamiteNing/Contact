@@ -2,15 +2,23 @@
   <h1>Contact</h1>
   <img src='./frontend/public/Contact.png' alt='Logo' width=100 height=50 />
   <p>A chat platform between artists and fans, just like JYP bubble or Lysn, which aims to let entertainment companies easily manage the contact between artists and their fans.</p>
-  <a href="34.208.177.77"><strong>Link »</strong></a>
+  <!-- <a href="34.208.177.77"><strong>Link »</strong></a>
   <p>Sample Account
   <br />
     EMAIL: fanone@gmail.com
   <br />
     PASSWORD: fanone
-  </p>
+  </p> -->
 </div>
 
+---
+
+### Some demo (not recorded in the same time)
+* At fans side (timeline: earlier) 
+![fans](./demo/Contact_fan.gif)
+
+* At artist side (timeline: after)
+![artist](./demo/Contact_artist.gif)
 ---
 ## About Contact
 Fans can communicate with their favorite artists by chat! Contact is a well functioned chat platform that makes the communication between artists and fans easier. With subscription, using small amount of money, a fan can enjoy the close in-touch with her or his favorite artists.
