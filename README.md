@@ -2,6 +2,8 @@
   <h1>Contact</h1>
   <img src='./frontend/public/Contact.png' alt='Logo' width=100 height=50 />
   <p>A chat platform between artists and fans, just like JYP bubble or Lysn, which aims to let entertainment companies easily manage the contact between artists and their fans.</p>
+  <p>For the fans, they can enjoy communicating with their subscibed artists with chats just like ordinary one-to-one chat room; However, for the artists, they can enjoy communicating with their subsciption fans with a single chat just like one-to-many chat room.</p>
+  <p>By such design, Contact can offer a enjoyable yet maintainable chat platform for entertainment companies.</p>
   <!-- <a href="34.208.177.77"><strong>Link »</strong></a>
   <p>Sample Account
   <br />
@@ -28,6 +30,15 @@ Main features of Contact:
 - **Chat:** real-time chatting room
 - **Support:** Provides Taypay to support subscription
 - **Personalization:** Provides changes to avatar and quotes
+---
+## System Architecture
+![Architecture](./demo/Architecture.png)
+<!-- 
+---
+## Database Schema
+
+ -->
+
 ---
 ## Technologies
 
@@ -70,6 +81,8 @@ Voila!
 
 ---
 ## References
+- Avatar:<br />
+  * https://spy-family.net/special/special9.php
 - Icons from Flaticon:<br/>
   * <a href="https://www.flaticon.com/free-icons/subscriber" title="subscriber icons">Subscriber icons created by Ferdinand - Flaticon</a>
   * <a href="https://www.flaticon.com/free-icons/buy" title="buy icons">Buy icons created by Freepik - Flaticon</a>
